@@ -7,14 +7,13 @@ import PageOne from "../screens/Start/PageOne";
 import PageTwo from "../screens/Start/PageTwo";
 import PageThree from "../screens/Start/PageThree";
 import PageFour from "../screens/Start/PageFour";
+import Signup from "../screens/Start/Signup";
 
 const SWIPER_HEIGHT = Layout.height * 0.82;
 
 const View = styled.View`
   height: ${SWIPER_HEIGHT};
 `;
-
-const Text = styled.Text``;
 
 const SignupSlider = ({ page }) => (
   <Swiper

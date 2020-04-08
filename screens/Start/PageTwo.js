@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, TextInput } from "react-native";
+import { StyleSheet, TextInput, TouchableOpacity, Text } from "react-native";
 import styled from "styled-components";
 import { FontAwesome } from "@expo/vector-icons";
 import SelectInput from "react-native-select-input-ios";

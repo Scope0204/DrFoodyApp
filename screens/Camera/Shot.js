@@ -3,7 +3,7 @@ import {
   Text,
   ActivityIndicator,
   Dimensions,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
 import styled from "styled-components";
 import { Camera } from "expo-camera";
@@ -32,7 +32,7 @@ export default class Shot extends React.Component {
     super(props);
     this.state = {
       hasPermisson: null,
-      cameraType: Camera.Constants.Type.back
+      cameraType: Camera.Constants.Type.back,
     };
     this.cameraRef = React.createRef();
   }
@@ -67,7 +67,7 @@ export default class Shot extends React.Component {
               borderRadius: 10,
               marginBottom: 20,
               marginTop: 50,
-              overflow: "hidden"
+              overflow: "hidden",
             }}
             type={cameraType}
           >
@@ -75,7 +75,7 @@ export default class Shot extends React.Component {
               style={{
                 alignItems: "flex-end",
                 marginTop: 10,
-                marginRight: 10
+                marginRight: 10,
               }}
             >
               <TouchableOpacity onPress={this.switchCameraType}>
@@ -107,11 +107,11 @@ export default class Shot extends React.Component {
     const { cameraType } = this.state;
     if (cameraType === Camera.Constants.Type.front) {
       this.setState({
-        cameraType: Camera.Constants.Type.back
+        cameraType: Camera.Constants.Type.back,
       });
     } else {
       this.setState({
-        cameraType: Camera.Constants.Type.front
+        cameraType: Camera.Constants.Type.front,
       });
     }
   };
@@ -123,12 +123,12 @@ export default class Shot extends React.Component {
       if (this.cameraRef.current) {
         //   let Photo = await this.cameraRef.current.takePictureAsync({
         // photo에서 uri만 저장한다
-        let { uri } = await this.cameraRef.current.takePictureAsync({
+        let Photo = await this.cameraRef.current.takePictureAsync({
           // 저장 옵션들
           quality: 1,
-          exif: true
+          exif: true,
         });
-        console.log(uri); // uri는 임시 캐쉬 , 어디론가 이동시켜 저장해야한다
+        console.log(Photo); // uri는 임시 캐쉬 , 어디론가 이동시켜 저장해야한다
         if (uri) {
           this.savePhoto(uri);
         }
@@ -136,9 +136,9 @@ export default class Shot extends React.Component {
     } catch (error) {
       alert(error);
       this.setState({
-        smileDetected: false
+        smileDetected: false,
       });
     }
   };
-  savePhoto = async uri => {};
+  savePhoto = async (uri) => {};
 }

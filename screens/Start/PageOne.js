@@ -23,7 +23,6 @@ const Container = styled.View`
 const UserImg = styled.TouchableOpacity`
   flex: 0.4;
   align-items: center;
-  margin-bottom: 30;
 `;
 
 const InputContainer = styled.View`
@@ -115,6 +114,7 @@ export default class PageOne extends React.Component {
 
     const { ischeck } = this.state;
     const { namecheck } = this.state;
+
     return (
       <Container>
         <UserImg onPress={openImagePickerAsync}>
@@ -124,7 +124,7 @@ export default class PageOne extends React.Component {
           ) : null}
         </UserImg>
         <InputContainer>
-          <CheckBtn style={{ top: -30 }} onPress={this.idCheck}>
+          <CheckBtn style={{ top: 38 }} onPress={this.idCheck}>
             <BtnText>중복</BtnText>
           </CheckBtn>
           <Text style={styles.TextStyle}>
@@ -155,7 +155,7 @@ export default class PageOne extends React.Component {
             NICKNAME {"  "}
             {namecheck ? <Ok>OK</Ok> : null}
           </Text>
-          <CheckBtn style={{ top: 282 }} onPress={this.nameCheck}>
+          <CheckBtn style={{ top: 350 }} onPress={this.nameCheck}>
             <BtnText>중복</BtnText>
           </CheckBtn>
           <TextInput
