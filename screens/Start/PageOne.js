@@ -1,59 +1,21 @@
 import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  TextInput,
-  Image,
-} from "react-native";
+import { Text, StyleSheet, TouchableOpacity, TextInput } from "react-native";
 import styled from "styled-components";
-import {
-  Ionicons,
-  MaterialIcons,
-  Entypo,
-  AntDesign,
-  EvilIcons,
-} from "@expo/vector-icons";
+import { EvilIcons, Octicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 
 const Container = styled.View`
   flex: 1;
 `;
 const UserImg = styled.TouchableOpacity`
-  flex: 0.4;
+  flex: 0.35;
   align-items: center;
 `;
 
 const InputContainer = styled.View`
-  flex: 0.4;
+  flex: 0.45;
   justify-content: center;
   margin-left: 40;
-`;
-
-const CheckBtn = styled.TouchableOpacity`
-  position: absolute;
-  right: 55;
-  background-color: black;
-  border-radius: 5;
-  width: 50;
-  height: 20;
-  align-items: center;
-  justify-content: center;
-  z-index: 2;
-`;
-
-const BtnText = styled.Text`
-  font-size: 16;
-  font-weight: bold;
-  color: white;
-`;
-
-// 중복안될경우
-const Ok = styled.Text`
-  color: blue;
-  font-size: 16;
-  margin-left: 70;
 `;
 
 const SelectImg = styled.Image`
@@ -65,11 +27,52 @@ const SelectImg = styled.Image`
   z-index: 1;
 `;
 
+// 페이지 컨트롤러
+const PageControl = styled.View`
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 50;
+`;
+
+const PageUp = styled.TouchableOpacity`
+  position: absolute;
+  right: 30px;
+`;
+
+// 페이지 표시 원
+
+const CircleView = styled.View`
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 15;
+`;
+const Circle = styled.View`
+  background-color: #f5f5f5;
+  width: 5px;
+  height: 5px;
+  border-radius: 75px;
+  margin-right: 5;
+  margin-left: 5;
+`;
+const CircleNow = styled.View`
+  background-color: #86efef;
+  width: 5px;
+  height: 5px;
+  border-radius: 75px;
+  margin-right: 5;
+  margin-left: 5;
+`;
+
+// 하단 뷰
+const BottomContainer = styled.View`
+  flex: 0.2;
+`;
 export default class PageOne extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      page: 1,
       user_id: "",
       pw: "",
       pwcheck: "",
@@ -81,16 +84,15 @@ export default class PageOne extends React.Component {
     };
   }
 
-  idCheck = () => {
-    this.setState({ ischeck: true });
-    const { user_id } = this.state;
-    console.log(user_id);
-  };
-
-  nameCheck = () => {
-    this.setState({ namecheck: true });
-    const { nickname } = this.state;
-    console.log(nickname);
+  info = () => {
+    const { user_id, pw, nickname, selectedImage } = this.state;
+    this.props.information({
+      page: 2,
+      user_id: user_id,
+      pw: pw,
+      nickname: nickname,
+      selectedImage: selectedImage,
+    });
   };
 
   render() {
@@ -112,8 +114,7 @@ export default class PageOne extends React.Component {
       this.setState({ setSelectedImage: true });
     };
 
-    const { ischeck } = this.state;
-    const { namecheck } = this.state;
+    const { page, user_id, pw, pwcheck, nickname } = this.state;
 
     return (
       <Container>
@@ -124,16 +125,10 @@ export default class PageOne extends React.Component {
           ) : null}
         </UserImg>
         <InputContainer>
-          <CheckBtn style={{ top: 38 }} onPress={this.idCheck}>
-            <BtnText>중복</BtnText>
-          </CheckBtn>
-          <Text style={styles.TextStyle}>
-            ID {"  "}
-            {ischeck ? <Ok>OK</Ok> : null}
-          </Text>
+          <Text style={styles.TextStyle}>ID </Text>
           <TextInput
             style={styles.inputBox}
-            placeholder="사용하실 ID를 입력하세요"
+            placeholder={user_id ? user_id : "사용하실 ID를 입력하세요"}
             onChangeText={(user_id) => this.setState({ user_id })}
           />
 
@@ -142,6 +137,7 @@ export default class PageOne extends React.Component {
             style={styles.inputBox}
             placeholder="사용하실 PW를 입력하세요"
             secureTextEntry={true}
+            onChangeText={(pw) => this.setState({ pw })}
           />
 
           <Text style={styles.TextStyle}>PW(CHECK)</Text>
@@ -149,20 +145,31 @@ export default class PageOne extends React.Component {
             style={styles.inputBox}
             placeholder="PW를 재입력하세요"
             secureTextEntry={true}
+            onChangeText={(pwcheck) => this.setState({ pwcheck })}
           />
 
-          <Text style={styles.TextStyle}>
-            NICKNAME {"  "}
-            {namecheck ? <Ok>OK</Ok> : null}
-          </Text>
-          <CheckBtn style={{ top: 350 }} onPress={this.nameCheck}>
-            <BtnText>중복</BtnText>
-          </CheckBtn>
+          <Text style={styles.TextStyle}>NICKNAME</Text>
           <TextInput
             style={styles.inputBox}
             placeholder="사용하실 이름을 입력하세요"
+            onChangeText={(nickname) => this.setState({ nickname })}
           />
         </InputContainer>
+        <BottomContainer>
+          <PageControl>
+            {page == 4 ? null : (
+              <PageUp onPress={this.info}>
+                <Octicons size={32} name={"chevron-right"} />
+              </PageUp>
+            )}
+          </PageControl>
+          <CircleView>
+            <CircleNow />
+            <Circle />
+            <Circle />
+            <Circle />
+          </CircleView>
+        </BottomContainer>
       </Container>
     );
   }
@@ -180,7 +187,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F5F5F5",
     borderRadius: 10,
     paddingHorizontal: 16,
-    fontSize: 16,
+    fontSize: 14,
     marginVertical: 3,
     marginBottom: 30,
     zIndex: 1,

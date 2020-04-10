@@ -18,6 +18,7 @@
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-36.0.0.tar.gz",
+    "react-native-chonse-select": "^1.0.5",
     "react-native-picker-select": "^6.6.0",
     "react-native-select-input-ios": "^2.0.4",
     "react-native-swipe-picker": "^0.1.4",
