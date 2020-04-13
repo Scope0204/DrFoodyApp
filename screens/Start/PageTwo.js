@@ -37,6 +37,7 @@ const MaleButton = styled.TouchableOpacity`
   align-items: center;
   justify-content: center;
   margin-right: 10;
+  box-shadow: 2px 2px 2px gray;
 `;
 
 const FemaleButton = styled.TouchableOpacity`
@@ -46,6 +47,7 @@ const FemaleButton = styled.TouchableOpacity`
   background-color: rgba(255, 0, 0, 0.3);
   align-items: center;
   justify-content: center;
+  box-shadow: 2px 2px 2px gray;
 `;
 
 const BtnText = styled.Text`

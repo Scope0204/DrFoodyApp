@@ -16,6 +16,7 @@
     "expo-permissions": "^8.0.0",
     "expo-sqlite": "^8.0.0",
     "react": "~16.9.0",
+    "react-addons-update": "^15.6.2",
     "react-dom": "~16.9.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-36.0.0.tar.gz",
     "react-native-chonse-select": "^1.0.5",

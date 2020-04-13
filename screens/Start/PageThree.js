@@ -8,6 +8,9 @@ import {
 } from "react-native";
 import styled from "styled-components";
 import { EvilIcons, Octicons } from "@expo/vector-icons";
+import Religion from "./Religion";
+import List from "./List";
+import update from "react-addons-update";
 
 //공통 부분 : 이동 페이지 , 원
 // 하단 뷰
@@ -75,7 +78,7 @@ const Title = styled.Text`
 // 셀렉 바 담을 뷰
 const SelectContainer = styled.View`
   background-color: white;
-  border-width: 1;
+  border: 1px solid gray;
   flex-direction: row;
   justify-content: center;
   align-items: center;
@@ -84,11 +87,12 @@ const SelectContainer = styled.View`
   border-radius: 5;
   border-color: #565656
   margin-bottom: 5;
+
 `;
 //리스트 출력 뷰
 const ListContainer = styled.ScrollView`
   background-color: white;
-  border-width: 1;
+  border: 1px solid gray;
   border-radius: 5;
   width: 330;
   margin-bottom: 5;
@@ -105,10 +109,13 @@ const ChipsContainer = styled.View`
 export default class PageThree extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       page: 3,
       select: 1,
+      metarial: ["개", " 쉑"],
     };
+    // this.metarial = this.metarial.bind(this);
   }
 
   // 화면 이동 및 state 값 전달
@@ -126,8 +133,15 @@ export default class PageThree extends React.Component {
     });
   };
 
+  //props로 넘길 값 (metarial의 수정)
+  //e는 넘길 state, h는 값
+  metarial = (e) => {
+    this.setState({
+      metarial: this.state.metarial.concat(e),
+    });
+  };
   render() {
-    const { page, select } = this.state;
+    const { page, select, metarial } = this.state;
     return (
       <Container>
         <MainContianer>
@@ -151,36 +165,7 @@ export default class PageThree extends React.Component {
             </TouchableOpacity>
           </SelectContainer>
           <ListContainer>
-            <Text>sdad</Text>
-            <Text>sdad</Text>
-            <Text>sdad</Text>
-            <Text>sdad</Text>
-            <Text>sdad</Text>
-            <Text>sdad</Text>
-            <Text>sdad</Text>
-            <Text>sdad</Text>
-            <Text>sdad</Text>
-            <Text>sdad</Text>
-            <Text>sdad</Text>
-            <Text>sdad</Text>
-            <Text>sdad</Text>
-            <Text>sdad</Text>
-            <Text>sdad</Text>
-            <Text>sdad</Text>
-            <Text>sdad</Text>
-            <Text>sdad</Text>
-            <Text>sdad</Text>
-            <Text>sdad</Text>
-            <Text>sdad</Text>
-            <Text>sdad</Text>
-            <Text>sdad</Text>
-            <Text>sdad</Text>
-            <Text>sdad</Text>
-            <Text>sdad</Text>
-            <Text>sdad</Text>
-            <Text>sdad</Text>
-            <Text>sdad</Text>
-            <Text>sdad</Text>
+            {select == 1 ? <Religion metarial={this.metarial} /> : <List />}
           </ListContainer>
           <ChipsContainer>
             <Text>sadasda</Text>
@@ -200,6 +185,11 @@ export default class PageThree extends React.Component {
             <Circle />
             <CircleNow />
             <Circle />
+            <TouchableOpacity onPress={this.metarial}>
+              <Text>{metarial[5]}</Text>
+              <Text>{metarial[7]}</Text>
+              <Text>{metarial[11]}</Text>
+            </TouchableOpacity>
           </CircleView>
         </BottomContainer>
       </Container>

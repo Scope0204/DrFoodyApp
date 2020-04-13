@@ -12,14 +12,13 @@ const MainNavigation = createStackNavigator(
       screen: LoginScreen,
       navigationOptions: { header: null },
     },
-
-    Signup: {
-      screen: SingupScreen,
+    Tabs: {
+      screen: TabNavigation,
       navigationOptions: { header: null },
     },
 
-    Tabs: {
-      screen: TabNavigation,
+    Signup: {
+      screen: SingupScreen,
       navigationOptions: { header: null },
     },
 

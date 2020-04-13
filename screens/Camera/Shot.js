@@ -70,6 +70,7 @@ export default class Shot extends React.Component {
               overflow: "hidden",
             }}
             type={cameraType}
+            pictureSize={"640x480"}
           >
             <IconBar
               style={{
@@ -123,12 +124,15 @@ export default class Shot extends React.Component {
       if (this.cameraRef.current) {
         //   let Photo = await this.cameraRef.current.takePictureAsync({
         // photo에서 uri만 저장한다
-        let Photo = await this.cameraRef.current.takePictureAsync({
+        let uri = await this.cameraRef.current.takePictureAsync({
           // 저장 옵션들
           quality: 1,
           exif: true,
         });
-        console.log(Photo); // uri는 임시 캐쉬 , 어디론가 이동시켜 저장해야한다
+        let size = await this.cameraRef.current.getAvailablePictureSizesAsync();
+        console.log(uri);
+        console.log(size);
+        // console.log(uri); // uri는 임시 캐쉬 , 어디론가 이동시켜 저장해야한다
         if (uri) {
           this.savePhoto(uri);
         }
