@@ -48,6 +48,7 @@ export default class Signip extends React.Component {
     age: 2020,
     language: "한국어",
     country: "KOREA",
+    material: [],
   };
 
   // 버튼을 누를시 해당 state 값을 저장한다.

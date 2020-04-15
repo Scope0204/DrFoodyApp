@@ -1,14 +1,9 @@
 import React from "react";
-import {
-  Text,
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  TextInput,
-} from "react-native";
+import { Text, StyleSheet, View, TouchableOpacity } from "react-native";
 import styled from "styled-components";
 
 const SelectView = styled.TouchableOpacity`
+  background-color: white;
   height: 60;
   align-items: center;
   justify-content: center;
@@ -24,21 +19,31 @@ export default class Religion extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selected: 0,
-      metarial: [],
+      selected: [],
     };
   }
-  selected = () => {
-    const { selected, metarial } = this.state;
-    if (selected == 0) {
-      this.setState({ selected: 1 });
-      //보낼때 배열에 담아서 보내야 함
-      const a = ["아", "이", "슬", "란", "드"];
-      this.props.metarial(a);
+  // 배열에 없으면 추가 잇으면 삭제
+  // 색은 배열에 있으면 나타나고 없으면 안나타남
 
-      console.log(metarial);
+  selected = (id) => {
+    const { selected } = this.state;
+    // 배열에 id값이 없으면
+    if (selected.indexOf(id) == -1) {
+      // 배열에 해당 id값 추가
+      this.setState({ selected: this.state.selected.concat(id) });
+      //보낼때 배열에 담아서 보내야 함
+      let list = [];
+      if (id == 1) {
+        list = ["가재", "게", "새우", "조개", "돼지고기"];
+      } else if (id == 2) {
+        list = ["소", "개", "계란"];
+      } else if (id == 3) {
+        list = ["소", "계란"];
+      }
+      this.props.material(list);
     } else {
-      this.setState({ selected: 0 });
+      // 배열에 id값 있으면 삭제시킴
+      this.setState({ selected: this.state.selected.filter((x) => x != id) });
     }
   };
 
@@ -47,18 +52,24 @@ export default class Religion extends React.Component {
     return (
       <View>
         <SelectView
-          onPress={this.selected}
-          style={selected == 1 ? styles.selected : null}
+          onPress={() => this.selected(1)}
+          style={selected.indexOf(1) == -1 ? null : styles.selected}
         >
           <TextList>이슬람교</TextList>
         </SelectView>
-        <SelectView>
+        <SelectView
+          onPress={() => this.selected(2)}
+          style={selected.indexOf(2) == -1 ? null : styles.selected}
+        >
           <TextList>힌두교</TextList>
         </SelectView>
-        <SelectView>
+        <SelectView
+          onPress={() => this.selected(3)}
+          style={selected.indexOf(3) == -1 ? null : styles.selected}
+        >
           <TextList>시크교</TextList>
         </SelectView>
-        <SelectView>
+        <SelectView onPress={() => this.selected(4)}>
           <TextList>불교</TextList>
         </SelectView>
         <SelectView>
@@ -83,6 +94,7 @@ export default class Religion extends React.Component {
 
 const styles = StyleSheet.create({
   selected: {
-    backgroundColor: "#FDCC1F",
+    backgroundColor: "#FEEA9F",
+    color: "white",
   },
 });

@@ -10,7 +10,7 @@ import styled from "styled-components";
 import { EvilIcons, Octicons } from "@expo/vector-icons";
 import Religion from "./Religion";
 import List from "./List";
-import update from "react-addons-update";
+import { RNChipView } from "react-native-chip-view";
 
 //공통 부분 : 이동 페이지 , 원
 // 하단 뷰
@@ -68,11 +68,18 @@ const MainContianer = styled.View`
 
 //제목
 const Title = styled.Text`
-  font-size: 16;
+  font-size: 20;
   color: #565656;
   font-weight: bold;
   margin-top: 10;
   margin-bottom: 5;
+`;
+
+//소제목
+const SmallTitle = styled.Text`
+  font-size: 13;
+  color: #565656;
+  margin-bottom: 20;
 `;
 
 // 셀렉 바 담을 뷰
@@ -91,21 +98,23 @@ const SelectContainer = styled.View`
 `;
 //리스트 출력 뷰
 const ListContainer = styled.ScrollView`
-  background-color: white;
+  background-color: #eaecee;
   border: 1px solid gray;
   border-radius: 5;
   width: 330;
+  height: 250;
   margin-bottom: 5;
 `;
 //Chips 출력 뷰
-const ChipsContainer = styled.View`
+const ChipsContainer = styled.ScrollView`
   background-color: white;
   border-width: 1;
   border-radius: 5;
   width: 330;
-  height: 130;
+  height: 80;
   border-color: #d5d8dc;
 `;
+
 export default class PageThree extends React.Component {
   constructor(props) {
     super(props);
@@ -113,39 +122,49 @@ export default class PageThree extends React.Component {
     this.state = {
       page: 3,
       select: 1,
-      metarial: ["개", " 쉑"],
+      material: [],
     };
-    // this.metarial = this.metarial.bind(this);
+    // this.material = this.material.bind(this);
   }
 
   // 화면 이동 및 state 값 전달
   info = () => {
-    const {} = this.state;
+    const { material } = this.state;
     this.props.information({
       page: 4,
+      material: material,
     });
   };
 
   backInfo = () => {
-    const {} = this.state;
+    const { material } = this.state;
     this.props.information({
       page: 2,
+      material: material,
     });
   };
 
   //props로 넘길 값 (metarial의 수정)
   //e는 넘길 state, h는 값
-  metarial = (e) => {
+  material = (e) => {
     this.setState({
-      metarial: this.state.metarial.concat(e),
+      material: this.state.material.concat(e),
     });
   };
+
+  // material 값에서 제외
+  deleteMetarial = (e) => {
+    this.setState({ material: this.state.material.filter((x) => x != e) });
+    console.log(e);
+  };
+
   render() {
-    const { page, select, metarial } = this.state;
+    const { select, material } = this.state;
     return (
       <Container>
         <MainContianer>
           <Title>기피 원재료</Title>
+          <SmallTitle>제품 검색 시 기피 원재료를 체크해드립니다</SmallTitle>
           <SelectContainer>
             <TouchableOpacity
               onPress={() => this.setState({ select: 1 })}
@@ -165,10 +184,33 @@ export default class PageThree extends React.Component {
             </TouchableOpacity>
           </SelectContainer>
           <ListContainer>
-            {select == 1 ? <Religion metarial={this.metarial} /> : <List />}
+            {select == 1 ? (
+              <Religion material={this.material} />
+            ) : (
+              <List material={this.material} />
+            )}
           </ListContainer>
-          <ChipsContainer>
-            <Text>sadasda</Text>
+          <ChipsContainer contentContainerStyle={styles.contentContainer}>
+            {material
+              ? material.map((material) => {
+                  return (
+                    <View style={{ marginLeft: 5, marginTop: 5 }}>
+                      <RNChipView
+                        title={material}
+                        avatar={false}
+                        height={25}
+                        borderRadius={5}
+                        cancelable={true}
+                        onPress={() => this.deleteMetarial(material)}
+                        // backgroundColor={"#FDCC1F"}
+                        // titleStyle={{
+                        //   color: "white",
+                        // }}
+                      />
+                    </View>
+                  );
+                })
+              : null}
           </ChipsContainer>
         </MainContianer>
         <BottomContainer>
@@ -185,11 +227,6 @@ export default class PageThree extends React.Component {
             <Circle />
             <CircleNow />
             <Circle />
-            <TouchableOpacity onPress={this.metarial}>
-              <Text>{metarial[5]}</Text>
-              <Text>{metarial[7]}</Text>
-              <Text>{metarial[11]}</Text>
-            </TouchableOpacity>
           </CircleView>
         </BottomContainer>
       </Container>
@@ -225,5 +262,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 16,
     color: "white",
+  },
+
+  contentContainer: {
+    flexWrap: "wrap",
+    flexDirection: "row",
   },
 });
