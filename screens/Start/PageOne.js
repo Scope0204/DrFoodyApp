@@ -74,7 +74,7 @@ export default class PageOne extends React.Component {
     this.state = {
       page: 1,
       user_id: "",
-      pw: "",
+      password: "",
       pwcheck: "",
       nickname: "",
       idcheck: false,
@@ -85,13 +85,13 @@ export default class PageOne extends React.Component {
   }
 
   info = () => {
-    const { user_id, pw, nickname, selectedImage } = this.state;
+    const { user_id, password, nickname, selectedImage } = this.state;
     this.props.information({
       page: 2,
       user_id: user_id,
-      pw: pw,
+      password: password,
       nickname: nickname,
-      selectedImage: selectedImage,
+      photo: selectedImage,
     });
   };
 
@@ -114,7 +114,7 @@ export default class PageOne extends React.Component {
       this.setState({ setSelectedImage: true });
     };
 
-    const { page, user_id, pw, pwcheck, nickname } = this.state;
+    const { page, user_id, password, pwcheck, nickname } = this.state;
 
     return (
       <Container>
@@ -137,7 +137,7 @@ export default class PageOne extends React.Component {
             style={styles.inputBox}
             placeholder="사용하실 PW를 입력하세요"
             secureTextEntry={true}
-            onChangeText={(pw) => this.setState({ pw })}
+            onChangeText={(password) => this.setState({ password })}
           />
 
           <Text style={styles.TextStyle}>PW(CHECK)</Text>

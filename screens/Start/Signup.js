@@ -41,7 +41,7 @@ export default class Signip extends React.Component {
     user_id: "",
     pw: "",
     nickname: "",
-    selectedImage: null,
+    photo: null,
     //회원가입(2)
     sex: "",
     email: "",
@@ -49,12 +49,27 @@ export default class Signip extends React.Component {
     language: "한국어",
     country: "KOREA",
     material: [],
+    hot: 1,
+    sweet: 1,
+    salty: 1,
+    sour: 1,
+    bitter: 1,
   };
 
   // 버튼을 누를시 해당 state 값을 저장한다.
   information = (e) => {
     this.setState(e);
     console.log(e);
+  };
+
+  //이제까지 저장된 state 값을 호출
+  signupState = () => {
+    console.log(this.state);
+  };
+
+  //뒤로 가게 함
+  goLogin = () => {
+    this.props.navigation.goBack();
   };
 
   render() {
@@ -80,7 +95,13 @@ export default class Signip extends React.Component {
         {page == 1 ? <PageOne information={this.information} /> : null}
         {page == 2 ? <PageTwo information={this.information} /> : null}
         {page == 3 ? <PageThree information={this.information} /> : null}
-        {page == 4 ? <PageFour information={this.information} /> : null}
+        {page == 4 ? (
+          <PageFour
+            information={this.information}
+            signupState={this.signupState}
+            goLogin={this.goLogin}
+          />
+        ) : null}
       </Container>
     );
   }

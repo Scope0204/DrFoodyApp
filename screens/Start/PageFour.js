@@ -7,7 +7,7 @@ import {
   TextInput,
 } from "react-native";
 import styled from "styled-components";
-import { EvilIcons, Octicons } from "@expo/vector-icons";
+import { EvilIcons, Octicons, AntDesign } from "@expo/vector-icons";
 
 //공통 부분 : 이동 페이지 , 원
 // 하단 뷰
@@ -86,19 +86,27 @@ const TasteContainer = styled.View`
   justify-content: center;
 `;
 
+// 맛 이름 , 조절 버튼 컨테이너
+
+const TasteTitleCtn = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+`;
+
 const TasteTitle = styled.Text`
-  margin-left: 20;
+  text-align: center;
   font-weight: bold;
-  font-size: 20;
+  font-size: 16;
 `;
 
 const TasteBar = styled.View`
   border-radius: 1;
   height:5
-  width : 280
   margin-left:20
   margin-top: 20
   margin-bottom:35
+  
 `;
 
 // 회원가입 버튼
@@ -115,37 +123,216 @@ export default class PageFour extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      hot: 1,
+      sweet: 1,
+      salty: 1,
+      sour: 1,
+      bitter: 1,
       page: 4,
+      isModalVisible: false,
     };
   }
-  // 화면 이동 및 state 값 전달
 
+  // 회원가입 버튼 클릭 -> 맛 선호도 저장 및 모달버튼 이동(이곳에서 선택)
+
+  // 모달
+  toggleModal = (id) => {
+    //회원 가입시
+    if (id == 1) {
+      const { hot, sweet, sour, bitter, salty } = this.state;
+      this.props.information({
+        hot: hot,
+        sweet: sweet,
+        sour: sour,
+        bitter: bitter,
+        salty: salty,
+      });
+      this.props.goLogin();
+    }
+    // 첫 클릭 & 취소버튼 클릭
+    else if (id == 2) {
+      // 취소버튼 클릭시 원래대로 돌아감
+      this.setState({ isModalVisible: !this.state.isModalVisible });
+    }
+  };
+
+  //회원가입
+  signup = () => {
+    // this.props.signupState();
+    alert("gd");
+  };
+
+  // 화면 이동 및 state 값 전달
   backInfo = () => {
-    const {} = this.state;
+    const { hot, sweet, sour, bitter, salty } = this.state;
     this.props.information({
       page: 3,
+      hot: hot,
+      sweet: sweet,
+      sour: sour,
+      bitter: bitter,
+      salty: salty,
     });
   };
+
+  up = (id) => {
+    const { hot, sweet, salty, sour, bitter } = this.state;
+    if (id == 1) {
+      if (hot < 5) {
+        this.setState({ hot: hot + 1 });
+      }
+    } else if (id == 2) {
+      if (sweet < 5) {
+        this.setState({ sweet: sweet + 1 });
+      }
+    } else if (id == 3) {
+      if (sour < 5) {
+        this.setState({ sour: sour + 1 });
+      }
+    } else if (id == 4) {
+      if (bitter < 5) {
+        this.setState({ bitter: bitter + 1 });
+      }
+    } else if (id == 5) {
+      if (salty < 5) {
+        this.setState({ salty: salty + 1 });
+      }
+    }
+  };
+
+  down = (id) => {
+    const { hot, sweet, salty, sour, bitter } = this.state;
+
+    if (id == 1) {
+      if (hot > 1) {
+        this.setState({ hot: hot - 1 });
+      }
+    } else if (id == 2) {
+      if (sweet > 1) {
+        this.setState({ sweet: sweet - 1 });
+      }
+    } else if (id == 3) {
+      if (sour > 1) {
+        this.setState({ sour: sour - 1 });
+      }
+    } else if (id == 4) {
+      if (bitter > 1) {
+        this.setState({ bitter: bitter - 1 });
+      }
+    } else if (id == 5) {
+      if (salty > 1) {
+        this.setState({ salty: salty - 1 });
+      }
+    }
+  };
+
   render() {
-    const {} = this.state;
+    const { hot } = this.state;
     return (
       <Container>
         <MainContianer>
+          <TouchableOpacity onPress={this.signup}>
+            <Text>adasdasd</Text>
+          </TouchableOpacity>
           <Title>맛 선호도</Title>
           <SmallTitle>해당 수치에 따른 맛 제품들을 추천해드립니다</SmallTitle>
           <TasteContainer>
-            <TasteTitle>매운 맛</TasteTitle>
+            <TasteTitleCtn>
+              <TouchableOpacity onPress={() => this.down(1)}>
+                <AntDesign
+                  size={20}
+                  name={"caretleft"}
+                  color={"black"}
+                ></AntDesign>
+              </TouchableOpacity>
+              <TasteTitle>매운맛</TasteTitle>
+              <TouchableOpacity onPress={() => this.up(1)}>
+                <AntDesign
+                  size={20}
+                  name={"caretright"}
+                  color={"black"}
+                ></AntDesign>
+              </TouchableOpacity>
+            </TasteTitleCtn>
             <TasteBar style={styles.hot} />
-            <TasteTitle>단 맛</TasteTitle>
+
+            <TasteTitleCtn>
+              <TouchableOpacity onPress={() => this.down(2)}>
+                <AntDesign
+                  size={20}
+                  name={"caretleft"}
+                  color={"black"}
+                ></AntDesign>
+              </TouchableOpacity>
+              <TasteTitle>단맛</TasteTitle>
+              <TouchableOpacity onPress={() => this.up(2)}>
+                <AntDesign
+                  size={20}
+                  name={"caretright"}
+                  color={"black"}
+                ></AntDesign>
+              </TouchableOpacity>
+            </TasteTitleCtn>
             <TasteBar style={styles.sweet} />
-            <TasteTitle>신 맛</TasteTitle>
-            <TasteBar style={styles.salty} />
-            <TasteTitle>쓴 맛</TasteTitle>
+
+            <TasteTitleCtn>
+              <TouchableOpacity onPress={() => this.down(3)}>
+                <AntDesign
+                  size={20}
+                  name={"caretleft"}
+                  color={"black"}
+                ></AntDesign>
+              </TouchableOpacity>
+              <TasteTitle>신맛</TasteTitle>
+              <TouchableOpacity onPress={() => this.up(3)}>
+                <AntDesign
+                  size={20}
+                  name={"caretright"}
+                  color={"black"}
+                ></AntDesign>
+              </TouchableOpacity>
+            </TasteTitleCtn>
             <TasteBar style={styles.sour} />
-            <TasteTitle>짠 맛</TasteTitle>
+
+            <TasteTitleCtn>
+              <TouchableOpacity onPress={() => this.down(4)}>
+                <AntDesign
+                  size={20}
+                  name={"caretleft"}
+                  color={"black"}
+                ></AntDesign>
+              </TouchableOpacity>
+              <TasteTitle>쓴맛</TasteTitle>
+              <TouchableOpacity onPress={() => this.up(4)}>
+                <AntDesign
+                  size={20}
+                  name={"caretright"}
+                  color={"black"}
+                ></AntDesign>
+              </TouchableOpacity>
+            </TasteTitleCtn>
             <TasteBar style={styles.bitter} />
+
+            <TasteTitleCtn>
+              <TouchableOpacity onPress={() => this.down(5)}>
+                <AntDesign
+                  size={20}
+                  name={"caretleft"}
+                  color={"black"}
+                ></AntDesign>
+              </TouchableOpacity>
+              <TasteTitle>짠맛</TasteTitle>
+              <TouchableOpacity onPress={() => this.up(5)}>
+                <AntDesign
+                  size={20}
+                  name={"caretright"}
+                  color={"black"}
+                ></AntDesign>
+              </TouchableOpacity>
+            </TasteTitleCtn>
+            <TasteBar style={styles.salty} />
           </TasteContainer>
-          <SignInBtn>
+          <SignInBtn onPress={() => this.toggleModal(1)}>
             <Text
               style={{
                 textAlign: "center",
@@ -178,18 +365,22 @@ export default class PageFour extends React.Component {
 const styles = StyleSheet.create({
   hot: {
     backgroundColor: "red",
+    width: 280,
   },
   sweet: {
     backgroundColor: "orange",
-  },
-  salty: {
-    backgroundColor: "yellow",
+    width: 280,
   },
   sour: {
-    backgroundColor: "green",
+    backgroundColor: "yellow",
+    width: 280,
   },
   bitter: {
+    backgroundColor: "green",
+    width: 280,
+  },
+  salty: {
     backgroundColor: "blue",
-    marginBottom: 10,
+    width: 280,
   },
 });
