@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import styled from "styled-components";
 import { EvilIcons, Octicons, AntDesign } from "@expo/vector-icons";
+import Modal from "react-native-modal";
 
 //공통 부분 : 이동 페이지 , 원
 // 하단 뷰
@@ -119,6 +120,30 @@ const SignInBtn = styled.TouchableOpacity`
   justify-content: center;
 `;
 
+// 모달
+const ModalContainer = styled.View`
+  flex: 0.2;
+  width: 250;
+  border: 0px solid;
+  background-color: white;
+`;
+const ModalTxtCon = styled.View`
+  flex: 0.7;
+  align-items: center;
+  justify-content: center;
+`;
+
+const ModalBtnCon = styled.View`
+  flex: 0.3;
+  flex-direction: row;
+`;
+
+const ModalBtn = styled.TouchableOpacity`
+  flex: 0.5;
+  align-items: center;
+  justify-content: center;
+`;
+
 export default class PageFour extends React.Component {
   constructor(props) {
     super(props);
@@ -137,8 +162,9 @@ export default class PageFour extends React.Component {
 
   // 모달
   toggleModal = (id) => {
-    //회원 가입시
+    //id = 1 = 예 ( 1. 맛정보 전달 / 2. 회원가입 실행 )
     if (id == 1) {
+      // 맛정보 전달
       const { hot, sweet, sour, bitter, salty } = this.state;
       this.props.information({
         hot: hot,
@@ -147,19 +173,16 @@ export default class PageFour extends React.Component {
         bitter: bitter,
         salty: salty,
       });
+      // 회원가입 실행
       this.props.goLogin();
+      // 모달창 닫기
+      this.setState({ isModalVisible: !this.state.isModalVisible });
     }
-    // 첫 클릭 & 취소버튼 클릭
+    //id = 2 = 첫 클릭 & 취소버튼 클릭
     else if (id == 2) {
       // 취소버튼 클릭시 원래대로 돌아감
       this.setState({ isModalVisible: !this.state.isModalVisible });
     }
-  };
-
-  //회원가입
-  signup = () => {
-    // this.props.signupState();
-    alert("gd");
   };
 
   // 화면 이동 및 state 값 전달
@@ -230,10 +253,31 @@ export default class PageFour extends React.Component {
     const { hot } = this.state;
     return (
       <Container>
+        <Modal
+          isVisible={this.state.isModalVisible}
+          style={{ alignItems: "center", justifyContent: "center" }}
+        >
+          <ModalContainer>
+            <ModalTxtCon>
+              <Text>회원가입을 진행하시겠습니까?</Text>
+            </ModalTxtCon>
+            <ModalBtnCon>
+              <ModalBtn
+                onPress={() => this.toggleModal(2)}
+                style={{ backgroundColor: "#EAECEE" }}
+              >
+                <Text>아니오</Text>
+              </ModalBtn>
+              <ModalBtn
+                onPress={() => this.toggleModal(1)}
+                style={{ backgroundColor: "#fdcc1f" }}
+              >
+                <Text>예</Text>
+              </ModalBtn>
+            </ModalBtnCon>
+          </ModalContainer>
+        </Modal>
         <MainContianer>
-          <TouchableOpacity onPress={this.signup}>
-            <Text>adasdasd</Text>
-          </TouchableOpacity>
           <Title>맛 선호도</Title>
           <SmallTitle>해당 수치에 따른 맛 제품들을 추천해드립니다</SmallTitle>
           <TasteContainer>
@@ -332,7 +376,7 @@ export default class PageFour extends React.Component {
             </TasteTitleCtn>
             <TasteBar style={styles.salty} />
           </TasteContainer>
-          <SignInBtn onPress={() => this.toggleModal(1)}>
+          <SignInBtn onPress={() => this.toggleModal(2)}>
             <Text
               style={{
                 textAlign: "center",

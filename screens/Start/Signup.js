@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  Text,
-  View,
-  ActivityIndicator,
-  Dimensions,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
+import { Text, Dimensions } from "react-native";
 import { Ionicons, MaterialIcons, Entypo, AntDesign } from "@expo/vector-icons";
 import styled from "styled-components";
 import Layout from "../../constants/Layout";
@@ -15,6 +8,7 @@ import PageOne from "../../screens/Start/PageOne";
 import PageTwo from "../../screens/Start/PageTwo";
 import PageThree from "../../screens/Start/PageThree";
 import PageFour from "../../screens/Start/PageFour";
+import axios from "axios"; // npm i axios@0.18.0
 
 const { width, height } = Dimensions.get("window");
 
@@ -38,8 +32,8 @@ export default class Signip extends React.Component {
   state = {
     page: 1,
     // 회원가입(1)
-    user_id: "",
-    pw: "",
+    user_id: "", // 주의 : 디비에는 id로 되잇음
+    password: "",
     nickname: "",
     photo: null,
     //회원가입(2)
@@ -67,9 +61,59 @@ export default class Signip extends React.Component {
     console.log(this.state);
   };
 
-  //뒤로 가게 함
   goLogin = () => {
-    this.props.navigation.goBack();
+    //뒤로 가게 함
+    const {
+      user_id,
+      password,
+      nickname,
+      photo,
+      sex,
+      hot,
+      sweet,
+      sour,
+      bitter,
+      salty,
+      age,
+      //   email,
+      //   language,
+      //   country,
+    } = this.state;
+
+    axios({
+      method: "post",
+      url: "http://192.168.200.175/User_Site/registration_api.php",
+      headers: {
+        //응답에 대한 정보
+        Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
+        "Content-Type": "application/json",
+      },
+      data: {
+        id: user_id,
+        password: password,
+        nickname: nickname,
+        photo: photo,
+        sex: sex,
+        // email: email,
+        age: age,
+        hot: hot,
+        sweet: sweet,
+        sour: sour,
+        bitter: bitter,
+        salty: salty,
+      },
+    })
+      .then((response) => {
+        if (response.data == "User Registered Successfully") {
+          this.props.navigation.goBack();
+        } else {
+          alert("올바르지 않습니다");
+        }
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
 
   render() {

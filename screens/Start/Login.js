@@ -33,7 +33,7 @@ export default class Login extends React.Component {
         "Content-Type": "application/json;charset=utf-8",
       },
       data: {
-        name: user_name,
+        id: user_name,
         password: user_password,
       },
     })
