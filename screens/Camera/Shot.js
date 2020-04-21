@@ -4,11 +4,17 @@ import {
   ActivityIndicator,
   Dimensions,
   TouchableOpacity,
+  View,
+  Image,
 } from "react-native";
 import styled from "styled-components";
 import { Camera } from "expo-camera";
 import * as Permissions from "expo-permissions";
 import { Ionicons, MaterialIcons, Entypo, AntDesign } from "@expo/vector-icons";
+import * as MediaLibrary from "expo-media-library";
+import * as ImageManipulator from "expo-image-manipulator";
+
+const ALBUM_NAME = "Dr.Foody";
 
 const CenterView = styled.View`
   flex: 1;
@@ -33,6 +39,9 @@ export default class Shot extends React.Component {
     this.state = {
       hasPermisson: null,
       cameraType: Camera.Constants.Type.back,
+      shotPhoto: false,
+
+      //imagemanipulator
     };
     this.cameraRef = React.createRef();
   }
@@ -70,7 +79,7 @@ export default class Shot extends React.Component {
               overflow: "hidden",
             }}
             type={cameraType}
-            pictureSize={"640x480"}
+            // pictureSize={"640x480"}
           >
             <IconBar
               style={{
@@ -84,7 +93,6 @@ export default class Shot extends React.Component {
               </TouchableOpacity>
             </IconBar>
           </Camera>
-
           <TouchableOpacity onPress={this.takePhoto}>
             <MaterialIcons name={"camera"} color="white" size={70} />
           </TouchableOpacity>
@@ -118,31 +126,92 @@ export default class Shot extends React.Component {
   };
 
   takePhoto = async () => {
+    const { shotPhoto } = this.state;
+    this.setState({ shotPhoto: true });
     // await는 항상 try/catch문을 사용해 에러를 잡아줘야함
-    try {
-      // console.log(this.cameraRef.current);
-      if (this.cameraRef.current) {
-        //   let Photo = await this.cameraRef.current.takePictureAsync({
-        // photo에서 uri만 저장한다
-        let uri = await this.cameraRef.current.takePictureAsync({
-          // 저장 옵션들
-          quality: 1,
-          exif: true,
-        });
-        let size = await this.cameraRef.current.getAvailablePictureSizesAsync();
-        console.log(uri);
-        console.log(size);
-        // console.log(uri); // uri는 임시 캐쉬 , 어디론가 이동시켜 저장해야한다
-        if (uri) {
-          this.savePhoto(uri);
+    if (shotPhoto) {
+      try {
+        // console.log(this.cameraRef.current);
+        if (this.cameraRef.current) {
+          let { uri } = await this.cameraRef.current.takePictureAsync({
+            // 저장 옵션들
+            quality: 1,
+          });
+
+          // let size = await this.cameraRef.current.getAvailablePictureSizesAsync();
+          // console.log(size);
+
+          // console.log(uri); // uri는 임시 캐쉬 , 어디론가 이동시켜 저장해야한다
+          if (uri) {
+            console.log(uri);
+            this.setState({
+              shotPhoto: false,
+            });
+
+            // 사진 저장
+            // this.savePhoto(uri);
+
+            // 사진 수정
+            this.pixPhoto(uri);
+
+            //사진 보내기
+            // this.postPhoto(uri);
+          }
         }
+      } catch (error) {
+        alert(error);
+      }
+    }
+  };
+
+  //사진 수정
+  pixPhoto = async (uri) => {
+    try {
+      if (uri) {
+        const pixPhoto = await ImageManipulator.manipulateAsync(
+          uri,
+          [{ resize: { width: 640, height: 480 } }],
+          { format: "jpeg" }
+        );
+        console.log(pixPhoto);
+        this.postPhoto(uri);
       }
     } catch (error) {
       alert(error);
-      this.setState({
-        smileDetected: false,
-      });
     }
   };
-  savePhoto = async (uri) => {};
+
+  //   // 사진 저장(갤러리)
+  //   savePhoto = async (uri) => {
+  //     try {
+  //       const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+  //       if (status === "granted") {
+  //         const asset = await MediaLibrary.createAssetAsync(uri);
+  //         let album = await MediaLibrary.getAlbumAsync(ALBUM_NAME);
+  //         if (album === null) {
+  //           album = await MediaLibrary.createAlbumAsync(ALBUM_NAME, asset);
+  //         } else {
+  //           await MediaLibrary.addAssetsToAlbumAsync([asset], album.id);
+  //         }
+  //         setTimeout(
+  //           () =>
+  //             this.setState({
+  //               shotPhoto: false,
+  //             }),
+  //           2000
+  //         );
+  //         console.log(asset);
+  //         this.postPhoto(asset);
+  //       } else {
+  //         this.setState({ hasPermission: false });
+  //       }
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+
+  postPhoto = (uri) => {
+    // console.log(asset.uri);
+    this.props.navigation.navigate("PhotoPost", { photoUri: uri });
+  };
 }

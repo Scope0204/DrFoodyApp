@@ -40,7 +40,7 @@ const CircleView = styled.View`
   margin-top: 15;
 `;
 const Circle = styled.View`
-  background-color: #f5f5f5;
+  background-color: #abb2b9;
   width: 5px;
   height: 5px;
   border-radius: 75px;
@@ -48,7 +48,7 @@ const Circle = styled.View`
   margin-left: 5;
 `;
 const CircleNow = styled.View`
-  background-color: #86efef;
+  background-color: #fdcc1f;
   width: 5px;
   height: 5px;
   border-radius: 75px;

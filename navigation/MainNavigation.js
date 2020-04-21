@@ -2,18 +2,20 @@ import { createStackNavigator, createAppContainer } from "react-navigation";
 import TabNavigation from "./TabNavigation";
 import DetailScreen from "../screens/Detail/Detail";
 import CameraScreen from "../screens/Camera/Shot";
+import PostScreen from "../screens/Camera/PhotoPost";
 import UserDetailScreen from "../screens/User/UserDetail";
 import LoginScreen from "../screens/Start/Login";
 import SingupScreen from "../screens/Start/Signup";
 
 const MainNavigation = createStackNavigator(
   {
-    Login: {
-      screen: LoginScreen,
-      navigationOptions: { header: null },
-    },
     Tabs: {
       screen: TabNavigation,
+      navigationOptions: { header: null },
+    },
+
+    Login: {
+      screen: LoginScreen,
       navigationOptions: { header: null },
     },
 
@@ -38,6 +40,12 @@ const MainNavigation = createStackNavigator(
       screen: UserDetailScreen,
       navigationOptions: {
         title: "유저 정보",
+      },
+    },
+    PhotoPost: {
+      screen: PostScreen,
+      navigationOptions: {
+        title: "전송할 사진",
       },
     },
   },
