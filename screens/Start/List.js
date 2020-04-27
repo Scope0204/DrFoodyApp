@@ -12,7 +12,7 @@ import style from "react-native-chip-view/src/RNChipView.style";
 
 const SelectView = styled.TouchableOpacity`
   background-color: white;
-  height: 60;
+  height: 60px;
   align-items: center;
   justify-content: center;
   border-bottom-width: 1px;
@@ -20,17 +20,17 @@ const SelectView = styled.TouchableOpacity`
 `;
 
 const TextList = styled.Text`
-  font-size: 20;
+  font-size: 20px;
 `;
 
 const ModalContainer = styled.View`
   flex: 0.7;
-  width: 330;
+  width: 330px;
   border: 0px solid;
   border-radius: 5px;
   box-shadow: 2px 2px 2px;
   background-color: white;
-  margin-left: 20;
+  margin-left: 20px;
 `;
 
 const ModalList = styled.ScrollView`
@@ -56,11 +56,11 @@ const ModalBtn = styled.Text`
   text-align: center;
   color: white;
   font-weight: bold;
-  font-size: 16;
+  font-size: 16px;
 `;
 
 const ModalListView = styled.TouchableOpacity`
-  height: 60;
+  height: 60px;
   align-items: center;
   justify-content: center;
   border-bottom-width: 1px;

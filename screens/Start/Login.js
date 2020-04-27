@@ -61,14 +61,14 @@ export default class Login extends React.Component {
           <TextInput
             style={styles.inputBox}
             placeholder="ID"
-            placeholderTextColor="#ffffff"
+            // placeholderTextColor="#ffffff"
             onChangeText={(user_name) => this.setState({ user_name })}
           />
           <TextInput
             style={styles.inputBox}
             placeholder="Password"
             secureTextEntry={true}
-            placeholderTextColor="#ffffff"
+            // placeholderTextColor="#ffffff"
             onChangeText={(user_password) => this.setState({ user_password })}
           />
 
@@ -92,10 +92,8 @@ export default class Login extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "blue",
+    // backgroundColor: "#fdcc1f",
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
   },
   signupTextCont: {
     flexGrow: 1,
@@ -106,13 +104,13 @@ const styles = StyleSheet.create({
     marginBottom: 50,
   },
   signupText: {
-    color: "rgba(255,255,255,0.6)",
+    // color: "rgba(255,255,255,0.6)",
     fontSize: 16,
   },
   signupBotton: {
-    color: "#ffffff",
+    color: "#F58541",
     fontSize: 16,
-    fontWeight: "500",
+    fontWeight: "bold",
   },
 
   //form
@@ -125,24 +123,30 @@ const styles = StyleSheet.create({
   inputBox: {
     width: 330,
     paddingVertical: 16,
-    backgroundColor: "rgba(255,255,255,0.3)",
-    borderRadius: 25,
+    // backgroundColor: "rgba(255,255,255,255)",
+    backgroundColor: "#FCF8F6",
+    borderRadius: 10,
     paddingHorizontal: 16,
     fontSize: 16,
-    color: "#ffffff",
+    // color: "#ffffff",
     marginVertical: 10,
+    borderColor: "#FCEAE0",
+    borderWidth: 1,
   },
   button: {
     width: 330,
-    backgroundColor: "black",
-    borderRadius: 25,
+    height: 50,
+    justifyContent: "center",
+    backgroundColor: "#F58541",
+    borderRadius: 10,
     marginVertical: 10,
     paddingVertical: 12,
+    marginTop: 20,
   },
 
   buttonText: {
     fontSize: 16,
-    fontWeight: "500",
+    fontWeight: "bold",
     color: "#ffffff",
     textAlign: "center",
   },

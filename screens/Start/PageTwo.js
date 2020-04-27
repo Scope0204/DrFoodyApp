@@ -15,35 +15,35 @@ const BottomContainer = styled.View`
   flex: 0.2;
 `;
 const Title = styled.Text`
-  font-size: 16;
+  font-size: 16px;
   color: #565656;
   font-weight: bold;
-  margin-top: 30;
-  margin-left: 40;
+  margin-top: 30px;
+  margin-left: 40px;
 `;
 
 const BtnContainer = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  margin-top: 5;
+  margin-top: 5px;
 `;
 
 const MaleButton = styled.TouchableOpacity`
-  border-radius: 5;
-  width: 160;
-  height: 160;
+  border-radius: 5px;
+  width: 160px;
+  height: 160px;
   background-color: rgba(0, 0, 255, 0.3);
   align-items: center;
   justify-content: center;
-  margin-right: 10;
+  margin-right: 10px;
   box-shadow: 2px 2px 2px gray;
 `;
 
 const FemaleButton = styled.TouchableOpacity`
-  border-radius: 5;
-  width: 160;
-  height: 160;
+  border-radius: 5px;
+  width: 160px;
+  height: 160px;
   background-color: rgba(255, 0, 0, 0.3);
   align-items: center;
   justify-content: center;
@@ -53,18 +53,18 @@ const FemaleButton = styled.TouchableOpacity`
 const BtnText = styled.Text`
   color: white;
   font-weight: bold;
-  font-size: 20;
+  font-size: 20px;
 `;
 
 const InputContainer = styled.View`
   flex: 0.4;
-  margin-bottom: 20;
+  margin-bottom: 20px;
 `;
 // 버튼컨트롤러
 const PageControl = styled.View`
   flex-direction: row;
   justify-content: center;
-  margin-top: 50;
+  margin-top: 50px;
 `;
 
 const PageUp = styled.TouchableOpacity`
@@ -82,23 +82,23 @@ const PageDown = styled.TouchableOpacity`
 const CircleView = styled.View`
   flex-direction: row;
   justify-content: center;
-  margin-top: 15;
+  margin-top: 15px;
 `;
 const Circle = styled.View`
   background-color: #abb2b9;
   width: 5px;
   height: 5px;
   border-radius: 75px;
-  margin-right: 5;
-  margin-left: 5;
+  margin-right: 5px;
+  margin-left: 5px;
 `;
 const CircleNow = styled.View`
   background-color: #fdcc1f;
   width: 5px;
   height: 5px;
   border-radius: 75px;
-  margin-right: 5;
-  margin-left: 5;
+  margin-right: 5px;
+  margin-left: 5px;
 `;
 
 export default class PageTwo extends React.Component {

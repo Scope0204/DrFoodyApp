@@ -6,22 +6,29 @@ import PostScreen from "../screens/Camera/PhotoPost";
 import UserDetailScreen from "../screens/User/UserDetail";
 import LoginScreen from "../screens/Start/Login";
 import SingupScreen from "../screens/Start/Signup";
+import SearchScreen from "../screens/Search/Search";
 
 const MainNavigation = createStackNavigator(
   {
-    Tabs: {
-      screen: TabNavigation,
-      navigationOptions: { header: null },
-    },
-
     Login: {
       screen: LoginScreen,
+      navigationOptions: { header: null },
+    },
+    Tabs: {
+      screen: TabNavigation,
       navigationOptions: { header: null },
     },
 
     Signup: {
       screen: SingupScreen,
       navigationOptions: { header: null },
+    },
+
+    Search: {
+      screen: SearchScreen,
+      navigationOptions: {
+        header: null,
+      },
     },
 
     Detail: {

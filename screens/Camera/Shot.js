@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
   Image,
+  Alert,
 } from "react-native";
 import styled from "styled-components";
 import { Camera } from "expo-camera";
@@ -14,6 +15,7 @@ import { Ionicons, MaterialIcons, Entypo, AntDesign } from "@expo/vector-icons";
 import * as MediaLibrary from "expo-media-library";
 import * as ImageManipulator from "expo-image-manipulator";
 
+// 저장할 앨범
 const ALBUM_NAME = "Dr.Foody";
 
 const CenterView = styled.View`
@@ -33,6 +35,21 @@ const BackBtn = styled.TouchableOpacity`
   left: 30px;
 `;
 
+const SwitchBtn = styled.TouchableOpacity`
+  position: absolute;
+  top: 70px;
+  right: 30px;
+`;
+
+const PhotoArea = styled.View`
+  position: absolute;
+  align-items: center;
+  width: 280px;
+  height: 400px;
+  border: 5px solid blue;
+  border-radius: 10px;
+`;
+
 export default class Shot extends React.Component {
   constructor(props) {
     super(props);
@@ -40,8 +57,6 @@ export default class Shot extends React.Component {
       hasPermisson: null,
       cameraType: Camera.Constants.Type.back,
       shotPhoto: false,
-
-      //imagemanipulator
     };
     this.cameraRef = React.createRef();
   }
@@ -54,6 +69,7 @@ export default class Shot extends React.Component {
     } else {
       this.setState({ hasPermission: false });
     }
+    Alert.alert("", "해당영역에 맞게 촬영해 주세요");
   };
 
   render() {
@@ -68,6 +84,10 @@ export default class Shot extends React.Component {
               color={"white"}
             ></Ionicons>
           </BackBtn>
+          <SwitchBtn onPress={this.switchCameraType}>
+            <AntDesign name={"sync"} color="white" size={30} />
+          </SwitchBtn>
+
           <Camera
             ref={this.cameraRef}
             style={{
@@ -77,21 +97,20 @@ export default class Shot extends React.Component {
               marginBottom: 20,
               marginTop: 50,
               overflow: "hidden",
+              alignItems: "center",
+              justifyContent: "center",
             }}
             type={cameraType}
-            // pictureSize={"640x480"}
           >
+            <PhotoArea />
+
             <IconBar
               style={{
                 alignItems: "flex-end",
                 marginTop: 10,
                 marginRight: 10,
               }}
-            >
-              <TouchableOpacity onPress={this.switchCameraType}>
-                <AntDesign name={"sync"} color="white" size={30} />
-              </TouchableOpacity>
-            </IconBar>
+            ></IconBar>
           </Camera>
           <TouchableOpacity onPress={this.takePhoto}>
             <MaterialIcons name={"camera"} color="white" size={70} />
@@ -138,8 +157,8 @@ export default class Shot extends React.Component {
             quality: 1,
           });
 
-          // let size = await this.cameraRef.current.getAvailablePictureSizesAsync();
-          // console.log(size);
+          let size = await this.cameraRef.current.getAvailablePictureSizesAsync();
+          console.log(size);
 
           // console.log(uri); // uri는 임시 캐쉬 , 어디론가 이동시켜 저장해야한다
           if (uri) {
@@ -152,9 +171,9 @@ export default class Shot extends React.Component {
             // this.savePhoto(uri);
 
             // 사진 수정
-            this.pixPhoto(uri);
+            this.fixPhoto(uri);
 
-            //사진 보내기
+            // 사진 보내기
             // this.postPhoto(uri);
           }
         }
@@ -165,53 +184,58 @@ export default class Shot extends React.Component {
   };
 
   //사진 수정
-  pixPhoto = async (uri) => {
+  fixPhoto = async (uri) => {
     try {
       if (uri) {
-        const pixPhoto = await ImageManipulator.manipulateAsync(
+        const fixPhoto = await ImageManipulator.manipulateAsync(
           uri,
-          [{ resize: { width: 640, height: 480 } }],
+          [{ resize: { width: 300 } }],
           { format: "jpeg" }
         );
-        console.log(pixPhoto);
-        this.postPhoto(uri);
+        console.log(fixPhoto);
+        this.postPhoto(fixPhoto);
+        this.savePhoto(fixPhoto.uri);
       }
     } catch (error) {
       alert(error);
     }
   };
 
-  //   // 사진 저장(갤러리)
-  //   savePhoto = async (uri) => {
-  //     try {
-  //       const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-  //       if (status === "granted") {
-  //         const asset = await MediaLibrary.createAssetAsync(uri);
-  //         let album = await MediaLibrary.getAlbumAsync(ALBUM_NAME);
-  //         if (album === null) {
-  //           album = await MediaLibrary.createAlbumAsync(ALBUM_NAME, asset);
-  //         } else {
-  //           await MediaLibrary.addAssetsToAlbumAsync([asset], album.id);
-  //         }
-  //         setTimeout(
-  //           () =>
-  //             this.setState({
-  //               shotPhoto: false,
-  //             }),
-  //           2000
-  //         );
-  //         console.log(asset);
-  //         this.postPhoto(asset);
-  //       } else {
-  //         this.setState({ hasPermission: false });
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
+  //   사진 저장(갤러리)
+  savePhoto = async (fixPhoto) => {
+    try {
+      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      if (status === "granted") {
+        const asset = await MediaLibrary.createAssetAsync(fixPhoto);
+        let album = await MediaLibrary.getAlbumAsync(ALBUM_NAME);
+        if (album === null) {
+          album = await MediaLibrary.createAlbumAsync(ALBUM_NAME, asset);
+        } else {
+          await MediaLibrary.addAssetsToAlbumAsync([asset], album.id);
+        }
+        setTimeout(
+          () =>
+            this.setState({
+              shotPhoto: false,
+            }),
+          2000
+        );
+        console.log(asset);
+        // this.postPhoto(asset);
+      } else {
+        this.setState({ hasPermission: false });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-  postPhoto = (uri) => {
+  postPhoto = (fixPhoto) => {
     // console.log(asset.uri);
-    this.props.navigation.navigate("PhotoPost", { photoUri: uri });
+    this.props.navigation.navigate("PhotoPost", {
+      photoUri: fixPhoto.uri,
+      width: fixPhoto.width,
+      height: fixPhoto.height,
+    });
   };
 }

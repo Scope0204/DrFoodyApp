@@ -45,7 +45,7 @@ export default class App extends React.Component {
     if (loaded) {
       return (
         <>
-          <StatusBar />
+          <StatusBar barStyle="dark-content" />
           <MainNavigation />
         </>
       );

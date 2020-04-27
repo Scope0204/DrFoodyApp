@@ -6,10 +6,9 @@ export default class Logo extends React.Component {
     return (
       <View style={styles.container}>
         <Image
-          style={{ width: 40, height: 70 }}
+          style={{ width: 180, height: 180 }}
           source={require("../images/Logo.jpg")}
         />
-        <Text style={styles.logoText}>welcome to my app</Text>
       </View>
     );
   }
@@ -19,11 +18,6 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     justifyContent: "flex-end",
-    alignItems: "center"
+    alignItems: "center",
   },
-  logoText: {
-    marginVertical: 15,
-    fontSize: 20,
-    color: "white"
-  }
 });

@@ -21,7 +21,7 @@ const BottomContainer = styled.View`
 const PageControl = styled.View`
   flex-direction: row;
   justify-content: center;
-  margin-top: 50;
+  margin-top: 50px;
 `;
 
 const PageUp = styled.TouchableOpacity`
@@ -37,23 +37,23 @@ const PageDown = styled.TouchableOpacity`
 const CircleView = styled.View`
   flex-direction: row;
   justify-content: center;
-  margin-top: 15;
+  margin-top: 15px;
 `;
 const Circle = styled.View`
   background-color: #abb2b9;
   width: 5px;
   height: 5px;
   border-radius: 75px;
-  margin-right: 5;
-  margin-left: 5;
+  margin-right: 5px;
+  margin-left: 5px;
 `;
 const CircleNow = styled.View`
   background-color: #fdcc1f;
   width: 5px;
   height: 5px;
   border-radius: 75px;
-  margin-right: 5;
-  margin-left: 5;
+  margin-right: 5px;
+  margin-left: 5px;
 `;
 
 const Container = styled.View`
@@ -63,23 +63,23 @@ const Container = styled.View`
 //전체 리스트 담을부분
 const MainContianer = styled.View`
   flex: 0.8;
-  margin-left: 40;
+  margin-left: 40px;
 `;
 
 //제목
 const Title = styled.Text`
-  font-size: 20;
+  font-size: 20px;
   color: #565656;
   font-weight: bold;
-  margin-top: 10;
-  margin-bottom: 5;
+  margin-top: 10px;
+  margin-bottom: 5px;
 `;
 
 //소제목
 const SmallTitle = styled.Text`
-  font-size: 13;
+  font-size: 13px;
   color: #565656;
-  margin-bottom: 20;
+  margin-bottom: 20px;
 `;
 
 // 셀렉 바 담을 뷰
@@ -89,29 +89,29 @@ const SelectContainer = styled.View`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: 330;
-  height: 30;
-  border-radius: 5;
+  width: 330px;
+  height: 30px;
+  border-radius: 5px;
   border-color: #565656
-  margin-bottom: 5;
+  margin-bottom: 5px;
 
 `;
 //리스트 출력 뷰
 const ListContainer = styled.ScrollView`
   background-color: #eaecee;
   border: 1px solid gray;
-  border-radius: 5;
-  width: 330;
-  height: 250;
-  margin-bottom: 5;
+  border-radius: 5px;
+  width: 330px;
+  height: 250px;
+  margin-bottom: 5px;
 `;
 //Chips 출력 뷰
 const ChipsContainer = styled.ScrollView`
   background-color: white;
-  border-width: 1;
-  border-radius: 5;
-  width: 330;
-  height: 80;
+  border-width: 1px;
+  border-radius: 5px;
+  width: 330px;
+  height: 80px;
   border-color: #d5d8dc;
 `;
 

@@ -15,15 +15,15 @@ const UserImg = styled.TouchableOpacity`
 const InputContainer = styled.View`
   flex: 0.45;
   justify-content: center;
-  margin-left: 40;
+  margin-left: 40px;
 `;
 
 const SelectImg = styled.Image`
-  width: 200;
-  height: 200;
+  width: 200px;
+  height: 200px;
   position: absolute;
-  top: 10;
-  border-radius: 100;
+  top: 10px;
+  border-radius: 100px;
   z-index: 1;
 `;
 
@@ -31,7 +31,7 @@ const SelectImg = styled.Image`
 const PageControl = styled.View`
   flex-direction: row;
   justify-content: center;
-  margin-top: 50;
+  margin-top: 50px;
 `;
 
 const PageUp = styled.TouchableOpacity`
@@ -44,23 +44,23 @@ const PageUp = styled.TouchableOpacity`
 const CircleView = styled.View`
   flex-direction: row;
   justify-content: center;
-  margin-top: 15;
+  margin-top: 15px;
 `;
 const Circle = styled.View`
   background-color: #abb2b9;
   width: 5px;
   height: 5px;
   border-radius: 75px;
-  margin-right: 5;
-  margin-left: 5;
+  margin-right: 5px;
+  margin-left: 5px;
 `;
 const CircleNow = styled.View`
   background-color: #fdcc1f;
   width: 5px;
   height: 5px;
   border-radius: 75px;
-  margin-right: 5;
-  margin-left: 5;
+  margin-right: 5px;
+  margin-left: 5px;
 `;
 
 // 하단 뷰

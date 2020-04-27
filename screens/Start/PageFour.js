@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  Text,
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  TextInput,
-} from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 import styled from "styled-components";
 import { EvilIcons, Octicons, AntDesign } from "@expo/vector-icons";
 import Modal from "react-native-modal";
@@ -19,7 +13,7 @@ const BottomContainer = styled.View`
 const PageControl = styled.View`
   flex-direction: row;
   justify-content: center;
-  margin-top: 50;
+  margin-top: 50px;
 `;
 const PageDown = styled.TouchableOpacity`
   position: absolute;
@@ -31,23 +25,23 @@ const PageDown = styled.TouchableOpacity`
 const CircleView = styled.View`
   flex-direction: row;
   justify-content: center;
-  margin-top: 15;
+  margin-top: 15px;
 `;
 const Circle = styled.View`
   background-color: #abb2b9;
   width: 5px;
   height: 5px;
   border-radius: 75px;
-  margin-right: 5;
-  margin-left: 5;
+  margin-right: 5px;
+  margin-left: 5px;
 `;
 const CircleNow = styled.View`
   background-color: #fdcc1f;
   width: 5px;
   height: 5px;
   border-radius: 75px;
-  margin-right: 5;
-  margin-left: 5;
+  margin-right: 5px;
+  margin-left: 5px;
 `;
 
 // 전체
@@ -58,30 +52,30 @@ const Container = styled.View`
 //전체 리스트 담을부분
 const MainContianer = styled.View`
   flex: 0.8;
-  margin-left: 40;
+  margin-left: 40px;
 `;
 
 //제목
 const Title = styled.Text`
-  font-size: 20;
+  font-size: 20px;
   color: #565656;
   font-weight: bold;
-  margin-top: 10;
-  margin-bottom: 5;
+  margin-top: 10px;
+  margin-bottom: 5px;
 `;
 //소제목
 const SmallTitle = styled.Text`
-  font-size: 13;
+  font-size: 13px;
   color: #565656;
-  margin-bottom: 20;
+  margin-bottom: 20px;
 `;
 //맛 조절 박스
 const TasteContainer = styled.View`
   border-width: 0;
-  border-radius: 10;
-  width: 330;
-  height: 470;
-  margin-bottom: 20;
+  border-radius: 10px;
+  width: 330px;
+  height: 470px;
+  margin-bottom: 20px;
   background-color: white;
   box-shadow: 2px 2px 2px gray;
   justify-content: center;
@@ -98,24 +92,33 @@ const TasteTitleCtn = styled.View`
 const TasteTitle = styled.Text`
   text-align: center;
   font-weight: bold;
-  font-size: 16;
+  font-size: 16px;
 `;
 
+// 맛 바
 const TasteBar = styled.View`
-  border-radius: 1;
-  height:5
-  margin-left:20
-  margin-top: 20
-  margin-bottom:35
-  
+  border-radius: 10px;
+  height: 5px;
+  margin-top: 20px;
+  margin-bottom: 40px;
+  margin-left: 25;
+  flex-direction: row;
+  background-color: gray;
+  width: 280px;
+`;
+
+// 게이지
+const Gaege = styled.View`
+  height: 5px;
+  border-radius: 10px;
 `;
 
 // 회원가입 버튼
 const SignInBtn = styled.TouchableOpacity`
   border-width: 0;
-  border-radius: 10;
-  width: 330;
-  height: 50;
+  border-radius: 10px;
+  width: 330px;
+  height: 50px;
   background-color: #fdcc1f;
   justify-content: center;
 `;
@@ -123,7 +126,7 @@ const SignInBtn = styled.TouchableOpacity`
 // 모달
 const ModalContainer = styled.View`
   flex: 0.2;
-  width: 250;
+  width: 250px;
   border: 0px solid;
   background-color: white;
 `;
@@ -250,7 +253,7 @@ export default class PageFour extends React.Component {
   };
 
   render() {
-    const { hot } = this.state;
+    const { hot, sweet, sour, bitter, salty } = this.state;
     return (
       <Container>
         <Modal
@@ -281,100 +284,139 @@ export default class PageFour extends React.Component {
           <Title>맛 선호도</Title>
           <SmallTitle>해당 수치에 따른 맛 제품들을 추천해드립니다</SmallTitle>
           <TasteContainer>
-            <TasteTitleCtn>
-              <TouchableOpacity onPress={() => this.down(1)}>
+            <TasteTitleCtn style={{ marginTop: 30 }}>
+              <TouchableOpacity
+                onPress={() => this.down(1)}
+                style={{ marginRight: 100 }}
+              >
                 <AntDesign
-                  size={20}
+                  size={19}
                   name={"caretleft"}
                   color={"black"}
                 ></AntDesign>
               </TouchableOpacity>
               <TasteTitle>매운맛</TasteTitle>
-              <TouchableOpacity onPress={() => this.up(1)}>
+              <TouchableOpacity
+                onPress={() => this.up(1)}
+                style={{ marginLeft: 100 }}
+              >
                 <AntDesign
-                  size={20}
+                  size={19}
                   name={"caretright"}
                   color={"black"}
                 ></AntDesign>
               </TouchableOpacity>
             </TasteTitleCtn>
-            <TasteBar style={styles.hot} />
-
+            <TasteBar>
+              <Gaege style={{ width: 56 * hot, backgroundColor: "red" }} />
+            </TasteBar>
             <TasteTitleCtn>
-              <TouchableOpacity onPress={() => this.down(2)}>
+              <TouchableOpacity
+                onPress={() => this.down(2)}
+                style={{ marginRight: 110 }}
+              >
                 <AntDesign
-                  size={20}
+                  size={19}
                   name={"caretleft"}
                   color={"black"}
                 ></AntDesign>
               </TouchableOpacity>
               <TasteTitle>단맛</TasteTitle>
-              <TouchableOpacity onPress={() => this.up(2)}>
+              <TouchableOpacity
+                onPress={() => this.up(2)}
+                style={{ marginLeft: 110 }}
+              >
                 <AntDesign
-                  size={20}
+                  size={19}
                   name={"caretright"}
                   color={"black"}
                 ></AntDesign>
               </TouchableOpacity>
             </TasteTitleCtn>
-            <TasteBar style={styles.sweet} />
+            <TasteBar>
+              <Gaege style={{ width: 56 * sweet, backgroundColor: "orange" }} />
+            </TasteBar>
 
             <TasteTitleCtn>
-              <TouchableOpacity onPress={() => this.down(3)}>
+              <TouchableOpacity
+                onPress={() => this.down(3)}
+                style={{ marginRight: 110 }}
+              >
                 <AntDesign
-                  size={20}
+                  size={19}
                   name={"caretleft"}
                   color={"black"}
                 ></AntDesign>
               </TouchableOpacity>
               <TasteTitle>신맛</TasteTitle>
-              <TouchableOpacity onPress={() => this.up(3)}>
+              <TouchableOpacity
+                onPress={() => this.up(3)}
+                style={{ marginLeft: 110 }}
+              >
                 <AntDesign
-                  size={20}
+                  size={19}
                   name={"caretright"}
                   color={"black"}
                 ></AntDesign>
               </TouchableOpacity>
             </TasteTitleCtn>
-            <TasteBar style={styles.sour} />
+            <TasteBar>
+              <Gaege style={{ width: 56 * sour, backgroundColor: "yellow" }} />
+            </TasteBar>
 
             <TasteTitleCtn>
-              <TouchableOpacity onPress={() => this.down(4)}>
+              <TouchableOpacity
+                onPress={() => this.down(4)}
+                style={{ marginRight: 110 }}
+              >
                 <AntDesign
-                  size={20}
+                  size={19}
                   name={"caretleft"}
                   color={"black"}
                 ></AntDesign>
               </TouchableOpacity>
               <TasteTitle>쓴맛</TasteTitle>
-              <TouchableOpacity onPress={() => this.up(4)}>
+              <TouchableOpacity
+                onPress={() => this.up(4)}
+                style={{ marginLeft: 110 }}
+              >
                 <AntDesign
-                  size={20}
+                  size={19}
                   name={"caretright"}
                   color={"black"}
                 ></AntDesign>
               </TouchableOpacity>
             </TasteTitleCtn>
-            <TasteBar style={styles.bitter} />
+            <TasteBar>
+              <Gaege style={{ width: 56 * bitter, backgroundColor: "green" }} />
+            </TasteBar>
 
             <TasteTitleCtn>
-              <TouchableOpacity onPress={() => this.down(5)}>
+              <TouchableOpacity
+                onPress={() => this.down(5)}
+                style={{ marginRight: 110 }}
+              >
                 <AntDesign
-                  size={20}
+                  size={19}
                   name={"caretleft"}
                   color={"black"}
                 ></AntDesign>
               </TouchableOpacity>
               <TasteTitle>짠맛</TasteTitle>
-              <TouchableOpacity onPress={() => this.up(5)}>
+              <TouchableOpacity
+                onPress={() => this.up(5)}
+                style={{ marginLeft: 110 }}
+              >
                 <AntDesign
-                  size={20}
+                  size={19}
                   name={"caretright"}
                   color={"black"}
                 ></AntDesign>
               </TouchableOpacity>
             </TasteTitleCtn>
-            <TasteBar style={styles.salty} />
+            <TasteBar>
+              <Gaege style={{ width: 56 * salty, backgroundColor: "blue" }} />
+            </TasteBar>
           </TasteContainer>
           <SignInBtn onPress={() => this.toggleModal(2)}>
             <Text
@@ -405,26 +447,3 @@ export default class PageFour extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  hot: {
-    backgroundColor: "red",
-    width: 280,
-  },
-  sweet: {
-    backgroundColor: "orange",
-    width: 280,
-  },
-  sour: {
-    backgroundColor: "yellow",
-    width: 280,
-  },
-  bitter: {
-    backgroundColor: "green",
-    width: 280,
-  },
-  salty: {
-    backgroundColor: "blue",
-    width: 280,
-  },
-});
