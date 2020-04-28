@@ -7,12 +7,11 @@ import { Image } from "react-native";
 import source from "../assets/icon.png";
 
 const SWIPER_HEIGHT = Layout.height / 3;
-const SWIPER_WIDTH = Layout.width - 40;
 
 const View = styled.View`
   background-color: white;
   height: ${SWIPER_HEIGHT}px;
-  border: 1px solid #d5d8dc;
+  border: 0.5px solid #d5d8dc;
   align-items: center;
   justify-content: center;
 `;

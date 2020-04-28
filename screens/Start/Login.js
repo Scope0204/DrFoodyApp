@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
+  Alert,
 } from "react-native";
 import Logo from "../../components/Logo";
 // import Form from "../../components/Form";
@@ -43,7 +44,7 @@ export default class Login extends React.Component {
           console.log("match");
           this.props.navigation.navigate("Main", { User: user_name });
         } else {
-          alert("올바르지 않습니다");
+          Alert.alert("Login Error", "다시입력해 주세요");
         }
       })
       .catch(function (error) {
