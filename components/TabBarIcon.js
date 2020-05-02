@@ -9,13 +9,13 @@ const TabBarIcon = ({ name, focused }) => (
   <Ionicons
     size={32}
     name={name}
-    color={focused ? "#FF8000" : INACTIVE_COLOR}
+    color={focused ? "#ff5122" : INACTIVE_COLOR}
   />
 );
 
 TabBarIcon.propTypes = {
   name: propTypes.string.isRequired,
-  focused: propTypes.bool.isRequired
+  focused: propTypes.bool.isRequired,
 };
 
 export default TabBarIcon;

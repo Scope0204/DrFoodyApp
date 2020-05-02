@@ -5,7 +5,8 @@ import {
   ActivityIndicator,
   Dimensions,
   TouchableOpacity,
-  StyleSheet
+  StyleSheet,
+  TextInput,
 } from "react-native";
 import { Ionicons, MaterialIcons, Entypo, AntDesign } from "@expo/vector-icons";
 import styled from "styled-components";
@@ -18,9 +19,9 @@ const { width, height } = Dimensions.get("window");
 
 //뒤로가기 , 제품 , 별점 , 좋아요가 담기는 뷰
 const FoodScreen = styled.View`
-  flex: 0.7;
-  background-color: white;
-  margin-bottom: 10;
+  flex: 0.8;
+  align-items: center;
+  justify-content: center;
 `;
 
 const BackBtn = styled.TouchableOpacity`
@@ -66,16 +67,16 @@ export default class Detail extends React.Component {
   state = {
     one: true,
     two: false,
-    three: false
+    three: false,
   };
   render() {
     const { one, two, three } = this.state;
-
+    const { navigation } = this.props;
+    const Name = navigation.getParam("Name");
     return (
       <View
         style={{
           flex: 1,
-          backgroundColor: "#EAECEE"
         }}
       >
         <FoodScreen>
@@ -86,6 +87,7 @@ export default class Detail extends React.Component {
               color={"black"}
             ></MaterialIcons>
           </BackBtn>
+          <Text style={{ fontSize: 30 }}>{Name}</Text>
         </FoodScreen>
 
         <ButtonView>
@@ -130,14 +132,14 @@ export default class Detail extends React.Component {
 const styles = StyleSheet.create({
   click: {
     fontSize: 20,
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
   noClick: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#808B96"
+    color: "#808B96",
   },
   border: {
-    borderBottomColor: "white"
-  }
+    borderBottomColor: "white",
+  },
 });

@@ -12,11 +12,9 @@ import AdSlider from "../../components/AdSlider";
 import FoodSlider from "../../components/FoodSlider";
 import SearchBar from "../../components/SearchBar";
 import axios from "axios"; // npm i axios@0.18.0
-import { EvilIcons, Octicons } from "@expo/vector-icons";
+import { EvilIcons, Octicons, Entypo } from "@expo/vector-icons";
 
 const { width, height } = Dimensions.get("window");
-
-const CameraBtn = styled.TouchableOpacity``;
 
 const Container = styled.ScrollView`
   background-color: #f9f9f9;
@@ -30,6 +28,35 @@ const UserState = styled.View`
   align-items: center;
 `;
 
+const SelectContainer = styled.View`
+  width: ${width}px;
+  height: ${height / 3.7 + 5}px;
+  flex-direction: row;
+  margin-top: 15px;
+`;
+
+const CameraContainer = styled.View`
+  width: ${width / 2}px;
+  align-items: center;
+`;
+
+const CameraBtn = styled.TouchableOpacity`
+  width: ${width / 2 - 10}px;
+  height: ${height / 3.7}px;
+  background-color: #ff5122;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+`;
+
+const CameraText = styled.Text`
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+`;
+
+const FoodContainer = styled.View``;
+
 export default class Main extends React.Component {
   constructor(props) {
     super(props);
@@ -37,14 +64,19 @@ export default class Main extends React.Component {
     this.state = {
       user_name: "",
       user_photo: "",
-      food_list: [],
+      food_name: [],
     };
   }
+
+  //   info = () => {
+  //     const { food_name } = this.state;
+  //     this.props.info();
+  //     alert(food_name);
+  //   };
 
   componentDidMount = () => {
     const { navigation } = this.props;
     const User = navigation.getParam("User");
-    const { food_list } = this.state;
 
     // 유저 정보 가져오기(이름과 사진)
     axios({
@@ -67,12 +99,13 @@ export default class Main extends React.Component {
     });
   };
 
-  info = () => {
-    this.props.foodName();
+  info = (e) => {
+    this.props.navigation.navigate("Detail", { Name: e });
   };
 
   render() {
-    const { user_name, user_photo, food_list } = this.state;
+    const { user_name, user_photo } = this.state;
+
     return (
       <Container>
         <View
@@ -99,24 +132,22 @@ export default class Main extends React.Component {
 
         <AdSlider />
 
-        <View style={{ alignItems: "center", marginTop: 5 }}>
+        <View style={{ alignItems: "center", marginTop: 7 }}>
           <TouchableOpacity
             onPress={() => this.props.navigation.navigate("Search")}
           >
             <SearchBar />
           </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          onPress={() => this.props.navigation.navigate("Detail")}
-        >
-          <Text>GO to Detail</Text>
-        </TouchableOpacity>
-        <CameraBtn onPress={() => this.props.navigation.navigate("Camera")}>
-          <Text>GO to Photo</Text>
-        </CameraBtn>
-        <View>
-          <FoodSlider />
-        </View>
+        <SelectContainer>
+          <CameraContainer>
+            <CameraBtn onPress={() => this.props.navigation.navigate("Camera")}>
+              <Entypo size={120} name={"camera"} color={"white"} />
+              <CameraText>제품 조회</CameraText>
+            </CameraBtn>
+          </CameraContainer>
+          <FoodSlider info={this.info} />
+        </SelectContainer>
       </Container>
     );
   }

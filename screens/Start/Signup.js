@@ -93,9 +93,9 @@ export default class Signip extends React.Component {
         password: password,
         nickname: nickname,
         photo: photo,
-        sex: sex,
+        sex: sex, // zender
         // email: email,
-        age: age,
+        age: age, // birth => 생년월일 다되게함 ? 2019-02-1  문자열
         hot: hot,
         sweet: sweet,
         sour: sour,

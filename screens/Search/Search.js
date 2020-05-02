@@ -78,6 +78,7 @@ export default class Search extends React.Component {
           searchText: searchText,
         },
       }).then((response) => {
+        console.log(response);
         // -1 : 아닌경우 , 즉 NO가 아닌경우
         if (response.data.indexOf("No Results Found") == -1) {
           for (var key in response.data) {
