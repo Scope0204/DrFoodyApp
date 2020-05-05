@@ -155,12 +155,9 @@ export default class Shot extends React.Component {
           let { uri } = await this.cameraRef.current.takePictureAsync({
             // 저장 옵션들
             quality: 1,
+            base64: true,
           });
 
-          let size = await this.cameraRef.current.getAvailablePictureSizesAsync();
-          console.log(size);
-
-          // console.log(uri); // uri는 임시 캐쉬 , 어디론가 이동시켜 저장해야한다
           if (uri) {
             console.log(uri);
             this.setState({

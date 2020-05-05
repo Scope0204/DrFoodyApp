@@ -3,7 +3,7 @@ import { Platform, StyleSheet } from "react-native";
 import {
   createBottomTabNavigator,
   createAppContainer,
-  createStackNavigator
+  createStackNavigator,
 } from "react-navigation";
 import MainScreen from "../screens/Main/Main";
 import MaterialTop from "../navigation/MaterialTop";
@@ -14,32 +14,32 @@ import { Ionicons } from "@expo/vector-icons";
 
 const styles = StyleSheet.create({
   setting: {
-    marginRight: 18
-  }
+    marginRight: 18,
+  },
 });
 
 const headerStyles = {
   // 네비게이션 헤더에 제공해주는 기본 옵션
   headerStyle: {
-    marginTop: 10
+    marginTop: 10,
     // borderBottomColor: "red"
   },
   headerTitleStyle: {
     fontWeight: "bold",
-    fontSize: 20
-  }
+    fontSize: 20,
+  },
 };
 
 // 관심제품 페이지는 밑라인이 없게하기위함
 const LoveStyle = {
   headerStyle: {
     marginTop: 10,
-    borderBottomWidth: 0
+    borderBottomWidth: 0,
   },
   headerTitleStyle: {
     fontWeight: "bold",
-    fontSize: 20
-  }
+    fontSize: 20,
+  },
 };
 
 const TabNavigation = createBottomTabNavigator(
@@ -50,9 +50,9 @@ const TabNavigation = createBottomTabNavigator(
           screen: MainScreen,
           navigationOptions: {
             title: "Main",
-            ...headerStyles
-          }
-        }
+            ...headerStyles,
+          },
+        },
       }),
       navigationOptions: {
         tabBarIcon: ({ focused }) => (
@@ -60,8 +60,8 @@ const TabNavigation = createBottomTabNavigator(
             focused={focused}
             name={Platform.OS === "ios" ? "ios-home" : "md-home"}
           />
-        )
-      }
+        ),
+      },
     },
 
     Love: {
@@ -70,9 +70,9 @@ const TabNavigation = createBottomTabNavigator(
           screen: MaterialTop,
           navigationOptions: {
             title: "관심제품",
-            ...LoveStyle
-          }
-        }
+            ...LoveStyle,
+          },
+        },
       }),
       navigationOptions: {
         tabBarIcon: ({ focused }) => (
@@ -80,8 +80,8 @@ const TabNavigation = createBottomTabNavigator(
             focused={focused}
             name={Platform.OS === "ios" ? "ios-heart" : "md-heart-empty"}
           />
-        )
-      }
+        ),
+      },
     },
 
     Chart: {
@@ -90,9 +90,9 @@ const TabNavigation = createBottomTabNavigator(
           screen: ChartScreen,
           navigationOptions: {
             title: "랭킹",
-            ...headerStyles
-          }
-        }
+            ...headerStyles,
+          },
+        },
       }),
       navigationOptions: {
         tabBarIcon: ({ focused }) => (
@@ -100,8 +100,8 @@ const TabNavigation = createBottomTabNavigator(
             focused={focused}
             name={Platform.OS === "ios" ? "ios-stats" : "md-stats"}
           />
-        )
-      }
+        ),
+      },
     },
 
     User: {
@@ -118,9 +118,9 @@ const TabNavigation = createBottomTabNavigator(
                 style={styles.setting}
                 onPress={() => navigation.navigate("UserDetail")}
               />
-            )
-          })
-        }
+            ),
+          }),
+        },
       }),
       navigationOptions: {
         tabBarIcon: ({ focused }) => (
@@ -128,9 +128,9 @@ const TabNavigation = createBottomTabNavigator(
             focused={focused}
             name={Platform.OS === "ios" ? "ios-contact" : "md-contact"}
           />
-        )
-      }
-    }
+        ),
+      },
+    },
   },
   {
     initialRouteName: "Main",
@@ -138,8 +138,8 @@ const TabNavigation = createBottomTabNavigator(
       showLabel: false,
       style: {
         // backgroundColor: BG_COLOR
-      }
-    }
+      },
+    },
   }
 );
 

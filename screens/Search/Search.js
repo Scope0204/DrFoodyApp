@@ -2,6 +2,7 @@ import React from "react";
 import {
   Text,
   View,
+  Image,
   TextInput,
   Dimensions,
   TouchableOpacity,
@@ -29,7 +30,7 @@ const Container = styled.View`
 
 const ListContainer = styled.ScrollView``;
 
-const ListBox = styled.TouchableOpacity`
+const ListBox = styled.View`
   background-color: white;
   width: ${LIST_WIDTH}px;
   height: ${LIST_HEIGHT}px;
@@ -38,6 +39,23 @@ const ListBox = styled.TouchableOpacity`
   margin-bottom: 5px;
   margin-top: 10px;
   box-shadow: 2px 2px 2px gray;
+  flex-direction: row;
+  align-items: center;
+`;
+
+const ImageContainer = styled.View`
+  margin-left: 20px;
+  margin-right: 30px;
+`;
+
+const FoodInfo = styled.View`
+  flex-direction: column;
+`;
+
+const StarCon = styled.View`
+  flex-direction: row;
+  margin-top: 10;
+  margin-bottom: 10;
 `;
 
 export default class Search extends React.Component {
@@ -46,14 +64,17 @@ export default class Search extends React.Component {
 
     this.state = {
       searchText: "",
-      foodName: [],
-      foodPhoto: [],
+
+      foodList: [],
       searchResult: false,
     };
   }
+  info = (e) => {
+    this.props.navigation.navigate("Detail", { Name: e });
+  };
 
   searchFood = () => {
-    let { searchText, foodName, foodPhoto } = this.state;
+    let { searchText, foodList } = this.state;
     console.log("검색물품 : " + searchText);
 
     //검색버튼 클릭시 기존 state값 초기화
@@ -67,7 +88,8 @@ export default class Search extends React.Component {
     else {
       axios({
         method: "post",
-        url: "http://192.168.200.175/User_Site/SearchFood.php",
+        // url: "http://192.168.200.175/User_Site/SearchFood.php",
+        url: "http://192.168.0.3/User_Site/SearchFood.php",
         headers: {
           //응답에 대한 정보
           Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
@@ -84,27 +106,29 @@ export default class Search extends React.Component {
           for (var key in response.data) {
             var List = response.data[key];
             // console.log(List.name);
-            this.setState({ foodName: this.state.foodName.concat(List.name) });
+            // this.setState({ foodName: this.state.foodName.concat(List.name) });
+            // this.setState({
+            //   foodPhoto: this.state.foodPhoto.concat(List.photo),
+            // });
             this.setState({
-              foodPhoto: this.state.foodPhoto.concat(List.photo),
+              foodList: this.state.foodList.concat({
+                id: key,
+                name: List.name,
+                photo: List.photo,
+              }),
             });
           }
         }
-
         // NO인경우
         else {
-          //   alert("ㄴㄴ ㅋㅋ");
+          Alert.alert("검색결과가 없습니다.");
         }
       });
     }
   };
 
-  call = () => {
-    const { foodName } = this.state;
-    alert(foodName);
-  };
   render() {
-    let { searchText, foodName, foodPhoto } = this.state;
+    let { foodList } = this.state;
     return (
       <View>
         <Container>
@@ -126,11 +150,56 @@ export default class Search extends React.Component {
         </Container>
         <ListContainer>
           <View style={{ alignItems: "center" }}>
-            {foodName != []
-              ? foodName.map((kind) => {
+            {foodList
+              ? foodList.map((list, key) => {
                   return (
-                    <ListBox>
-                      <Text>{kind}</Text>
+                    <ListBox key={key}>
+                      <ImageContainer style={{}}>
+                        <Image
+                          source={{ uri: list.photo }}
+                          style={{
+                            width: 150,
+                            height: 150,
+                          }}
+                        />
+                      </ImageContainer>
+                      <FoodInfo>
+                        <Text style={{ fontSize: 24, fontWeight: "bold" }}>
+                          {list.name}
+                        </Text>
+                        <StarCon>
+                          <FontAwesome
+                            size={16}
+                            name={"star"}
+                            color={"#F5B041"}
+                            style={{ marginRight: 10 }}
+                          />
+                          <Text>1</Text>
+                          <Text>/5</Text>
+                        </StarCon>
+                        <Text>sdsadasd</Text>
+                        <View
+                          style={{
+                            alignItems: "center",
+                            justifyContent: "center",
+                            backgroundColor: "#FF2257",
+                            width: 100,
+                            height: 30,
+                            marginBottom: 5,
+                            borderRadius: 10,
+                          }}
+                        >
+                          <TouchableOpacity
+                            onPress={() => this.info(list.name)}
+                          >
+                            <Text
+                              style={{ color: "white", fontWeight: "bold" }}
+                            >
+                              Check this
+                            </Text>
+                          </TouchableOpacity>
+                        </View>
+                      </FoodInfo>
                     </ListBox>
                   );
                 })

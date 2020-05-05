@@ -107,7 +107,7 @@ export default class PageTwo extends React.Component {
 
     this.state = {
       page: 2,
-      sex: "male", // default 남자
+      sex: 1, // default 남자
       email: "",
       age: 2020,
       language: "한국어",
@@ -117,11 +117,12 @@ export default class PageTwo extends React.Component {
 
   SelectAge = (value) => {
     this.setState({
-      age: value,
+      age: 2020 - value,
     });
   };
 
   SelectLanguage = (value) => {
+    console.log(value);
     this.setState({
       language: value,
     });
@@ -144,13 +145,14 @@ export default class PageTwo extends React.Component {
   // 화면 이동 및 state 값 전달
   info = () => {
     const { sex, email, age, language, country } = this.state;
+
     this.props.information({
       page: 3,
       sex: sex,
       email: email,
       age: age,
-      language: language,
-      country: country,
+      language: 1,
+      country: 10,
     });
   };
 

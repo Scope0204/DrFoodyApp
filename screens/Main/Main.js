@@ -6,6 +6,7 @@ import {
   Dimensions,
   Image,
   TouchableOpacityBase,
+  TextInput,
 } from "react-native";
 import styled from "styled-components";
 import AdSlider from "../../components/AdSlider";
@@ -17,14 +18,15 @@ import { EvilIcons, Octicons, Entypo } from "@expo/vector-icons";
 const { width, height } = Dimensions.get("window");
 
 const Container = styled.ScrollView`
-  background-color: #f9f9f9;
+  background-color: white;
 `;
 
 const UserState = styled.View`
-  width: ${width - 30}px;
-  height: 60px;
+  width: ${width - 10}px;
+  height: ${height / 8}px;
+  border: 1px solid black;
+  border-radius: 10px
   flex-direction: row;
-  justify-content: center;
   align-items: center;
 `;
 
@@ -55,8 +57,6 @@ const CameraText = styled.Text`
   color: white;
 `;
 
-const FoodContainer = styled.View``;
-
 export default class Main extends React.Component {
   constructor(props) {
     super(props);
@@ -68,12 +68,6 @@ export default class Main extends React.Component {
     };
   }
 
-  //   info = () => {
-  //     const { food_name } = this.state;
-  //     this.props.info();
-  //     alert(food_name);
-  //   };
-
   componentDidMount = () => {
     const { navigation } = this.props;
     const User = navigation.getParam("User");
@@ -81,7 +75,9 @@ export default class Main extends React.Component {
     // 유저 정보 가져오기(이름과 사진)
     axios({
       method: "post",
-      url: "http://192.168.200.175/User_Site/UserList.php",
+      //   url: "http://192.168.200.175/User_Site/UserList.php",
+      url: "http://192.168.0.3/User_Site/User_Login.php",
+
       headers: {
         Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
         "Content-Type": "application/json;charset=utf-8",
@@ -99,6 +95,7 @@ export default class Main extends React.Component {
     });
   };
 
+  // 제품 정보 페이지
   info = (e) => {
     this.props.navigation.navigate("Detail", { Name: e });
   };
@@ -108,30 +105,50 @@ export default class Main extends React.Component {
 
     return (
       <Container>
+        <AdSlider />
         <View
           style={{
             alignItems: "center",
-            marginTop: 10,
+            marginTop: 20,
             marginBottom: 10,
-            backgroundColor: "#d5d8dc",
+            alignItems: "center",
           }}
         >
           <UserState>
             {user_photo == "" ? (
-              <EvilIcons size={30} name={"user"} color={"#565656"} />
+              <EvilIcons size={120} name={"user"} color={"#565656"} />
             ) : (
-              <Image
-                source={{ uri: user_photo }}
-                style={{ width: 30, height: 30 }}
-              />
+              <View
+                style={{
+                  borderWidth: 5,
+                  borderRadius: 200,
+                  width: 90,
+                  height: 90,
+                  marginLeft: 20,
+                  marginRight: 20,
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Image
+                  source={{
+                    uri:
+                      "file:///var/mobile/Containers/Data/Application/653C1386-5066-458E-AFA0-FA7574DCFFCD/Library/Caches/ExponentExperienceData/%2540scope%252FDr-Foody/ImagePicker/64F9EC14-BF57-4B82-9958-4692A854E78F.jpg",
+                  }}
+                  style={{
+                    width: 80,
+                    height: 80,
+                    borderRadius: 100,
+                  }}
+                />
+              </View>
             )}
-
-            <Text>{user_name}님 안녕하세요</Text>
+            <View style={{ flexDirection: "column" }}>
+              <Text style={{ fontSize: 23 }}>{user_name}</Text>
+              <Text>한국에 있습니다</Text>
+            </View>
           </UserState>
         </View>
-
-        <AdSlider />
-
         <View style={{ alignItems: "center", marginTop: 7 }}>
           <TouchableOpacity
             onPress={() => this.props.navigation.navigate("Search")}

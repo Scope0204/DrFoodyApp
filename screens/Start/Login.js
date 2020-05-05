@@ -27,7 +27,9 @@ export default class Login extends React.Component {
 
     axios({
       method: "post",
-      url: "http://192.168.200.175/User_Site/User_Login.php",
+      //   url: "http://192.168.200.175/User_Site/User_Login.php",
+      url: "http://192.168.0.3/User_Site/User_Login.php",
+
       headers: {
         //응답에 대한 정보
         Accept: "application/json", // 서버가 json 타입으로 변환해서 사용

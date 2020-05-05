@@ -6,7 +6,8 @@ import Layout from "../constants/Layout";
 import { Image } from "react-native";
 import source from "../assets/icon.png";
 
-const SWIPER_HEIGHT = Layout.height / 3;
+const SWIPER_WIDTH = Layout.width;
+const SWIPER_HEIGHT = Layout.height / 3.5;
 
 const View = styled.View`
   background-color: white;
@@ -21,28 +22,32 @@ const Text = styled.Text``;
 const AdSlider = ({ ad }) => (
   <Swiper
     // 페이지 슬롯
-    // showsPagination={false}
+    showsPagination={false}
     autoplay={true}
     style={{
       //   backgroundColor: "blue",
-      height: SWIPER_HEIGHT + 12,
+      height: SWIPER_HEIGHT,
       alignItems: "center",
     }}
-    autoplayTimeout={3}
+    autoplayTimeout={5}
   >
     <View>
       <Image
-        source={{
-          uri: "https://facebook.github.io/react-native/img/tiny_logo.png",
-        }}
-        style={{ width: 50, height: 50 }}
+        source={require("../images/ad/새우깡.jpg")}
+        style={{ width: SWIPER_WIDTH, height: SWIPER_HEIGHT }}
       ></Image>
     </View>
     <View>
-      <Text>2</Text>
+      <Image
+        source={require("../images/ad/신라면.png")}
+        style={{ width: SWIPER_WIDTH, height: SWIPER_HEIGHT }}
+      ></Image>
     </View>
     <View>
-      <Text>3</Text>
+      <Image
+        source={require("../images/ad/불닭.jpg")}
+        style={{ width: SWIPER_WIDTH, height: SWIPER_HEIGHT }}
+      ></Image>
     </View>
   </Swiper>
 );

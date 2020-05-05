@@ -80,7 +80,7 @@ export default class Detail extends React.Component {
         }}
       >
         <FoodScreen>
-          <BackBtn onPress={() => this.props.navigation.goBack()}>
+          <BackBtn onPress={() => this.props.navigation.navigate("Main")}>
             <MaterialIcons
               size={27}
               name={"arrow-back"}

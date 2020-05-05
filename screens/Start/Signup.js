@@ -40,14 +40,17 @@ export default class Signip extends React.Component {
     sex: "",
     email: "",
     age: 2020,
-    language: "한국어",
-    country: "KOREA",
+
     material: [],
     hot: 1,
     sweet: 1,
     salty: 1,
     sour: 1,
     bitter: 1,
+
+    //외래키
+    language: 1,
+    country: 10,
   };
 
   // 버튼을 누를시 해당 state 값을 저장한다.
@@ -75,14 +78,16 @@ export default class Signip extends React.Component {
       bitter,
       salty,
       age,
+      language,
+      country,
       //   email,
-      //   language,
-      //   country,
     } = this.state;
 
     axios({
       method: "post",
-      url: "http://192.168.200.175/User_Site/registration_api.php",
+      //   url: "http://192.168.200.175/User_Site/registration_api.php",
+      url: "http://192.168.0.3/User_Site/registration_api.php",
+
       headers: {
         //응답에 대한 정보
         Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
@@ -101,6 +106,8 @@ export default class Signip extends React.Component {
         sour: sour,
         bitter: bitter,
         salty: salty,
+        language: language,
+        country: country,
       },
     })
       .then((response) => {

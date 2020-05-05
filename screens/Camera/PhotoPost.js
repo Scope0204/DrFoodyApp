@@ -1,9 +1,59 @@
 import React from "react";
-import { Text, View, TouchableOpacity, Image } from "react-native";
+import { Text, View, TouchableOpacity, Image, Alert } from "react-native";
 import styled from "styled-components";
 import axios from "axios";
 
 export default class Main extends React.Component {
+  postPhoto = async (photoUri) => {
+    console.log(photoUri);
+    //사진이 담길 url
+    let base_url = "http://192.168.0.3/Post_Image/Image.php";
+    let uploadData = new FormData();
+    uploadData.append("submit", "ok");
+    uploadData.append("file", {
+      type: "image/jpg",
+      uri: photoUri,
+      name: "uploadimagetmp.jpg",
+    });
+
+    // try {
+    //   await fetch(base_url, {
+    //     method: "post",
+    //     body: uploadData,
+    //   })
+    //     .then((response) => response.json())
+    //     .then((response) => {
+    //       if (response.status) {
+    //         Alert.alert("OK", "전송");
+    //         console.log(response.data);
+    //         console.log("zz");
+    //       } else {
+    //         Alert.alert("Error", "전송실패");
+    //       }
+    //     });
+    // } catch {
+    //   Alert.alert("Error", "네트워크 에러");
+    // }
+
+    try {
+      await axios({
+        method: "post",
+        url: base_url,
+        data: uploadData,
+      }).then((response) => {
+        if (response.status) {
+          Alert.alert("OK", "전송");
+          console.log(response.data);
+          this.props.navigation.navigate("Detail");
+        } else {
+          Alert.alert("Error", "전송실패");
+        }
+      });
+    } catch (error) {
+      Alert.alert("Error", "네트워크 에러");
+      console.log(error);
+    }
+  };
   render() {
     const { navigation } = this.props;
     const photoUri = navigation.getParam("photoUri", "no");
@@ -38,7 +88,7 @@ export default class Main extends React.Component {
             alignItems: "center",
             justifyContent: "center",
           }}
-          onPress={{}}
+          onPress={() => this.postPhoto(photoUri)}
         >
           <Text style={{ fontSize: 20, color: "white" }}>전송하기</Text>
         </TouchableOpacity>

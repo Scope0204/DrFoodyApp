@@ -18,7 +18,6 @@ const MainNavigation = createStackNavigator(
       screen: TabNavigation,
       navigationOptions: { header: null },
     },
-
     Signup: {
       screen: SingupScreen,
       navigationOptions: { header: null },
