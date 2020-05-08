@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   TextInput,
   Alert,
+  AsyncStorage, // 유저 정보 저장
 } from "react-native";
 import Logo from "../../components/Logo";
 // import Form from "../../components/Form";
@@ -14,20 +15,28 @@ import axios from "axios"; // npm i axios@0.18.0
 export default class Login extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       user_name: "",
       user_password: "",
     };
   }
 
+  //   componentDidMount = async () => {
+  //     const { user_name } = this.state;
+
+  //     AsyncStorage.getItem("User", (err, result) => {
+  //       //   console.log(result);
+  //     });
+  //     const a = await AsyncStorage.getItem("User");
+  //     alert(a);
+  //   };
+
   callLogin = () => {
     const { user_name } = this.state;
     const { user_password } = this.state;
-
     axios({
       method: "post",
-      //   url: "http://192.168.200.175/User_Site/User_Login.php",
+      //   url: "http://15.164.224.142/api/app/User_Login.php",
       url: "http://192.168.0.3/User_Site/User_Login.php",
 
       headers: {
@@ -41,9 +50,9 @@ export default class Login extends React.Component {
       },
     })
       .then((response) => {
-        // console.log(response);
+        console.log(response); // 로그인 유저 정보 다 끌고 옴
         if (response.data == "Data Matched") {
-          console.log("match");
+          //   AsyncStorage.setItem("User", JSON.stringify(response.data));
           this.props.navigation.navigate("Main", { User: user_name });
         } else {
           Alert.alert("Login Error", "다시입력해 주세요");

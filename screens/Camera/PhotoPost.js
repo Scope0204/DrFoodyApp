@@ -6,8 +6,8 @@ import axios from "axios";
 export default class Main extends React.Component {
   postPhoto = async (photoUri) => {
     console.log(photoUri);
-    //사진이 담길 url
-    let base_url = "http://192.168.0.3/Post_Image/Image.php";
+    let base_url = "http://15.164.224.142/Post_Image/Image.php";
+
     let uploadData = new FormData();
     uploadData.append("submit", "ok");
     uploadData.append("file", {
@@ -15,25 +15,6 @@ export default class Main extends React.Component {
       uri: photoUri,
       name: "uploadimagetmp.jpg",
     });
-
-    // try {
-    //   await fetch(base_url, {
-    //     method: "post",
-    //     body: uploadData,
-    //   })
-    //     .then((response) => response.json())
-    //     .then((response) => {
-    //       if (response.status) {
-    //         Alert.alert("OK", "전송");
-    //         console.log(response.data);
-    //         console.log("zz");
-    //       } else {
-    //         Alert.alert("Error", "전송실패");
-    //       }
-    //     });
-    // } catch {
-    //   Alert.alert("Error", "네트워크 에러");
-    // }
 
     try {
       await axios({

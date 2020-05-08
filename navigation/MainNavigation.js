@@ -7,6 +7,7 @@ import UserDetailScreen from "../screens/User/UserDetail";
 import LoginScreen from "../screens/Start/Login";
 import SingupScreen from "../screens/Start/Signup";
 import SearchScreen from "../screens/Search/Search";
+import ReviewScreen from "../screens/Detail/ReviewPost";
 
 const MainNavigation = createStackNavigator(
   {
@@ -52,6 +53,12 @@ const MainNavigation = createStackNavigator(
       screen: PostScreen,
       navigationOptions: {
         title: "전송할 사진",
+      },
+    },
+    Review: {
+      screen: ReviewScreen,
+      navigationOptions: {
+        title: "리뷰 작성",
       },
     },
   },

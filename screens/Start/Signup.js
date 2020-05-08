@@ -86,7 +86,8 @@ export default class Signip extends React.Component {
     axios({
       method: "post",
       //   url: "http://192.168.200.175/User_Site/registration_api.php",
-      url: "http://192.168.0.3/User_Site/registration_api.php",
+      //   url: "http://192.168.0.3/User_Site/registration_api.php",
+      url: "http://192.168.0.21/User_Site/registration_api.php",
 
       headers: {
         //응답에 대한 정보

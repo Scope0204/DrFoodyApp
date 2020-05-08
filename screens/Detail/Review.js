@@ -1,4 +1,17 @@
 import React from "react";
-import { Text } from "react-native";
+import { View, Text } from "react-native";
 
-export default () => <Text>Review</Text>;
+export default class Review extends React.Component {
+  state = {};
+
+  componentDidMount = async () => {
+    const { food_id } = this.props;
+  };
+  render() {
+    return (
+      <View>
+        <Text>sdasd</Text>
+      </View>
+    );
+  }
+}

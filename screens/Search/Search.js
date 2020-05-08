@@ -69,16 +69,16 @@ export default class Search extends React.Component {
       searchResult: false,
     };
   }
-  info = (e) => {
-    this.props.navigation.navigate("Detail", { Name: e });
+  info = (food_id) => {
+    this.props.navigation.navigate("Detail", { Id: food_id });
   };
 
-  searchFood = () => {
+  searchFood = async () => {
     let { searchText, foodList } = this.state;
     console.log("검색물품 : " + searchText);
 
     //검색버튼 클릭시 기존 state값 초기화
-    this.setState({ foodName: [], foodPhoto: [] });
+    this.setState({ foodList: [] });
 
     //만일 검색어가 없는 경우
     if (searchText == "") {
@@ -86,10 +86,11 @@ export default class Search extends React.Component {
     }
     // 검색어가 있는 경우
     else {
-      axios({
+      await axios({
         method: "post",
-        // url: "http://192.168.200.175/User_Site/SearchFood.php",
         url: "http://192.168.0.3/User_Site/SearchFood.php",
+        // url: "http://15.164.224.142/app/SearchFood.php",
+
         headers: {
           //응답에 대한 정보
           Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
@@ -100,24 +101,25 @@ export default class Search extends React.Component {
           searchText: searchText,
         },
       }).then((response) => {
-        console.log(response);
+        // console.log(response);
         // -1 : 아닌경우 , 즉 NO가 아닌경우
         if (response.data.indexOf("No Results Found") == -1) {
           for (var key in response.data) {
             var List = response.data[key];
-            // console.log(List.name);
-            // this.setState({ foodName: this.state.foodName.concat(List.name) });
-            // this.setState({
-            //   foodPhoto: this.state.foodPhoto.concat(List.photo),
-            // });
+            var photo_path = "../../images/noImage.png"; // null 일때 쓸 사진 경로 넣으면 될듯
+            if (List.photo !== null) {
+              photo_path = List.photo;
+            }
             this.setState({
               foodList: this.state.foodList.concat({
                 id: key,
+                food_id: List.food_id,
                 name: List.name,
-                photo: List.photo,
+                photo: photo_path,
               }),
             });
           }
+          console.log(response.data);
         }
         // NO인경우
         else {
@@ -154,7 +156,7 @@ export default class Search extends React.Component {
               ? foodList.map((list, key) => {
                   return (
                     <ListBox key={key}>
-                      <ImageContainer style={{}}>
+                      <ImageContainer>
                         <Image
                           source={{ uri: list.photo }}
                           style={{
@@ -190,7 +192,7 @@ export default class Search extends React.Component {
                           }}
                         >
                           <TouchableOpacity
-                            onPress={() => this.info(list.name)}
+                            onPress={() => this.info(list.food_id)}
                           >
                             <Text
                               style={{ color: "white", fontWeight: "bold" }}

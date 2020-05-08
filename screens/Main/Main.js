@@ -5,8 +5,7 @@ import {
   TouchableOpacity,
   Dimensions,
   Image,
-  TouchableOpacityBase,
-  TextInput,
+  AsyncStorage,
 } from "react-native";
 import styled from "styled-components";
 import AdSlider from "../../components/AdSlider";
@@ -65,28 +64,34 @@ export default class Main extends React.Component {
       user_name: "",
       user_photo: "",
       food_name: [],
+      call: [],
     };
   }
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
     const { navigation } = this.props;
     const User = navigation.getParam("User");
 
     // 유저 정보 가져오기(이름과 사진)
-    axios({
+    await axios({
       method: "post",
-      //   url: "http://192.168.200.175/User_Site/UserList.php",
-      url: "http://192.168.0.3/User_Site/User_Login.php",
+      //   url: "http://15.164.224.142/app/UserList.php",
+      url: "http://192.168.0.3/User_Site/UserList.php",
 
       headers: {
         Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
-        "Content-Type": "application/json;charset=utf-8",
+        "Content-Type": "application/json; charset=utf-8",
       },
       data: {
         id: User,
       },
     }).then((response) => {
       if (response.data) {
+        // console.log(response.data[0].user_id);
+        // User의 user_id, language_code 가 이곳저곳 사용되니 asyncstorage에 저장
+        AsyncStorage.setItem("User", response.data[0].user_id);
+        AsyncStorage.setItem("Language", response.data[0].language_code);
+
         this.setState({ user_name: response.data[0].nickname });
         this.setState({ user_photo: response.data[0].photo });
       } else {
@@ -96,8 +101,8 @@ export default class Main extends React.Component {
   };
 
   // 제품 정보 페이지
-  info = (e) => {
-    this.props.navigation.navigate("Detail", { Name: e });
+  info = (name, food_id) => {
+    this.props.navigation.navigate("Detail", { Name: name, Id: food_id });
   };
 
   render() {
@@ -116,7 +121,7 @@ export default class Main extends React.Component {
         >
           <UserState>
             {user_photo == "" ? (
-              <EvilIcons size={120} name={"user"} color={"#565656"} />
+              <EvilIcons size={120} name={"user"} color={"black"} />
             ) : (
               <View
                 style={{
@@ -132,8 +137,7 @@ export default class Main extends React.Component {
               >
                 <Image
                   source={{
-                    uri:
-                      "file:///var/mobile/Containers/Data/Application/653C1386-5066-458E-AFA0-FA7574DCFFCD/Library/Caches/ExponentExperienceData/%2540scope%252FDr-Foody/ImagePicker/64F9EC14-BF57-4B82-9958-4692A854E78F.jpg",
+                    uri: user_photo,
                   }}
                   style={{
                     width: 80,
