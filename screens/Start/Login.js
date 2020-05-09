@@ -21,46 +21,42 @@ export default class Login extends React.Component {
     };
   }
 
-  //   componentDidMount = async () => {
-  //     const { user_name } = this.state;
-
-  //     AsyncStorage.getItem("User", (err, result) => {
-  //       //   console.log(result);
-  //     });
-  //     const a = await AsyncStorage.getItem("User");
-  //     alert(a);
-  //   };
-
-  callLogin = () => {
+  callLogin = async () => {
     const { user_name } = this.state;
     const { user_password } = this.state;
-    axios({
-      method: "post",
-      //   url: "http://15.164.224.142/api/app/User_Login.php",
-      url: "http://192.168.0.3/User_Site/User_Login.php",
+    try {
+      await axios({
+        method: "post",
+        // url: "http://15.164.224.142/api/applogin",
+        url: "http://192.168.0.3/User_Site/User_Login.php",
+        // url: "http://192.168.0.21/User_Site/User_Login.php",
 
-      headers: {
-        //응답에 대한 정보
-        Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
-        "Content-Type": "application/json;charset=utf-8",
-      },
-      data: {
-        id: user_name,
-        password: user_password,
-      },
-    })
-      .then((response) => {
-        console.log(response); // 로그인 유저 정보 다 끌고 옴
-        if (response.data == "Data Matched") {
-          //   AsyncStorage.setItem("User", JSON.stringify(response.data));
-          this.props.navigation.navigate("Main", { User: user_name });
-        } else {
-          Alert.alert("Login Error", "다시입력해 주세요");
-        }
+        headers: {
+          //응답에 대한 정보
+          Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
+          "Content-Type": "application/json;charset=utf-8",
+        },
+        data: {
+          id: user_name,
+          password: user_password,
+        },
       })
-      .catch(function (error) {
-        console.log(error);
-      });
+        .then((response) => {
+          console.log(response); // 로그인 유저 정보 다 끌고 옴
+          if (response.data == "Data Matched") {
+            //   AsyncStorage.setItem("User", JSON.stringify(response.data));
+            this.props.navigation.navigate("Main", { User: user_name });
+          } else {
+            Alert.alert("Login Error", "다시입력해 주세요");
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    } catch (err) {
+      console.log(err);
+    }
+
     console.log("name : ", user_name);
     console.log("pass : ", user_password);
   };

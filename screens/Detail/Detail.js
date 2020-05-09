@@ -99,7 +99,7 @@ export default class Detail extends React.Component {
     this.heartSave();
   };
 
-  heartSave = () => {
+  heartSave = async () => {
     const { heart } = this.state;
     let post_heart;
     if (heart == true) {
@@ -114,35 +114,40 @@ export default class Detail extends React.Component {
     const { navigation } = this.props;
     const food_id = navigation.getParam("Id");
 
-    // 외래키와 찜유무를 보낸다
-    axios({
-      method: "post",
-      // url: "http://15.164.224.142/app/DibsFood.php",
-      url: "http://192.168.0.3/User_Site/DibsFood.php",
+    try {
+      // 외래키와 찜유무를 보낸다
+      await axios({
+        method: "post",
+        // url: "http://15.164.224.142/app/DibsFood.php",
+        //   url: "http://192.168.0.3/User_Site/DibsFood.php",
+        url: "http://192.168.0.21/User_Site/DibsFood.php",
 
-      headers: {
-        //응답에 대한 정보
-        Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
-        "Content-Type": "application/json",
-      },
-      data: {
-        user_id: user_id,
-        food_id: food_id,
-        heart: post_heart, // treu 또는 false
-      },
-    })
-      .then((response) => {
-        if (response) {
-          console.log(response);
-        } else {
-          console.log("no");
-        }
+        headers: {
+          //응답에 대한 정보
+          Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
+          "Content-Type": "application/json",
+        },
+        data: {
+          user_id: user_id,
+          food_id: food_id,
+          heart: post_heart, // treu 또는 false
+        },
       })
-      .catch((error) => console.log(error));
+        .then((response) => {
+          if (response) {
+            console.log(response);
+          } else {
+            console.log("no");
+          }
+        })
+        .catch((error) => console.log(error));
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   componentDidMount = async () => {
-    //푸드 정보 초기화 (올때마다 바뀌니깐)
+    //푸드 정보 초기화 (올때마다 바뀌니깐) <-- 이거 필요할까? 서버 연결되면 지워보자
     this.setState({ food: [] });
 
     // 음식 id
@@ -154,70 +159,96 @@ export default class Detail extends React.Component {
     this.setState({ user_id: post_id });
 
     //음식정보 가져오기
-    await axios({
-      method: "post",
-      //   url: "http://15.164.224.142/app/DetailFood.php",
-      url: "http://192.168.0.3/User_Site/DetailFood.php",
-      headers: {
-        //응답에 대한 정보
-        Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
-        "Content-Type": "application/json",
-      },
-      data: {
-        food_id: food_id,
-      },
-    })
-      .then((response) => {
-        if (response) {
-          console.log(response.data);
-          // 음식 목록 가져오기
-          for (var key in response.data) {
-            var List = response.data[key];
-            this.setState({
-              food: this.state.food.concat({
-                id: key,
-                name: List.name,
-                photo: List.photo,
-                //   word_photo: List.word_photo,
-              }),
-            });
+    try {
+      await axios({
+        method: "post",
+        //   url: "http://15.164.224.142/app/DetailFood.php",
+        url: "http://192.168.0.3/User_Site/DetailFood.php",
+        // url: "http://192.168.0.21/User_Site/DetailFood.php",
+
+        headers: {
+          //응답에 대한 정보
+          Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
+          "Content-Type": "application/json",
+        },
+        data: {
+          food_id: food_id,
+        },
+      })
+        .then((response) => {
+          if (response) {
+            console.log(response.data);
+            // 음식 목록 가져오기
+            for (var key in response.data) {
+              var List = response.data[key];
+              this.setState({
+                food: this.state.food.concat({
+                  id: key,
+                  name: List.name,
+                  photo: List.photo,
+                  //   word_photo: List.word_photo,
+                }),
+              });
+            }
+          } else {
+            console.log("no");
           }
-        } else {
-          console.log("no");
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    } catch (err) {
+      console.log(err);
+    }
 
-    //찜목록 가져오기
-    await axios({
-      method: "post",
-      url: "http://192.168.0.3/User_Site/HeartList.php",
-      headers: {
-        //응답에 대한 정보
-        Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
-        "Content-Type": "application/json",
-      },
-      data: {
-        user_id: post_id,
-        food_id: food_id,
-      },
-    })
-      .then((response) => {
-        if (response.data == "Ok") {
-          console.log("adsad");
-          console.log(response.data);
+    try {
+      //찜목록 가져오기
+      await axios({
+        method: "post",
+        url: "http://192.168.0.3/User_Site/HeartList.php",
+        // url: "http://192.168.0.21/User_Site/HeartList.php",
 
-          this.setState({ heart: true });
-        } else {
-          console.log("no");
-          console.log(response.data);
-        }
+        headers: {
+          //응답에 대한 정보
+          Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
+          "Content-Type": "application/json",
+        },
+        data: {
+          user_id: post_id,
+          food_id: food_id,
+        },
       })
-      .catch(function (error) {
-        console.log(error);
-      });
+        .then((response) => {
+          if (response.data == "Ok") {
+            console.log("adsad");
+            console.log(response.data);
+
+            this.setState({ heart: true });
+          } else {
+            console.log("no");
+            console.log(response.data);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // 리뷰 페이지로 이동
+  move = () => {
+    const { navigation } = this.props;
+    const food_id = navigation.getParam("Id");
+    this.setState({ three: false, one: true });
+    this.props.navigation.navigate("Review", { Food_id: food_id });
+  };
+
+  // 수정페이지로 이동 (댓글 전체 정보를 전달)
+  update = (e) => {
+    this.setState({ three: false, one: true });
+    this.props.navigation.navigate("Update", { Info: e });
   };
 
   render() {
@@ -309,13 +340,9 @@ export default class Detail extends React.Component {
         <Page alwaysBounceHorizontal={false}>
           {one ? <Material food_id={food_id} /> : null}
           {two ? <Taste food_id={food_id} /> : null}
-          {three ? <Review food_id={food_id} /> : null}
+          {three ? <Review food_id={food_id} update={this.update} /> : null}
         </Page>
-        <ReviewBtn
-          onPress={() =>
-            this.props.navigation.navigate("Review", { Food_id: food_id })
-          }
-        >
+        <ReviewBtn onPress={() => this.move()}>
           <FontAwesome size={30} name={"pencil"} color={"white"} />
         </ReviewBtn>
       </View>

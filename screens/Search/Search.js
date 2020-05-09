@@ -86,46 +86,51 @@ export default class Search extends React.Component {
     }
     // 검색어가 있는 경우
     else {
-      await axios({
-        method: "post",
-        url: "http://192.168.0.3/User_Site/SearchFood.php",
-        // url: "http://15.164.224.142/app/SearchFood.php",
+      try {
+        await axios({
+          method: "post",
+          //   url: "http://192.168.0.21/User_Site/SearchFood.php",
+          url: "http://192.168.0.3/User_Site/SearchFood.php",
+          // url: "http://15.164.224.142/app/SearchFood.php",
 
-        headers: {
-          //응답에 대한 정보
-          Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
-          "Content-Type": "application/json;charset=utf-8",
-        },
-        // 검색어를 보낸다 -> 포함된 food 데이터 다 가져옴
-        data: {
-          searchText: searchText,
-        },
-      }).then((response) => {
-        // console.log(response);
-        // -1 : 아닌경우 , 즉 NO가 아닌경우
-        if (response.data.indexOf("No Results Found") == -1) {
-          for (var key in response.data) {
-            var List = response.data[key];
-            var photo_path = "../../images/noImage.png"; // null 일때 쓸 사진 경로 넣으면 될듯
-            if (List.photo !== null) {
-              photo_path = List.photo;
+          headers: {
+            //응답에 대한 정보
+            Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
+            "Content-Type": "application/json;charset=utf-8",
+          },
+          // 검색어를 보낸다 -> 포함된 food 데이터 다 가져옴
+          data: {
+            searchText: searchText,
+          },
+        }).then((response) => {
+          // console.log(response);
+          // -1 : 아닌경우 , 즉 NO가 아닌경우
+          if (response.data.indexOf("No Results Found") == -1) {
+            for (var key in response.data) {
+              var List = response.data[key];
+              var photo_path = "../../images/noImage.png"; // null 일때 쓸 사진 경로 넣으면 될듯
+              if (List.photo !== null) {
+                photo_path = List.photo;
+              }
+              this.setState({
+                foodList: this.state.foodList.concat({
+                  id: key,
+                  food_id: List.food_id,
+                  name: List.name,
+                  photo: photo_path,
+                }),
+              });
             }
-            this.setState({
-              foodList: this.state.foodList.concat({
-                id: key,
-                food_id: List.food_id,
-                name: List.name,
-                photo: photo_path,
-              }),
-            });
+            console.log(response.data);
           }
-          console.log(response.data);
-        }
-        // NO인경우
-        else {
-          Alert.alert("검색결과가 없습니다.");
-        }
-      });
+          // NO인경우
+          else {
+            Alert.alert("검색결과가 없습니다.");
+          }
+        });
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 
@@ -150,6 +155,7 @@ export default class Search extends React.Component {
             <Feather size={25} name={"search"}></Feather>
           </TouchableOpacity>
         </Container>
+
         <ListContainer>
           <View style={{ alignItems: "center" }}>
             {foodList

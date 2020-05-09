@@ -34,32 +34,37 @@ export default class FoodSlider extends React.Component {
   };
 
   componentDidMount = async () => {
-    await axios({
-      url: "http://15.164.224.142/app/FoodList.php",
-    }).then((response) => {
-      //   console.log(response);
-      if (response) {
-        for (var key in response.data) {
-          var List = response.data[key];
-          //   console.log(List);
-          //   console.log(key);
-          this.setState({
-            food_list: this.state.food_list.concat({
-              id: key,
-              food_id: List.food_id,
-              name: List.name,
-              photo: List.photo,
-            }),
-          });
+    try {
+      await axios({
+        url: "http://15.164.224.142/app/FoodList.php",
+      }).then((response) => {
+        //   console.log(response);
+        if (response) {
+          for (var key in response.data) {
+            var List = response.data[key];
+            //   console.log(List);
+            //   console.log(key);
+            this.setState({
+              food_list: this.state.food_list.concat({
+                id: key,
+                food_id: List.food_id,
+                name: List.name,
+                photo: List.photo,
+              }),
+            });
 
-          //   console.log(food_list);
+            //   console.log(food_list);
+          }
+          // console.log(food_list);
+        } else {
+          console.log("no");
         }
-        // console.log(food_list);
-      } else {
-        console.log("no");
-      }
-    });
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
+
   render() {
     const { food_list } = this.state;
     return (

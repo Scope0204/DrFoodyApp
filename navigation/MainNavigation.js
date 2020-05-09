@@ -8,6 +8,7 @@ import LoginScreen from "../screens/Start/Login";
 import SingupScreen from "../screens/Start/Signup";
 import SearchScreen from "../screens/Search/Search";
 import ReviewScreen from "../screens/Detail/ReviewPost";
+import UpdateScreen from "../screens/Detail/Update";
 
 const MainNavigation = createStackNavigator(
   {
@@ -59,6 +60,13 @@ const MainNavigation = createStackNavigator(
       screen: ReviewScreen,
       navigationOptions: {
         title: "리뷰 작성",
+      },
+    },
+
+    Update: {
+      screen: UpdateScreen,
+      navigationOptions: {
+        title: "리뷰 수정",
       },
     },
   },

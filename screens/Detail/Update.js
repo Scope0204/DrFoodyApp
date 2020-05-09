@@ -53,48 +53,47 @@ const Btn = styled.TouchableOpacity`
   justify-content: center;
 `;
 
-export default class ReviewPost extends React.Component {
-  state = {
-    review: "",
+export default class Update extends React.Component {
+  constructor(props) {
+    super(props);
 
-    //외래키
-    user_id: null,
-    language_code: null,
-    food_id: null,
-  };
+    const { navigation } = this.props;
+    const Info = navigation.getParam("Info");
+    this.state = {
+      content: Info.content,
+      //외래키
+      user_id: Info.user_id,
+      language_code: Info.language_code,
+      food_id: Info.food_id,
+      //기본키
+      review_id: Info.review_id,
+    };
+    console.log(this.state);
+  }
 
-  save = async () => {
-    const { review, user_id, language_code, food_id } = this.state;
-    console.log(review, user_id, language_code, food_id);
-
-    if (review == "") {
-      return Alert.alert("리뷰 내용이 없습니다");
-    }
-
+  delete = async () => {
+    const { review_id } = this.state;
+    //나중에 경고 모달창이나 만들어주자
     try {
       await axios({
         method: "post",
-        url: "http://192.168.0.3/User_Site/Review.php",
-        // url: "http://192.168.0.21/User_Site/Review.php",
-
+        url: "http://192.168.0.3/New/Delete.php",
         headers: {
           //응답에 대한 정보
           Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
           "Content-Type": "application/json",
         },
         data: {
-          user_id: user_id,
-          food_id: food_id,
-          language_code: language_code,
-          content: review,
+          review_id: review_id,
         },
       })
         .then((response) => {
-          if (response) {
-            Alert.alert("완료");
+          console.log(response);
+          if (response.data == "Successfully") {
+            Alert.alert("삭제되었습니다");
             this.props.navigation.navigate("Detail");
           } else {
-            console.log("no");
+            console.log("실패");
           }
         })
         .catch((error) => console.log(error));
@@ -103,18 +102,44 @@ export default class ReviewPost extends React.Component {
     }
   };
 
-  componentDidMount = async () => {
-    const { navigation } = this.props;
-    const food_id = navigation.getParam("Food_id");
-    const user_id = await AsyncStorage.getItem("User");
-    const language_code = await AsyncStorage.getItem("Language");
-    this.setState({
-      food_id: food_id,
-      user_id: user_id,
-      language_code: language_code,
-    });
+  update = async () => {
+    const { content, review_id } = this.state;
+    //나중에 수정 모달창이나 만들어주자
+    if (content == "") {
+      return Alert.alert("리뷰 내용이 없습니다");
+    }
+    try {
+      await axios({
+        method: "post",
+        url: "http://192.168.0.3/New/Update.php",
+        headers: {
+          //응답에 대한 정보
+          Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
+          "Content-Type": "application/json",
+        },
+        data: {
+          content: content,
+          review_id: review_id,
+        },
+      })
+        .then((response) => {
+          console.log(response);
+          if (response.data == "Successfully") {
+            Alert.alert("수정되었습니다");
+            this.props.navigation.navigate("Detail");
+          } else {
+            console.log("실패");
+          }
+        })
+        .catch((error) => console.log(error));
+    } catch (error) {
+      console.log(error);
+    }
   };
+
   render() {
+    const { content } = this.state;
+
     return (
       <Container>
         <ImgCon>
@@ -126,7 +151,8 @@ export default class ReviewPost extends React.Component {
             placeholder="리뷰는 솔직하게 적어주세요."
             multiline={true}
             blurOnSubmit={true}
-            onChangeText={(review) => this.setState({ review })}
+            onChangeText={(content) => this.setState({ content })}
+            value={content}
           />
         </ReviewCon>
         <BtnCon>
@@ -136,8 +162,11 @@ export default class ReviewPost extends React.Component {
           >
             <Text>취소</Text>
           </Btn>
-          <Btn style={{ marginRight: 10 }} onPress={this.save}>
-            <Text style={{ fontWeight: "bold" }}>작성하기</Text>
+          <Btn style={{ marginRight: 10 }} onPress={this.delete}>
+            <Text style={{ fontWeight: "bold", color: "red" }}>삭제하기</Text>
+          </Btn>
+          <Btn style={{ marginRight: 10 }} onPress={this.update}>
+            <Text style={{ fontWeight: "bold", color: "blue" }}>수정하기</Text>
           </Btn>
         </BtnCon>
       </Container>

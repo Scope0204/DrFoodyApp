@@ -72,32 +72,37 @@ export default class Main extends React.Component {
     const { navigation } = this.props;
     const User = navigation.getParam("User");
 
-    // 유저 정보 가져오기(이름과 사진)
-    await axios({
-      method: "post",
-      //   url: "http://15.164.224.142/app/UserList.php",
-      url: "http://192.168.0.3/User_Site/UserList.php",
+    try {
+      // 유저 정보 가져오기(이름과 사진)
+      await axios({
+        method: "post",
+        //   url: "http://15.164.224.142/app/UserList.php",
+        url: "http://192.168.0.3/User_Site/UserList.php",
+        // url: "http://192.168.0.21/User_Site/UserList.php",
 
-      headers: {
-        Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
-        "Content-Type": "application/json; charset=utf-8",
-      },
-      data: {
-        id: User,
-      },
-    }).then((response) => {
-      if (response.data) {
-        // console.log(response.data[0].user_id);
-        // User의 user_id, language_code 가 이곳저곳 사용되니 asyncstorage에 저장
-        AsyncStorage.setItem("User", response.data[0].user_id);
-        AsyncStorage.setItem("Language", response.data[0].language_code);
+        headers: {
+          Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
+          "Content-Type": "application/json; charset=utf-8",
+        },
+        data: {
+          id: User,
+        },
+      }).then((response) => {
+        if (response.data) {
+          // console.log(response.data[0].user_id);
+          // User의 user_id, language_code 가 이곳저곳 사용되니 asyncstorage에 저장
+          AsyncStorage.setItem("User", response.data[0].user_id);
+          AsyncStorage.setItem("Language", response.data[0].language_code);
 
-        this.setState({ user_name: response.data[0].nickname });
-        this.setState({ user_photo: response.data[0].photo });
-      } else {
-        alert("no");
-      }
-    });
+          this.setState({ user_name: response.data[0].nickname });
+          this.setState({ user_photo: response.data[0].photo });
+        } else {
+          alert("no");
+        }
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   // 제품 정보 페이지
