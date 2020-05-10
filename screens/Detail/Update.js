@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, Dimensions, AsyncStorage, Alert } from "react-native";
 import styled from "styled-components";
 import axios from "axios"; // npm i axios@0.18.0
+import Modal from "react-native-modal";
 
 const { width, height } = Dimensions.get("window");
 
@@ -53,6 +54,30 @@ const Btn = styled.TouchableOpacity`
   justify-content: center;
 `;
 
+// 모달
+const ModalContainer = styled.View`
+  flex: 0.2;
+  width: 250px;
+  border: 0px solid;
+  background-color: white;
+`;
+const ModalTxtCon = styled.View`
+  flex: 0.7;
+  align-items: center;
+  justify-content: center;
+`;
+
+const ModalBtnCon = styled.View`
+  flex: 0.3;
+  flex-direction: row;
+`;
+
+const ModalBtn = styled.TouchableOpacity`
+  flex: 0.5;
+  align-items: center;
+  justify-content: center;
+`;
+
 export default class Update extends React.Component {
   constructor(props) {
     super(props);
@@ -67,8 +92,9 @@ export default class Update extends React.Component {
       food_id: Info.food_id,
       //기본키
       review_id: Info.review_id,
+      // 없앨지 업뎃할지를 정함
+      mode: null,
     };
-    console.log(this.state);
   }
 
   delete = async () => {
@@ -77,7 +103,9 @@ export default class Update extends React.Component {
     try {
       await axios({
         method: "post",
-        url: "http://192.168.0.3/New/Delete.php",
+        // url: "http://192.168.0.3/New/Delete.php",
+        url: "http://192.168.0.119/New/Delete.php",
+
         headers: {
           //응답에 대한 정보
           Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
@@ -104,14 +132,15 @@ export default class Update extends React.Component {
 
   update = async () => {
     const { content, review_id } = this.state;
-    //나중에 수정 모달창이나 만들어주자
     if (content == "") {
       return Alert.alert("리뷰 내용이 없습니다");
     }
     try {
       await axios({
         method: "post",
-        url: "http://192.168.0.3/New/Update.php",
+        // url: "http://192.168.0.3/New/Update.php",
+        url: "http://192.168.0.119/New/Update.php",
+
         headers: {
           //응답에 대한 정보
           Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
@@ -137,11 +166,69 @@ export default class Update extends React.Component {
     }
   };
 
+  // 모달
+  toggleModal = (id) => {
+    const { review, mode } = this.state;
+
+    if (review == "") {
+      return Alert.alert("리뷰 내용이 없습니다");
+    }
+    //예 : 1
+    if (id == 1) {
+      console.log(mode);
+      if (mode == 0) {
+        this.delete();
+      } else if (mode == 1) {
+        this.update();
+      }
+      // 모달창 닫기
+      this.setState({ isModalVisible: !this.state.isModalVisible });
+    }
+    //아니오 누를 때 : 2
+    else if (id == 2) {
+      // 취소버튼 클릭시 원래대로 돌아감
+      this.setState({ isModalVisible: !this.state.isModalVisible });
+    }
+    //삭제하기 누를 때 : 3
+    else if (id == 3) {
+      this.setState({ isModalVisible: !this.state.isModalVisible, mode: 0 });
+    }
+    //수정하기 누를 때 : 4
+    else if (id == 4) {
+      this.setState({ isModalVisible: !this.state.isModalVisible, mode: 1 });
+    }
+  };
+
   render() {
     const { content } = this.state;
-
+    // mode 0이면 삭제 , 1이면 수정
     return (
       <Container>
+        <Modal
+          isVisible={this.state.isModalVisible}
+          style={{ alignItems: "center", justifyContent: "center" }}
+        >
+          <ModalContainer>
+            <ModalTxtCon>
+              <Text>이대로 적용시키겠습니까?</Text>
+            </ModalTxtCon>
+            <ModalBtnCon>
+              <ModalBtn
+                onPress={() => this.toggleModal(2)}
+                style={{ backgroundColor: "#EAECEE" }}
+              >
+                <Text>아니오</Text>
+              </ModalBtn>
+              <ModalBtn
+                onPress={() => this.toggleModal(1)}
+                style={{ backgroundColor: "#fdcc1f" }}
+              >
+                <Text>예</Text>
+              </ModalBtn>
+            </ModalBtnCon>
+          </ModalContainer>
+        </Modal>
+
         <ImgCon>
           <Text>리뷰</Text>
         </ImgCon>
@@ -162,10 +249,10 @@ export default class Update extends React.Component {
           >
             <Text>취소</Text>
           </Btn>
-          <Btn style={{ marginRight: 10 }} onPress={this.delete}>
+          <Btn style={{ marginRight: 10 }} onPress={() => this.toggleModal(3)}>
             <Text style={{ fontWeight: "bold", color: "red" }}>삭제하기</Text>
           </Btn>
-          <Btn style={{ marginRight: 10 }} onPress={this.update}>
+          <Btn style={{ marginRight: 10 }} onPress={() => this.toggleModal(4)}>
             <Text style={{ fontWeight: "bold", color: "blue" }}>수정하기</Text>
           </Btn>
         </BtnCon>

@@ -119,6 +119,7 @@ export default class PageTwo extends React.Component {
     this.setState({
       age: 2020 - value,
     });
+    console.log(this.state);
   };
 
   SelectLanguage = (value) => {

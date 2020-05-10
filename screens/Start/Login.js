@@ -28,8 +28,8 @@ export default class Login extends React.Component {
       await axios({
         method: "post",
         // url: "http://15.164.224.142/api/applogin",
-        url: "http://192.168.0.3/User_Site/User_Login.php",
-        // url: "http://192.168.0.21/User_Site/User_Login.php",
+        // url: "http://192.168.0.3/User_Site/User_Login.php",
+        url: "http://192.168.0.119/User_Site/User_Login.php",
 
         headers: {
           //응답에 대한 정보

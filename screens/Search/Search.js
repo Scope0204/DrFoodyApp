@@ -89,8 +89,8 @@ export default class Search extends React.Component {
       try {
         await axios({
           method: "post",
-          //   url: "http://192.168.0.21/User_Site/SearchFood.php",
-          url: "http://192.168.0.3/User_Site/SearchFood.php",
+          url: "http://192.168.0.119/User_Site/SearchFood.php",
+          //   url: "http://192.168.0.3/User_Site/SearchFood.php",
           // url: "http://15.164.224.142/app/SearchFood.php",
 
           headers: {

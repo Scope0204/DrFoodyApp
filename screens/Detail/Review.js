@@ -63,8 +63,8 @@ export default class Review extends React.Component {
     try {
       // 리뷰 리스트 출력
       await axios({
-        // url: "http://192.168.0.21/User_Site/ReviewList.php",
-        url: "http://192.168.0.3/User_Site/ReviewList.php",
+        url: "http://192.168.0.119/User_Site/ReviewList.php",
+        // url: "http://192.168.0.3/User_Site/ReviewList.php",
       })
         .then((response) => {
           if (response) {

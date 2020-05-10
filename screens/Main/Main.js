@@ -77,8 +77,8 @@ export default class Main extends React.Component {
       await axios({
         method: "post",
         //   url: "http://15.164.224.142/app/UserList.php",
-        url: "http://192.168.0.3/User_Site/UserList.php",
-        // url: "http://192.168.0.21/User_Site/UserList.php",
+        // url: "http://192.168.0.3/User_Site/UserList.php",
+        url: "http://192.168.0.119/User_Site/UserList.php",
 
         headers: {
           Accept: "application/json", // 서버가 json 타입으로 변환해서 사용

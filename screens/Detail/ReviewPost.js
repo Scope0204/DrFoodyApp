@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, Dimensions, AsyncStorage, Alert } from "react-native";
 import styled from "styled-components";
 import axios from "axios"; // npm i axios@0.18.0
+import Modal from "react-native-modal";
 
 const { width, height } = Dimensions.get("window");
 
@@ -53,6 +54,30 @@ const Btn = styled.TouchableOpacity`
   justify-content: center;
 `;
 
+// 모달
+const ModalContainer = styled.View`
+  flex: 0.2;
+  width: 250px;
+  border: 0px solid;
+  background-color: white;
+`;
+const ModalTxtCon = styled.View`
+  flex: 0.7;
+  align-items: center;
+  justify-content: center;
+`;
+
+const ModalBtnCon = styled.View`
+  flex: 0.3;
+  flex-direction: row;
+`;
+
+const ModalBtn = styled.TouchableOpacity`
+  flex: 0.5;
+  align-items: center;
+  justify-content: center;
+`;
+
 export default class ReviewPost extends React.Component {
   state = {
     review: "",
@@ -61,21 +86,20 @@ export default class ReviewPost extends React.Component {
     user_id: null,
     language_code: null,
     food_id: null,
+    taste: null,
   };
 
   save = async () => {
-    const { review, user_id, language_code, food_id } = this.state;
-    console.log(review, user_id, language_code, food_id);
-
-    if (review == "") {
-      return Alert.alert("리뷰 내용이 없습니다");
-    }
+    const { review, user_id, language_code, food_id, taste } = this.state;
+    console.log(review, user_id, language_code, food_id, taste);
 
     try {
+      console.log("성공");
+
       await axios({
         method: "post",
-        url: "http://192.168.0.3/User_Site/Review.php",
-        // url: "http://192.168.0.21/User_Site/Review.php",
+        // url: "http://192.168.0.3/User_Site/Review.php",
+        url: "http://192.168.0.119/User_Site/Review.php",
 
         headers: {
           //응답에 대한 정보
@@ -87,6 +111,7 @@ export default class ReviewPost extends React.Component {
           food_id: food_id,
           language_code: language_code,
           content: review,
+          //   taste: taste,
         },
       })
         .then((response) => {
@@ -100,6 +125,53 @@ export default class ReviewPost extends React.Component {
         .catch((error) => console.log(error));
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  // 모달
+  toggleModal = async (id) => {
+    const { review } = this.state;
+
+    if (review == "") {
+      return Alert.alert("리뷰 내용이 없습니다");
+    }
+    //예 : 1
+    if (id == 1) {
+      // 맛정보 전달
+      try {
+        await axios({
+          method: "post",
+          url: "http://192.168.0.122:5000/predictReview",
+
+          headers: {
+            //응답에 대한 정보
+            Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
+            "Content-Type": "application/json",
+          },
+          data: {
+            review: review,
+          },
+        })
+          .then((response) => {
+            if (response.data.taste) {
+              this.setState({ taste: response.data.taste });
+              console.log(this.state);
+            } else {
+              console.log("no");
+            }
+          })
+          .catch((error) => console.log(error));
+      } catch (error) {
+        console.log(error);
+      }
+      // 모달창 닫기
+      this.setState({ isModalVisible: !this.state.isModalVisible });
+      this.save();
+    }
+    //아니오 : 2
+    else if (id == 2) {
+      // 취소버튼 클릭시 원래대로 돌아감
+      this.setState({ isModalVisible: !this.state.isModalVisible });
     }
   };
 
@@ -117,6 +189,31 @@ export default class ReviewPost extends React.Component {
   render() {
     return (
       <Container>
+        <Modal
+          isVisible={this.state.isModalVisible}
+          style={{ alignItems: "center", justifyContent: "center" }}
+        >
+          <ModalContainer>
+            <ModalTxtCon>
+              <Text>이대로 작성하시겠습니까?</Text>
+            </ModalTxtCon>
+            <ModalBtnCon>
+              <ModalBtn
+                onPress={() => this.toggleModal(2)}
+                style={{ backgroundColor: "#EAECEE" }}
+              >
+                <Text>아니오</Text>
+              </ModalBtn>
+              <ModalBtn
+                onPress={() => this.toggleModal(1)}
+                style={{ backgroundColor: "#fdcc1f" }}
+              >
+                <Text>예</Text>
+              </ModalBtn>
+            </ModalBtnCon>
+          </ModalContainer>
+        </Modal>
+
         <ImgCon>
           <Text>리뷰</Text>
         </ImgCon>
@@ -136,7 +233,7 @@ export default class ReviewPost extends React.Component {
           >
             <Text>취소</Text>
           </Btn>
-          <Btn style={{ marginRight: 10 }} onPress={this.save}>
+          <Btn style={{ marginRight: 10 }} onPress={() => this.toggleModal(2)}>
             <Text style={{ fontWeight: "bold" }}>작성하기</Text>
           </Btn>
         </BtnCon>

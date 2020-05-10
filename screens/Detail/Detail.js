@@ -120,7 +120,7 @@ export default class Detail extends React.Component {
         method: "post",
         // url: "http://15.164.224.142/app/DibsFood.php",
         //   url: "http://192.168.0.3/User_Site/DibsFood.php",
-        url: "http://192.168.0.21/User_Site/DibsFood.php",
+        url: "http://192.168.0.119/User_Site/DibsFood.php",
 
         headers: {
           //응답에 대한 정보
@@ -163,8 +163,8 @@ export default class Detail extends React.Component {
       await axios({
         method: "post",
         //   url: "http://15.164.224.142/app/DetailFood.php",
-        url: "http://192.168.0.3/User_Site/DetailFood.php",
-        // url: "http://192.168.0.21/User_Site/DetailFood.php",
+        // url: "http://192.168.0.3/User_Site/DetailFood.php",
+        url: "http://192.168.0.119/User_Site/DetailFood.php",
 
         headers: {
           //응답에 대한 정보
@@ -205,8 +205,8 @@ export default class Detail extends React.Component {
       //찜목록 가져오기
       await axios({
         method: "post",
-        url: "http://192.168.0.3/User_Site/HeartList.php",
-        // url: "http://192.168.0.21/User_Site/HeartList.php",
+        // url: "http://192.168.0.3/User_Site/HeartList.php",
+        url: "http://192.168.0.119/User_Site/HeartList.php",
 
         headers: {
           //응답에 대한 정보
