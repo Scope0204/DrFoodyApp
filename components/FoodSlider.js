@@ -16,7 +16,8 @@ const Container = styled.View`
   align-items: center;
   border-radius: 10px;
   flex: 1;
-  border: black;
+  border: #ecf0f1;
+  box-shadow: 1px 1px 1px gray;
 `;
 export default class FoodSlider extends React.Component {
   constructor(props) {
@@ -36,26 +37,21 @@ export default class FoodSlider extends React.Component {
   componentDidMount = async () => {
     try {
       await axios({
-        url: "http://15.164.224.142/app/FoodList.php",
+        url: "http://15.164.224.142/api/app/foodList",
       }).then((response) => {
-        //   console.log(response);
+        // console.log(response);
         if (response) {
           for (var key in response.data) {
             var List = response.data[key];
-            //   console.log(List);
-            //   console.log(key);
             this.setState({
               food_list: this.state.food_list.concat({
                 id: key,
                 food_id: List.food_id,
-                name: List.name,
-                photo: List.photo,
+                name: List.food_name,
+                photo: List.food_photo,
               }),
             });
-
-            //   console.log(food_list);
           }
-          // console.log(food_list);
         } else {
           console.log("no");
         }
@@ -73,7 +69,7 @@ export default class FoodSlider extends React.Component {
         autoplayTimeout={3}
         style={{
           height: SWIPER_HEIGHT,
-          //   width: SWIPER_WIDTH,
+          width: SWIPER_WIDTH,
         }}
         showsPagination={false}
       >

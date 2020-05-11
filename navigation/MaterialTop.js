@@ -1,6 +1,6 @@
 import {
   createMaterialTopTabNavigator,
-  createAppContainer
+  createAppContainer,
 } from "react-navigation";
 import AttentionScreen from "../screens/Love/Attention";
 import SearchListScreen from "../screens/Love/SearchList";
@@ -11,17 +11,18 @@ const MaterialTop = createMaterialTopTabNavigator(
     Atention: {
       screen: AttentionScreen,
       navigationOptions: {
-        title: "찜한제품"
-      }
+        title: "찜한제품",
+      },
     },
     SearchList: {
       screen: SearchListScreen,
-      navigationOptions: { title: "조회목록" }
+      navigationOptions: { title: "조회목록" },
     },
+
     CurationScreen: {
       screen: CurationScreen,
-      navigationOptions: { title: "큐레이션" }
-    }
+      navigationOptions: { title: "큐레이션" },
+    },
   },
   {
     tabBarOptions: {
@@ -29,19 +30,19 @@ const MaterialTop = createMaterialTopTabNavigator(
       inactiveTintColor: "#6E6E6E",
       labelStyle: {
         fontSize: 17,
-        fontWeight: "bold"
+        fontWeight: "bold",
       },
       //탭 하단 선
       indicatorStyle: {
         width: 50,
         height: 4,
         backgroundColor: "black",
-        marginLeft: 44
+        marginLeft: 44,
       },
       style: {
-        backgroundColor: "white"
-      }
-    }
+        backgroundColor: "white",
+      },
+    },
   }
 );
 

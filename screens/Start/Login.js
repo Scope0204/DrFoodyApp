@@ -20,6 +20,10 @@ export default class Login extends React.Component {
       user_password: "",
     };
   }
+  //   componentDidMount = async () => {
+  //     await AsyncStorage.setItem("User", 1);
+  //     await AsyncStorage.setItem("Language", 1);
+  //   };
 
   callLogin = async () => {
     const { user_name } = this.state;
@@ -27,9 +31,7 @@ export default class Login extends React.Component {
     try {
       await axios({
         method: "post",
-        // url: "http://15.164.224.142/api/applogin",
-        // url: "http://192.168.0.3/User_Site/User_Login.php",
-        url: "http://192.168.0.119/User_Site/User_Login.php",
+        url: "http://15.164.224.142/api/app/login",
 
         headers: {
           //응답에 대한 정보
@@ -42,9 +44,7 @@ export default class Login extends React.Component {
         },
       })
         .then((response) => {
-          console.log(response); // 로그인 유저 정보 다 끌고 옴
           if (response.data == "Data Matched") {
-            //   AsyncStorage.setItem("User", JSON.stringify(response.data));
             this.props.navigation.navigate("Main", { User: user_name });
           } else {
             Alert.alert("Login Error", "다시입력해 주세요");
@@ -56,9 +56,6 @@ export default class Login extends React.Component {
     } catch (err) {
       console.log(err);
     }
-
-    console.log("name : ", user_name);
-    console.log("pass : ", user_password);
   };
 
   render() {

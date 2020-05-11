@@ -56,19 +56,19 @@ export default class Review extends React.Component {
   };
 
   componentDidMount = async () => {
-    const food_id = await this.props.food_id;
+    const food_id = this.props.food_id;
     console.log(food_id);
     this.setState({ food_id: food_id });
-    this.setState({ user_id: await AsyncStorage.getItem("User") });
+    // this.setState({ user_id: await AsyncStorage.getItem("User") });
+    this.setState({ user_id: 1 });
+
     try {
       // 리뷰 리스트 출력
       await axios({
-        url: "http://192.168.0.119/User_Site/ReviewList.php",
-        // url: "http://192.168.0.3/User_Site/ReviewList.php",
+        url: "http://15.164.224.142/api/app/reviewList",
       })
         .then((response) => {
           if (response) {
-            // console.log(response.data);
             for (var key in response.data) {
               var list = response.data[key];
               if (food_id == list.food_id) {
@@ -78,10 +78,10 @@ export default class Review extends React.Component {
                     review_id: list.review_id,
                     food_id: list.food_id,
                     user_id: list.user_id,
-                    content: list.content,
+                    content: list.review_content,
                     language_code: list.language_code,
-                    nickname: list.nickname,
-                    photo: list.photo,
+                    nickname: list.user_nickname,
+                    photo: list.user_photo,
                   }),
                 });
               }

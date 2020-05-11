@@ -83,7 +83,8 @@ export default class Detail extends React.Component {
     one: true,
     two: false,
     three: false,
-    food: [],
+    food_name: null,
+    food_photo: null,
     heart: false,
     user_id: null,
   };
@@ -99,6 +100,7 @@ export default class Detail extends React.Component {
     this.heartSave();
   };
 
+  // 하트 저장
   heartSave = async () => {
     const { heart } = this.state;
     let post_heart;
@@ -118,9 +120,9 @@ export default class Detail extends React.Component {
       // 외래키와 찜유무를 보낸다
       await axios({
         method: "post",
-        // url: "http://15.164.224.142/app/DibsFood.php",
-        //   url: "http://192.168.0.3/User_Site/DibsFood.php",
-        url: "http://192.168.0.119/User_Site/DibsFood.php",
+        url: "http://15.164.224.142/api/app/dibsFood",
+        // url: "http://192.168.0.3/User_Site/DibsFood.php",
+        // url: "http://192.168.0.119/User_Site/DibsFood.php",
 
         headers: {
           //응답에 대한 정보
@@ -128,9 +130,9 @@ export default class Detail extends React.Component {
           "Content-Type": "application/json",
         },
         data: {
-          user_id: user_id,
+          user_id: 1,
           food_id: food_id,
-          heart: post_heart, // treu 또는 false
+          heart: post_heart, // true 또는 false
         },
       })
         .then((response) => {
@@ -162,9 +164,7 @@ export default class Detail extends React.Component {
     try {
       await axios({
         method: "post",
-        //   url: "http://15.164.224.142/app/DetailFood.php",
-        // url: "http://192.168.0.3/User_Site/DetailFood.php",
-        url: "http://192.168.0.119/User_Site/DetailFood.php",
+        url: "http://15.164.224.142/api/app/detailFood",
 
         headers: {
           //응답에 대한 정보
@@ -177,19 +177,10 @@ export default class Detail extends React.Component {
       })
         .then((response) => {
           if (response) {
-            console.log(response.data);
-            // 음식 목록 가져오기
-            for (var key in response.data) {
-              var List = response.data[key];
-              this.setState({
-                food: this.state.food.concat({
-                  id: key,
-                  name: List.name,
-                  photo: List.photo,
-                  //   word_photo: List.word_photo,
-                }),
-              });
-            }
+            this.setState({
+              food_name: response.data.food_name,
+              food_photo: response.data.food_photo,
+            });
           } else {
             console.log("no");
           }
@@ -205,8 +196,7 @@ export default class Detail extends React.Component {
       //찜목록 가져오기
       await axios({
         method: "post",
-        // url: "http://192.168.0.3/User_Site/HeartList.php",
-        url: "http://192.168.0.119/User_Site/HeartList.php",
+        url: "http://15.164.224.142/api/app/heartList",
 
         headers: {
           //응답에 대한 정보
@@ -214,19 +204,20 @@ export default class Detail extends React.Component {
           "Content-Type": "application/json",
         },
         data: {
-          user_id: post_id,
+          //   page: "Detail",
+          user_id: 1,
           food_id: food_id,
         },
       })
         .then((response) => {
-          if (response.data == "Ok") {
-            console.log("adsad");
-            console.log(response.data);
-
+          //   console.log("찜목록");
+          if (response.data == "OK") {
+            console.log("찜 되어있음");
+            // console.log(response.data);
             this.setState({ heart: true });
           } else {
-            console.log("no");
-            console.log(response.data);
+            console.log("안대있음");
+            // console.log(response.data);
           }
         })
         .catch(function (error) {
@@ -252,7 +243,8 @@ export default class Detail extends React.Component {
   };
 
   render() {
-    const { one, two, three, food, heart } = this.state;
+    const { one, two, three, heart, food_name, food_photo } = this.state;
+    // console.log(this.state);
     const { navigation } = this.props;
     const food_id = navigation.getParam("Id");
 
@@ -270,31 +262,27 @@ export default class Detail extends React.Component {
               color={"black"}
             ></MaterialIcons>
           </BackBtn>
-          {food
-            ? food.map((list, key) => {
-                return (
-                  <View key={key} style={{ alignItems: "center" }}>
-                    <Text
-                      style={{
-                        fontSize: 27,
-                        fontWeight: "600",
-                        marginBottom: 20,
-                        marginTop: 20,
-                      }}
-                    >
-                      {list.name}
-                    </Text>
-                    <Image
-                      source={{ uri: list.photo }}
-                      style={{
-                        width: 200,
-                        height: 200,
-                      }}
-                    />
-                  </View>
-                );
-              })
-            : null}
+          <View style={{ alignItems: "center" }}>
+            <Text
+              style={{
+                fontSize: 27,
+                fontWeight: "600",
+                marginBottom: 20,
+                marginTop: 20,
+              }}
+            >
+              {food_name}
+            </Text>
+            {food_photo ? (
+              <Image
+                source={{ uri: food_photo }}
+                style={{
+                  width: 200,
+                  height: 200,
+                }}
+              />
+            ) : null}
+          </View>
         </FoodScreen>
         <View
           style={{ alignItems: "flex-end", marginBottom: 20, marginRight: 20 }}

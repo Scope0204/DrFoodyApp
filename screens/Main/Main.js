@@ -6,10 +6,12 @@ import {
   Dimensions,
   Image,
   AsyncStorage,
+  FlatList,
 } from "react-native";
 import styled from "styled-components";
 import AdSlider from "../../components/AdSlider";
 import FoodSlider from "../../components/FoodSlider";
+import List from "../../components/List";
 import SearchBar from "../../components/SearchBar";
 import axios from "axios"; // npm i axios@0.18.0
 import { EvilIcons, Octicons, Entypo } from "@expo/vector-icons";
@@ -17,37 +19,44 @@ import { EvilIcons, Octicons, Entypo } from "@expo/vector-icons";
 const { width, height } = Dimensions.get("window");
 
 const Container = styled.ScrollView`
-  background-color: white;
+  background-color: #f5f5f5;
+  height: ${height}px;
 `;
 
 const UserState = styled.View`
   width: ${width - 10}px;
   height: ${height / 8}px;
-  border: 1px solid black;
+  border: 1px solid #F5F5F5 ;
   border-radius: 10px
   flex-direction: row;
   align-items: center;
+  background-color: white;
+  box-shadow : 2px 2px 2px #ECF0F1;
+
 `;
 
 const SelectContainer = styled.View`
   width: ${width}px;
   height: ${height / 3.7 + 5}px;
   flex-direction: row;
-  margin-top: 15px;
+  margin-top: 5px;
+  background-color: white;
 `;
 
 const CameraContainer = styled.View`
-  width: ${width / 2}px;
+  width: ${width}px;
   align-items: center;
+  margin-top: 5px;
 `;
 
 const CameraBtn = styled.TouchableOpacity`
-  width: ${width / 2 - 10}px;
-  height: ${height / 3.7}px;
+  width: ${width - 10}px;
+  height: ${height / 3.8}px;
   background-color: #ff5122;
   border-radius: 10px;
   justify-content: center;
   align-items: center;
+  box-shadow: 1px 1px 1px gray;
 `;
 
 const CameraText = styled.Text`
@@ -63,22 +72,25 @@ export default class Main extends React.Component {
     this.state = {
       user_name: "",
       user_photo: "",
-      food_name: [],
-      call: [],
+      user_id: "",
+      language_code: "",
+      food_list: [],
     };
   }
 
   componentDidMount = async () => {
+    // alert(await AsyncStorage.getItem("User"));
+
     const { navigation } = this.props;
     const User = navigation.getParam("User");
+    const { user_id } = this.state;
+    // User의 user_id, language_code 가 이곳저곳 사용되니 asyncstorage에 저장
 
     try {
       // 유저 정보 가져오기(이름과 사진)
       await axios({
         method: "post",
-        //   url: "http://15.164.224.142/app/UserList.php",
-        // url: "http://192.168.0.3/User_Site/UserList.php",
-        url: "http://192.168.0.119/User_Site/UserList.php",
+        url: "http://15.164.224.142/api/app/userList",
 
         headers: {
           Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
@@ -89,15 +101,43 @@ export default class Main extends React.Component {
         },
       }).then((response) => {
         if (response.data) {
-          // console.log(response.data[0].user_id);
-          // User의 user_id, language_code 가 이곳저곳 사용되니 asyncstorage에 저장
-          AsyncStorage.setItem("User", response.data[0].user_id);
-          AsyncStorage.setItem("Language", response.data[0].language_code);
-
-          this.setState({ user_name: response.data[0].nickname });
-          this.setState({ user_photo: response.data[0].photo });
+          console.log(response.data.user_id);
+          this.setState({
+            user_name: response.data.user_nickname,
+            user_photo: response.data.user_photo,
+            user_id: response.data.user_id,
+            language_code: response.data.language_code,
+          });
+          //asyncstorage는 string형식으로만 저장가능
+          AsyncStorage.setItem("User", JSON.stringify(response.data.user_id));
         } else {
           alert("no");
+        }
+      });
+    } catch (err) {
+      console.log(err);
+    }
+
+    //음식 리스트 가져오기
+    try {
+      await axios({
+        url: "http://15.164.224.142/api/app/foodList",
+      }).then((response) => {
+        // console.log(response);
+        if (response) {
+          for (var key in response.data) {
+            var List = response.data[key];
+            this.setState({
+              food_list: this.state.food_list.concat({
+                id: key,
+                food_id: List.food_id,
+                name: List.food_name,
+                photo: List.food_photo,
+              }),
+            });
+          }
+        } else {
+          console.log("no");
         }
       });
     } catch (err) {
@@ -111,15 +151,20 @@ export default class Main extends React.Component {
   };
 
   render() {
-    const { user_name, user_photo } = this.state;
-
+    const { user_name, user_photo, food_list } = this.state;
     return (
       <Container>
-        <AdSlider />
+        {/* <AdSlider /> */}
+        <CameraContainer>
+          <CameraBtn onPress={() => this.props.navigation.navigate("Camera")}>
+            <Entypo size={120} name={"camera"} color={"white"} />
+            <CameraText>제품 조회</CameraText>
+          </CameraBtn>
+        </CameraContainer>
         <View
           style={{
             alignItems: "center",
-            marginTop: 20,
+            marginTop: 10,
             marginBottom: 10,
             alignItems: "center",
           }}
@@ -158,21 +203,63 @@ export default class Main extends React.Component {
             </View>
           </UserState>
         </View>
-        <View style={{ alignItems: "center", marginTop: 7 }}>
+        <View style={{ alignItems: "center" }}>
           <TouchableOpacity
             onPress={() => this.props.navigation.navigate("Search")}
+            style={{ marginBottom: 5 }}
           >
             <SearchBar />
           </TouchableOpacity>
         </View>
         <SelectContainer>
-          <CameraContainer>
-            <CameraBtn onPress={() => this.props.navigation.navigate("Camera")}>
-              <Entypo size={120} name={"camera"} color={"white"} />
-              <CameraText>제품 조회</CameraText>
-            </CameraBtn>
-          </CameraContainer>
-          <FoodSlider info={this.info} />
+          {/* <FoodSlider info={this.info} /> */}
+          <View
+            style={{
+              marginTop: 5,
+              height: height / 3.2,
+              backgroundColor: "white",
+              borderBottomWidth: 1,
+              borderBottomColor: "#ECF0F1",
+              flex: 1,
+            }}
+          >
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              <Text
+                style={{
+                  fontWeight: "bold",
+                  fontSize: 20,
+                  marginLeft: 20,
+                  marginTop: 20,
+                  // backgroundColor: "red",
+                }}
+              >
+                제품 리스트
+              </Text>
+              <Text
+                style={{
+                  fontSize: 16,
+                  marginRight: 20,
+                  marginTop: 25,
+                  color: "#808B96",
+                }}
+              >
+                더보기
+              </Text>
+            </View>
+            <FlatList
+              data={food_list}
+              keyExtractor={(item) => item.name}
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+              renderItem={({ item }) => <List list={item} />}
+              info={this.info}
+            />
+          </View>
         </SelectContainer>
       </Container>
     );

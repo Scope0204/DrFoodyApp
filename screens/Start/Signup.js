@@ -66,66 +66,68 @@ export default class Signip extends React.Component {
 
   goLogin = async () => {
     //뒤로 가게 함
-    const {
-      user_id,
-      password,
-      nickname,
-      photo,
-      sex,
-      hot,
-      sweet,
-      sour,
-      bitter,
-      salty,
-      age,
-      language,
-      country,
-      //   email,
-    } = this.state;
+    this.props.navigation.goBack();
 
-    try {
-      await axios({
-        method: "post",
-        //   url: "http://192.168.200.175/User_Site/registration_api.php",
-        //   url: "http://192.168.0.3/User_Site/registration_api.php",
-        url: "http://192.168.0.21/User_Site/registration_api.php",
+    // const {
+    //   user_id,
+    //   password,
+    //   nickname,
+    //   photo,
+    //   sex,
+    //   hot,
+    //   sweet,
+    //   sour,
+    //   bitter,
+    //   salty,
+    //   age,
+    //   language,
+    //   country,
+    //   //   email,
+    // } = this.state;
 
-        headers: {
-          //응답에 대한 정보
-          Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
-          "Content-Type": "application/json",
-        },
-        data: {
-          id: user_id,
-          password: password,
-          nickname: nickname,
-          photo: photo,
-          sex: sex, // zender
-          // email: email,
-          age: age, // birth => 생년월일 다되게함 ? 2019-02-1  문자열
-          hot: hot,
-          sweet: sweet,
-          sour: sour,
-          bitter: bitter,
-          salty: salty,
-          language: language,
-          country: country,
-        },
-      })
-        .then((response) => {
-          if (response.data == "User Registered Successfully") {
-            this.props.navigation.goBack();
-          } else {
-            alert("올바르지 않습니다");
-          }
-          console.log(response);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    } catch (err) {
-      console.log(err);
-    }
+    // try {
+    //   await axios({
+    //     method: "post",
+    //     //   url: "http://192.168.200.175/User_Site/registration_api.php",
+    //     //   url: "http://192.168.0.3/User_Site/registration_api.php",
+    //     url: "http://192.168.0.21/User_Site/registration_api.php",
+
+    //     headers: {
+    //       //응답에 대한 정보
+    //       Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
+    //       "Content-Type": "application/json",
+    //     },
+    //     data: {
+    //       id: user_id,
+    //       password: password,
+    //       nickname: nickname,
+    //       photo: photo,
+    //       sex: sex, // zender
+    //       // email: email,
+    //       age: age, // birth => 생년월일 다되게함 ? 2019-02-1  문자열
+    //       hot: hot,
+    //       sweet: sweet,
+    //       sour: sour,
+    //       bitter: bitter,
+    //       salty: salty,
+    //       language: language,
+    //       country: country,
+    //     },
+    //   })
+    //     .then((response) => {
+    //       if (response.data == "User Registered Successfully") {
+    //         this.props.navigation.goBack();
+    //       } else {
+    //         alert("올바르지 않습니다");
+    //       }
+    //       console.log(response);
+    //     })
+    //     .catch(function (error) {
+    //       console.log(error);
+    //     });
+    // } catch (err) {
+    //   console.log(err);
+    // }
   };
 
   render() {

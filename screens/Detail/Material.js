@@ -12,7 +12,7 @@ export default class Material extends React.Component {
 
     await axios({
       method: "post",
-      url: "http://15.164.224.142/app/Material.php",
+      url: "http://15.164.224.142/api/app/material",
 
       headers: {
         //응답에 대한 정보
@@ -25,6 +25,7 @@ export default class Material extends React.Component {
     })
       .then((response) => {
         if (response) {
+          //   console.log("원재료");
           //   console.log(response.data);
 
           for (var key in response.data) {
@@ -32,7 +33,7 @@ export default class Material extends React.Component {
             this.setState({
               material: this.state.material.concat({
                 id: key,
-                material: List.material,
+                material: List.material_name,
               }),
             });
           }

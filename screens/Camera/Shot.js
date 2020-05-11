@@ -22,7 +22,7 @@ const CenterView = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
-  background-color: #ffbc22;
+  background-color: #ff5122;
 `;
 
 const { width, height } = Dimensions.get("window");
@@ -46,7 +46,7 @@ const PhotoArea = styled.View`
   align-items: center;
   width: 280px;
   height: 400px;
-  border: 5px solid blue;
+  border: 3px solid white;
   border-radius: 10px;
 `;
 

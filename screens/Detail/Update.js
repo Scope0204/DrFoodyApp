@@ -103,8 +103,8 @@ export default class Update extends React.Component {
     try {
       await axios({
         method: "post",
-        // url: "http://192.168.0.3/New/Delete.php",
-        url: "http://192.168.0.119/New/Delete.php",
+        url: "http://15.164.224.142/api/app/reviewDelete",
+        // url: "http://192.168.0.119/New/Delete.php",
 
         headers: {
           //응답에 대한 정보
@@ -118,8 +118,8 @@ export default class Update extends React.Component {
         .then((response) => {
           console.log(response);
           if (response.data == "Successfully") {
-            Alert.alert("삭제되었습니다");
             this.props.navigation.navigate("Detail");
+            Alert.alert("삭제되었습니다");
           } else {
             console.log("실패");
           }
@@ -138,8 +138,8 @@ export default class Update extends React.Component {
     try {
       await axios({
         method: "post",
-        // url: "http://192.168.0.3/New/Update.php",
-        url: "http://192.168.0.119/New/Update.php",
+        url: "http://15.164.224.142/api/app/reviewUpdate",
+        // url: "http://192.168.0.119/New/Update.php",
 
         headers: {
           //응답에 대한 정보

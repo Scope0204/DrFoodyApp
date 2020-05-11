@@ -28,7 +28,10 @@ const Container = styled.View`
   border-bottom-color: #eaecee;
 `;
 
-const ListContainer = styled.ScrollView``;
+const ListContainer = styled.ScrollView`
+  height: ${height}px;
+  background-color: #f5f5f5;
+`;
 
 const ListBox = styled.View`
   background-color: white;
@@ -54,8 +57,8 @@ const FoodInfo = styled.View`
 
 const StarCon = styled.View`
   flex-direction: row;
-  margin-top: 10;
-  margin-bottom: 10;
+  margin-top: 10px;
+  margin-bottom: 10px;
 `;
 
 export default class Search extends React.Component {
@@ -89,9 +92,9 @@ export default class Search extends React.Component {
       try {
         await axios({
           method: "post",
-          url: "http://192.168.0.119/User_Site/SearchFood.php",
           //   url: "http://192.168.0.3/User_Site/SearchFood.php",
-          // url: "http://15.164.224.142/app/SearchFood.php",
+          //   url: "http://192.168.0.3/User_Site/SearchFood.php",
+          url: "http://15.164.224.142/api/app/searchFood",
 
           headers: {
             //응답에 대한 정보
@@ -103,20 +106,20 @@ export default class Search extends React.Component {
             searchText: searchText,
           },
         }).then((response) => {
-          // console.log(response);
+          console.log(response.data.indexOf("No Results Found"));
           // -1 : 아닌경우 , 즉 NO가 아닌경우
-          if (response.data.indexOf("No Results Found") == -1) {
+          if (response.data != "") {
             for (var key in response.data) {
               var List = response.data[key];
               var photo_path = "../../images/noImage.png"; // null 일때 쓸 사진 경로 넣으면 될듯
               if (List.photo !== null) {
-                photo_path = List.photo;
+                photo_path = List.food_photo;
               }
               this.setState({
                 foodList: this.state.foodList.concat({
                   id: key,
                   food_id: List.food_id,
-                  name: List.name,
+                  name: List.food_name,
                   photo: photo_path,
                 }),
               });

@@ -91,15 +91,14 @@ export default class ReviewPost extends React.Component {
 
   save = async () => {
     const { review, user_id, language_code, food_id, taste } = this.state;
-    console.log(review, user_id, language_code, food_id, taste);
+    // console.log(review, user_id, language_code, food_id, taste);
 
     try {
-      console.log("성공");
-
       await axios({
         method: "post",
         // url: "http://192.168.0.3/User_Site/Review.php",
-        url: "http://192.168.0.119/User_Site/Review.php",
+        // url: "http://192.168.0.119/User_Site/Review.php",
+        url: "http://15.164.224.142/api/app/reviewWrite",
 
         headers: {
           //응답에 대한 정보
@@ -115,6 +114,8 @@ export default class ReviewPost extends React.Component {
         },
       })
         .then((response) => {
+          //   console.log("리뷰");
+          //   console.log(response);
           if (response) {
             Alert.alert("완료");
             this.props.navigation.navigate("Detail");
@@ -141,7 +142,8 @@ export default class ReviewPost extends React.Component {
       try {
         await axios({
           method: "post",
-          url: "http://192.168.0.122:5000/predictReview",
+          //   url: "http://192.168.0.22:5000/predictReview",
+          url: "http://35.185.213.102:5000/predictReview",
 
           headers: {
             //응답에 대한 정보
@@ -155,7 +157,7 @@ export default class ReviewPost extends React.Component {
           .then((response) => {
             if (response.data.taste) {
               this.setState({ taste: response.data.taste });
-              console.log(this.state);
+              console.log("맛 등록 ", this.state.taste);
             } else {
               console.log("no");
             }
@@ -178,12 +180,12 @@ export default class ReviewPost extends React.Component {
   componentDidMount = async () => {
     const { navigation } = this.props;
     const food_id = navigation.getParam("Food_id");
-    const user_id = await AsyncStorage.getItem("User");
-    const language_code = await AsyncStorage.getItem("Language");
+    // const user_id = await AsyncStorage.getItem("User");
+    // const language_code = await AsyncStorage.getItem("Language");
     this.setState({
       food_id: food_id,
-      user_id: user_id,
-      language_code: language_code,
+      user_id: 1,
+      language_code: 1,
     });
   };
   render() {
