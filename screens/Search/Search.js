@@ -7,6 +7,7 @@ import {
   Dimensions,
   TouchableOpacity,
   Alert,
+  AsyncStorage,
 } from "react-native";
 import { FontAwesome, Ionicons, Feather } from "@expo/vector-icons";
 import styled from "styled-components";
@@ -72,7 +73,35 @@ export default class Search extends React.Component {
       searchResult: false,
     };
   }
-  info = (food_id) => {
+
+  info = async (food_id) => {
+    const user_id = await AsyncStorage.getItem("User");
+    try {
+      await axios({
+        method: "post",
+        url: "http://15.164.224.142/api/app/searchHistory",
+
+        headers: {
+          //응답에 대한 정보
+          Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
+          "Content-Type": "application/json;charset=utf-8",
+        },
+        // 검색어를 보낸다 -> 포함된 food 데이터 다 가져옴
+        data: {
+          user_id: user_id,
+          food_id: food_id,
+        },
+      })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch(function (err) {
+          console.log("ㄴㄴ");
+          console.log(err);
+        });
+    } catch (err) {
+      console.log(err);
+    }
     this.props.navigation.navigate("Detail", { Id: food_id });
   };
 
@@ -92,7 +121,6 @@ export default class Search extends React.Component {
       try {
         await axios({
           method: "post",
-          //   url: "http://192.168.0.3/User_Site/SearchFood.php",
           //   url: "http://192.168.0.3/User_Site/SearchFood.php",
           url: "http://15.164.224.142/api/app/searchFood",
 
@@ -188,7 +216,6 @@ export default class Search extends React.Component {
                           <Text>1</Text>
                           <Text>/5</Text>
                         </StarCon>
-                        <Text>sdsadasd</Text>
                         <View
                           style={{
                             alignItems: "center",

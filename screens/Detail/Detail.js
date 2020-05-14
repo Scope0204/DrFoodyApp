@@ -89,68 +89,9 @@ export default class Detail extends React.Component {
     user_id: null,
   };
 
-  heart = () => {
-    const { heart } = this.state;
-    if (heart == false) {
-      // 찜목록이 아닌경우
-      this.setState({ heart: true });
-    } else {
-      this.setState({ heart: false });
-    }
-    this.heartSave();
-  };
-
-  // 하트 저장
-  heartSave = async () => {
-    const { heart } = this.state;
-    let post_heart;
-    if (heart == true) {
-      post_heart = false;
-    } else {
-      post_heart = true;
-    }
-    //찜목록 => 유저아이디와 food_id가 필요하다
-    //유저 아이디
-    const { user_id } = this.state;
-    //음식 아이디
-    const { navigation } = this.props;
-    const food_id = navigation.getParam("Id");
-
-    try {
-      // 외래키와 찜유무를 보낸다
-      await axios({
-        method: "post",
-        url: "http://15.164.224.142/api/app/dibsFood",
-        // url: "http://192.168.0.3/User_Site/DibsFood.php",
-        // url: "http://192.168.0.119/User_Site/DibsFood.php",
-
-        headers: {
-          //응답에 대한 정보
-          Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
-          "Content-Type": "application/json",
-        },
-        data: {
-          user_id: 1,
-          food_id: food_id,
-          heart: post_heart, // true 또는 false
-        },
-      })
-        .then((response) => {
-          if (response) {
-            console.log(response);
-          } else {
-            console.log("no");
-          }
-        })
-        .catch((error) => console.log(error));
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   componentDidMount = async () => {
     //푸드 정보 초기화 (올때마다 바뀌니깐) <-- 이거 필요할까? 서버 연결되면 지워보자
-    this.setState({ food: [] });
+    // this.setState({ food: [] });
 
     // 음식 id
     const { navigation } = this.props;
@@ -205,7 +146,7 @@ export default class Detail extends React.Component {
         },
         data: {
           //   page: "Detail",
-          user_id: 1,
+          user_id: post_id,
           food_id: food_id,
         },
       })
@@ -228,12 +169,75 @@ export default class Detail extends React.Component {
     }
   };
 
+  heart = () => {
+    const { heart } = this.state;
+    if (heart == false) {
+      // 찜목록이 아닌경우
+      this.setState({ heart: true });
+    } else {
+      this.setState({ heart: false });
+    }
+    this.heartSave();
+  };
+
+  // 하트 저장
+  heartSave = async () => {
+    const { heart } = this.state;
+    let post_heart;
+    if (heart == true) {
+      post_heart = false;
+    } else {
+      post_heart = true;
+    }
+    //찜목록 => 유저아이디와 food_id가 필요하다
+    //유저 아이디
+    const { user_id } = this.state;
+    //음식 아이디
+    const { navigation } = this.props;
+    const food_id = navigation.getParam("Id");
+
+    try {
+      // 외래키와 찜유무를 보낸다
+      await axios({
+        method: "post",
+        url: "http://15.164.224.142/api/app/dibsFood",
+        // url: "http://192.168.0.3/User_Site/DibsFood.php",
+
+        headers: {
+          //응답에 대한 정보
+          Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
+          "Content-Type": "application/json",
+        },
+        data: {
+          user_id: user_id,
+          food_id: food_id,
+          heart: post_heart, // true 또는 false
+        },
+      })
+        .then((response) => {
+          if (response) {
+            console.log(response);
+          } else {
+            console.log("no");
+          }
+        })
+        .catch((error) => console.log(error));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   // 리뷰 페이지로 이동
   move = () => {
     const { navigation } = this.props;
     const food_id = navigation.getParam("Id");
+    const { food_photo, food_name } = this.state;
     this.setState({ three: false, one: true });
-    this.props.navigation.navigate("Review", { Food_id: food_id });
+    this.props.navigation.navigate("Review", {
+      Food_id: food_id,
+      Food_photo: food_photo,
+      Food_name: food_name,
+    });
   };
 
   // 수정페이지로 이동 (댓글 전체 정보를 전달)

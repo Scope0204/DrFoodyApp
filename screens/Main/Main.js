@@ -251,6 +251,7 @@ export default class Main extends React.Component {
                 더보기
               </Text>
             </View>
+
             <FlatList
               data={food_list}
               keyExtractor={(item) => item.name}
@@ -258,6 +259,7 @@ export default class Main extends React.Component {
               showsHorizontalScrollIndicator={false}
               renderItem={({ item }) => <List list={item} />}
               info={this.info}
+              style={{ paddingLeft: 0 }}
             />
           </View>
         </SelectContainer>

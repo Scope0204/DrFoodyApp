@@ -8,6 +8,7 @@ const { width, height } = Dimensions.get("window");
 
 const Container = styled.View`
   flex: 1;
+  margin-top: 100px;
 `;
 
 //현 상태 및 뒤로가기 버튼이잇음
@@ -37,7 +38,7 @@ const ReviewInput = styled.TextInput`
   background-color: #f5f5f5;
   justify-content: flex-start;
   width: ${width - 40}px;
-  height: ${height / 3 - 5}px;
+  height: ${height / 3 - 20}px;
   border: 1px solid #f5f5f5;
   font-size: 20px;
   border-radius: 5px;
@@ -94,6 +95,7 @@ export default class Update extends React.Component {
       review_id: Info.review_id,
       // 없앨지 업뎃할지를 정함
       mode: null,
+      taste: null, // 나중에 Info.taste로 바꿀것
     };
   }
 
@@ -135,6 +137,36 @@ export default class Update extends React.Component {
     if (content == "") {
       return Alert.alert("리뷰 내용이 없습니다");
     }
+    // 맛리뷰인지 아닌지 지정
+    try {
+      await axios({
+        method: "post",
+        //   url: "http://192.168.0.22:5000/predictReview",
+        url: "http://35.185.213.102:5000/predictReview",
+
+        headers: {
+          //응답에 대한 정보
+          Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
+          "Content-Type": "application/json",
+        },
+        data: {
+          review: content,
+        },
+      })
+        .then((response) => {
+          if (response.data.taste) {
+            this.setState({ taste: response.data.taste });
+            console.log("맛 등록 ", this.state.taste);
+          } else {
+            console.log("no");
+          }
+        })
+        .catch((error) => console.log(error));
+    } catch (error) {
+      console.log(error);
+    }
+
+    // 내용 저장
     try {
       await axios({
         method: "post",
@@ -152,7 +184,7 @@ export default class Update extends React.Component {
         },
       })
         .then((response) => {
-          console.log(response);
+          //   console.log(response);
           if (response.data == "Successfully") {
             Alert.alert("수정되었습니다");
             this.props.navigation.navigate("Detail");

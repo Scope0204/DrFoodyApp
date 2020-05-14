@@ -1,24 +1,38 @@
 import React from "react";
-import { View, Text, Dimensions, AsyncStorage, Alert } from "react-native";
+import {
+  View,
+  Text,
+  Dimensions,
+  AsyncStorage,
+  Alert,
+  Image,
+} from "react-native";
 import styled from "styled-components";
 import axios from "axios"; // npm i axios@0.18.0
 import Modal from "react-native-modal";
+import Rating from "../../components/Rating";
 
 const { width, height } = Dimensions.get("window");
 
 const Container = styled.View`
   flex: 1;
+  margin-top: 100px;
 `;
 
 //현 상태 및 뒤로가기 버튼이잇음
 const ImgCon = styled.View`
   flex: 0.4;
-  background-color: yellow;
+  background-color: white;
+  align-items: center;
+  border-bottom-width: 5px;
+  border: 0 solid #f5f5f5;
 `;
 //별점 고르는 상자
 const StarCon = styled.View`
   flex: 0.1;
-  background-color: blue;
+  justify-content: center;
+  align-items: flex-start;
+  padding-left: 20px;
 `;
 //리뷰 폼
 const ReviewCon = styled.View`
@@ -37,7 +51,7 @@ const ReviewInput = styled.TextInput`
   background-color: #f5f5f5;
   justify-content: flex-start;
   width: ${width - 40}px;
-  height: ${height / 3 - 5}px;
+  height: ${height / 3 - 20}px;
   border: 1px solid #f5f5f5;
   font-size: 20px;
   border-radius: 5px;
@@ -85,48 +99,33 @@ export default class ReviewPost extends React.Component {
     //외래키
     user_id: null,
     language_code: null,
+    //navigation getParam
     food_id: null,
+    food_photo: null,
+    food_name: null,
+    //맛 정보 저장
     taste: null,
+    //별점 기본값
+    rating: 5,
   };
 
-  save = async () => {
-    const { review, user_id, language_code, food_id, taste } = this.state;
-    // console.log(review, user_id, language_code, food_id, taste);
+  componentDidMount = async () => {
+    const { navigation } = this.props;
+    const food_id = navigation.getParam("Food_id");
+    const food_photo = navigation.getParam("Food_photo");
+    const food_name = navigation.getParam("Food_name");
 
-    try {
-      await axios({
-        method: "post",
-        // url: "http://192.168.0.3/User_Site/Review.php",
-        // url: "http://192.168.0.119/User_Site/Review.php",
-        url: "http://15.164.224.142/api/app/reviewWrite",
+    const user_id = await AsyncStorage.getItem("User");
+    // const language_code = await AsyncStorage.getItem("language_code");
 
-        headers: {
-          //응답에 대한 정보
-          Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
-          "Content-Type": "application/json",
-        },
-        data: {
-          user_id: user_id,
-          food_id: food_id,
-          language_code: language_code,
-          content: review,
-          //   taste: taste,
-        },
-      })
-        .then((response) => {
-          //   console.log("리뷰");
-          //   console.log(response);
-          if (response) {
-            Alert.alert("완료");
-            this.props.navigation.navigate("Detail");
-          } else {
-            console.log("no");
-          }
-        })
-        .catch((error) => console.log(error));
-    } catch (error) {
-      console.log(error);
-    }
+    this.setState({
+      food_id: food_id,
+      food_photo: food_photo,
+      food_name: food_name,
+      user_id: user_id,
+      language_code: 1,
+      click: 0,
+    });
   };
 
   // 모달
@@ -159,7 +158,8 @@ export default class ReviewPost extends React.Component {
               this.setState({ taste: response.data.taste });
               console.log("맛 등록 ", this.state.taste);
             } else {
-              console.log("no");
+              this.setState({ taste: response.data.taste });
+              console.log("no", this.state.taste);
             }
           })
           .catch((error) => console.log(error));
@@ -177,18 +177,49 @@ export default class ReviewPost extends React.Component {
     }
   };
 
-  componentDidMount = async () => {
-    const { navigation } = this.props;
-    const food_id = navigation.getParam("Food_id");
-    // const user_id = await AsyncStorage.getItem("User");
-    // const language_code = await AsyncStorage.getItem("Language");
-    this.setState({
-      food_id: food_id,
-      user_id: 1,
-      language_code: 1,
-    });
+  save = async () => {
+    const { review, user_id, language_code, food_id, taste } = this.state;
+    // console.log(review, user_id, language_code, food_id, taste);
+
+    try {
+      await axios({
+        method: "post",
+        // url: "http://192.168.0.3/User_Site/Review.php",
+        url: "http://15.164.224.142/api/app/reviewWrite",
+
+        headers: {
+          //응답에 대한 정보
+          Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
+          "Content-Type": "application/json",
+        },
+        data: {
+          user_id: user_id,
+          food_id: food_id,
+          language_code: language_code,
+          content: review,
+          taste: taste,
+        },
+      })
+        .then((response) => {
+          if (response) {
+            Alert.alert("완료");
+            this.props.navigation.navigate("Detail");
+          } else {
+            console.log("no");
+          }
+        })
+        .catch((error) => console.log(error));
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  review_rating = (e) => {
+    this.setState({ rating: e });
+  };
+
   render() {
+    const { food_name, food_photo } = this.state;
     return (
       <Container>
         <Modal
@@ -217,9 +248,29 @@ export default class ReviewPost extends React.Component {
         </Modal>
 
         <ImgCon>
-          <Text>리뷰</Text>
+          <Text
+            style={{
+              fontSize: 27,
+              fontWeight: "bold",
+              marginBottom: 20,
+              marginTop: 20,
+            }}
+          >
+            {food_name}
+          </Text>
+          {food_photo ? (
+            <Image
+              source={{ uri: food_photo }}
+              style={{
+                width: 200,
+                height: 200,
+              }}
+            />
+          ) : null}
         </ImgCon>
-        <StarCon></StarCon>
+        <StarCon>
+          <Rating rating={5} review_rating={this.review_rating} />
+        </StarCon>
         <ReviewCon>
           <ReviewInput
             placeholder="리뷰는 솔직하게 적어주세요."

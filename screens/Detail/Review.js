@@ -14,9 +14,11 @@ const { width, height } = Dimensions.get("window");
 
 const Container = styled.View`
   width: ${width - 20}px;
+  background-color: white;
   height: 120px;
-  border: 1px solid gray;
   border-radius: 10px;
+  border: 1px solid #ecf0f1;
+  box-shadow: 1px 1px 1px gray;
   margin-bottom: 20px;
   flex-direction: row;
   align-items: center;
@@ -47,20 +49,26 @@ const ContentCon = styled.View`
   margin-right: 10px;
 `;
 export default class Review extends React.Component {
-  state = {
-    review: [],
-    reviewUser: [],
-    mode: 0, //mode : 0(전체리뷰) , 1(맛 리뷰)
-    user_id: null, // 자기 리뷰인지 확인할꺼임
-    food_id: null, // 자기 음식리뷰만 나오게하기위해 props로 받음
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      review: [],
+      reviewUser: [],
+      mode: 0, //mode : 0(전체리뷰) , 1(맛 리뷰)
+      user_id: null, // 자기 리뷰인지 확인할꺼임
+      food_id: null, // 자기 음식리뷰만 나오게하기위해 props로 받음
+      taste_review: 0, // 맛 리뷰 갯수 저장
+    };
+  }
 
   componentDidMount = async () => {
     const food_id = this.props.food_id;
-    console.log(food_id);
     this.setState({ food_id: food_id });
-    // this.setState({ user_id: await AsyncStorage.getItem("User") });
-    this.setState({ user_id: 1 });
+
+    const post_id = await AsyncStorage.getItem("User");
+    this.setState({ user_id: post_id });
+
+    this.setState({ taste_review: 0 });
 
     try {
       // 리뷰 리스트 출력
@@ -69,6 +77,9 @@ export default class Review extends React.Component {
       })
         .then((response) => {
           if (response) {
+            console.log("aa");
+            console.log(response.data);
+            let count = 0;
             for (var key in response.data) {
               var list = response.data[key];
               if (food_id == list.food_id) {
@@ -82,8 +93,14 @@ export default class Review extends React.Component {
                     language_code: list.language_code,
                     nickname: list.user_nickname,
                     photo: list.user_photo,
+                    taste: list.review_type,
                   }),
                 });
+
+                if (list.review_type == 1) {
+                  count++;
+                  this.setState({ taste_review: count });
+                }
               }
             }
           } else {
@@ -101,13 +118,48 @@ export default class Review extends React.Component {
   };
 
   render() {
-    const { review, mode, user_id, food_id } = this.state;
+    const { review, mode, user_id, food_id, taste_review } = this.state;
+
     return (
       <View>
         <View style={{ marginLeft: 15, marginBottom: 15, marginTop: 15 }}>
-          <Text style={{ fontWeight: "bold", fontSize: 20, marginBottom: 5 }}>
-            총 {review.length}개의
-          </Text>
+          {mode == 0 ? (
+            <View style={{ flexDirection: "row" }}>
+              <Text
+                style={{
+                  fontWeight: "bold",
+                  fontSize: 20,
+                  marginBottom: 5,
+                  color: "#F39C12",
+                }}
+              >
+                {review.length + " "}
+              </Text>
+              <Text
+                style={{ fontWeight: "bold", fontSize: 20, marginBottom: 5 }}
+              >
+                개의
+              </Text>
+            </View>
+          ) : (
+            <View style={{ flexDirection: "row" }}>
+              <Text
+                style={{
+                  fontWeight: "bold",
+                  fontSize: 20,
+                  marginBottom: 5,
+                  color: "#F39C12",
+                }}
+              >
+                {taste_review + " "}
+              </Text>
+              <Text
+                style={{ fontWeight: "bold", fontSize: 20, marginBottom: 5 }}
+              >
+                개의
+              </Text>
+            </View>
+          )}
           <View
             style={{
               flexDirection: "row",
@@ -158,6 +210,7 @@ export default class Review extends React.Component {
             )}
           </View>
         </View>
+
         {mode == 0
           ? review.map((list, key) => {
               return (
@@ -193,7 +246,7 @@ export default class Review extends React.Component {
                               style={{
                                 fontSize: 16,
                                 fontWeight: "bold",
-                                marginRight: 20,
+                                marginRight: 12,
                                 color: "#F39C12",
                               }}
                             >
@@ -213,7 +266,63 @@ export default class Review extends React.Component {
                 </View>
               );
             })
-          : null}
+          : // mode = 1 인경우 ( 맛 리뷰 )
+            review.map((list, key) => {
+              return (
+                <View style={{ alignItems: "center" }} key={key}>
+                  {list.taste == 1 ? (
+                    <Container>
+                      {list.photo ? (
+                        <View
+                          style={{
+                            borderWidth: 5,
+                            borderRadius: 200,
+                            width: 90,
+                            height: 90,
+                            marginLeft: 20,
+                            marginRight: 20,
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <Image
+                            source={{ uri: list.photo }}
+                            style={{ width: 80, height: 80, borderRadius: 100 }}
+                          />
+                        </View>
+                      ) : null}
+                      <ReviewCon>
+                        <NameCon>
+                          <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+                            {list.nickname}
+                          </Text>
+                          {user_id == list.user_id ? (
+                            <TouchableOpacity onPress={() => this.update(list)}>
+                              <Text
+                                style={{
+                                  fontSize: 16,
+                                  fontWeight: "bold",
+                                  marginRight: 12,
+                                  color: "#F39C12",
+                                }}
+                              >
+                                수정
+                              </Text>
+                            </TouchableOpacity>
+                          ) : null}
+                        </NameCon>
+                        <StarCon>
+                          <Text>★</Text>
+                        </StarCon>
+                        <ContentCon>
+                          <Text>"{list.content}"</Text>
+                        </ContentCon>
+                      </ReviewCon>
+                    </Container>
+                  ) : null}
+                </View>
+              );
+            })}
       </View>
     );
   }

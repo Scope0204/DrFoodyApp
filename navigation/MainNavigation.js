@@ -59,14 +59,16 @@ const MainNavigation = createStackNavigator(
     Review: {
       screen: ReviewScreen,
       navigationOptions: {
-        title: "리뷰 작성",
+        header: null,
+        // title: "리뷰 작성",
       },
     },
 
     Update: {
       screen: UpdateScreen,
       navigationOptions: {
-        title: "리뷰 수정",
+        header: null,
+        // title: "리뷰 작성",
       },
     },
   },

@@ -2,7 +2,6 @@ import React, { useCallback } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import styled from "styled-components";
 import Layout from "../constants/Layout";
-import Main from ".././screens/Main/Main";
 
 const SWIPER_HEIGHT = Layout.height;
 const SWIPER_WIDTH = Layout.width;
