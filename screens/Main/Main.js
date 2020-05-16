@@ -9,8 +9,6 @@ import {
   FlatList,
 } from "react-native";
 import styled from "styled-components";
-import AdSlider from "../../components/AdSlider";
-import FoodSlider from "../../components/FoodSlider";
 import List from "../../components/List";
 import SearchBar from "../../components/SearchBar";
 import axios from "axios"; // npm i axios@0.18.0
@@ -90,7 +88,7 @@ export default class Main extends React.Component {
       // 유저 정보 가져오기(이름과 사진)
       await axios({
         method: "post",
-        url: "http://15.164.224.142/api/app/userList",
+        url: "http://3.34.97.97/api/app/userList",
 
         headers: {
           Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
@@ -121,9 +119,9 @@ export default class Main extends React.Component {
     //음식 리스트 가져오기
     try {
       await axios({
-        url: "http://15.164.224.142/api/app/foodList",
+        url: "http://3.34.97.97/api/app/foodList",
       }).then((response) => {
-        // console.log(response);
+        console.log(response.data);
         if (response) {
           for (var key in response.data) {
             var List = response.data[key];
@@ -133,6 +131,7 @@ export default class Main extends React.Component {
                 food_id: List.food_id,
                 name: List.food_name,
                 photo: List.food_photo,
+                point: List.point,
               }),
             });
           }

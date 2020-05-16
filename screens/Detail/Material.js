@@ -12,7 +12,7 @@ export default class Material extends React.Component {
 
     await axios({
       method: "post",
-      url: "http://15.164.224.142/api/app/material",
+      url: "http://3.34.97.97/api/app/material",
 
       headers: {
         //응답에 대한 정보

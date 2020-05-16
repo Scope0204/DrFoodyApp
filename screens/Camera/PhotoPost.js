@@ -7,7 +7,6 @@ export default class Main extends React.Component {
   postPhoto = async (photoUri) => {
     console.log(photoUri);
     // let base_url = "http://192.168.0.119/Post_Image/Image.php";
-    // let base_url = "http://192.168.0.22:5000/predictPhoto";
     let base_url = "http://35.185.213.102:5000/predictPhoto";
 
     let uploadData = new FormData();

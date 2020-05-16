@@ -3,6 +3,7 @@ import { View, Text, Dimensions, AsyncStorage, Alert } from "react-native";
 import styled from "styled-components";
 import axios from "axios"; // npm i axios@0.18.0
 import Modal from "react-native-modal";
+import Rating from "../../components/Rating";
 
 const { width, height } = Dimensions.get("window");
 
@@ -96,6 +97,8 @@ export default class Update extends React.Component {
       // 없앨지 업뎃할지를 정함
       mode: null,
       taste: null, // 나중에 Info.taste로 바꿀것
+      //별점
+      rating: Info.point,
     };
   }
 
@@ -105,9 +108,7 @@ export default class Update extends React.Component {
     try {
       await axios({
         method: "post",
-        url: "http://15.164.224.142/api/app/reviewDelete",
-        // url: "http://192.168.0.119/New/Delete.php",
-
+        url: "http://3.34.97.97/api/app/reviewDelete",
         headers: {
           //응답에 대한 정보
           Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
@@ -119,7 +120,7 @@ export default class Update extends React.Component {
       })
         .then((response) => {
           console.log(response);
-          if (response.data == "Successfully") {
+          if (response) {
             this.props.navigation.navigate("Detail");
             Alert.alert("삭제되었습니다");
           } else {
@@ -133,7 +134,7 @@ export default class Update extends React.Component {
   };
 
   update = async () => {
-    const { content, review_id } = this.state;
+    const { content } = this.state;
     if (content == "") {
       return Alert.alert("리뷰 내용이 없습니다");
     }
@@ -165,12 +166,16 @@ export default class Update extends React.Component {
     } catch (error) {
       console.log(error);
     }
+    this.update2();
+  };
 
+  update2 = async () => {
+    const { content, review_id, rating, taste } = this.state;
     // 내용 저장
     try {
       await axios({
         method: "post",
-        url: "http://15.164.224.142/api/app/reviewUpdate",
+        url: "http://3.34.97.97/api/app/reviewUpdate",
         // url: "http://192.168.0.119/New/Update.php",
 
         headers: {
@@ -180,12 +185,14 @@ export default class Update extends React.Component {
         },
         data: {
           content: content,
+          point: rating,
           review_id: review_id,
+          taste: taste,
         },
       })
         .then((response) => {
           //   console.log(response);
-          if (response.data == "Successfully") {
+          if (response) {
             Alert.alert("수정되었습니다");
             this.props.navigation.navigate("Detail");
           } else {
@@ -231,8 +238,12 @@ export default class Update extends React.Component {
     }
   };
 
+  review_rating = (e) => {
+    this.setState({ rating: e });
+  };
+
   render() {
-    const { content } = this.state;
+    const { content, rating } = this.state;
     // mode 0이면 삭제 , 1이면 수정
     return (
       <Container>
@@ -264,7 +275,9 @@ export default class Update extends React.Component {
         <ImgCon>
           <Text>리뷰</Text>
         </ImgCon>
-        <StarCon></StarCon>
+        <StarCon>
+          <Rating rating={rating} review_rating={this.review_rating} />
+        </StarCon>
         <ReviewCon>
           <ReviewInput
             placeholder="리뷰는 솔직하게 적어주세요."

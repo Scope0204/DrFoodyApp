@@ -55,7 +55,7 @@ const Circle = styled.View`
   margin-left: 5px;
 `;
 const CircleNow = styled.View`
-  background-color: #fdcc1f;
+  background-color: #ff5122;
   width: 5px;
   height: 5px;
   border-radius: 75px;
@@ -83,6 +83,21 @@ export default class PageOne extends React.Component {
       setSelectedImage: false,
     };
   }
+
+  componentDidMount = () => {
+    const photo = this.props.save.photo;
+    let setphoto = false;
+    if (photo) {
+      setphoto = true;
+    }
+    this.setState({
+      user_id: this.props.save.user_id,
+      password: this.props.save.password,
+      nickname: this.props.save.nickname,
+      selectedImage: photo,
+      setSelectedImage: setphoto,
+    });
+  };
 
   info = () => {
     const { user_id, password, nickname, selectedImage } = this.state;
@@ -129,8 +144,9 @@ export default class PageOne extends React.Component {
           <Text style={styles.TextStyle}>ID </Text>
           <TextInput
             style={styles.inputBox}
-            placeholder={user_id ? user_id : "사용하실 ID를 입력하세요"}
+            placeholder={"사용하실 ID를 입력하세요"}
             onChangeText={(user_id) => this.setState({ user_id })}
+            value={user_id}
           />
 
           <Text style={styles.TextStyle}>PW</Text>
@@ -139,6 +155,7 @@ export default class PageOne extends React.Component {
             placeholder="사용하실 PW를 입력하세요"
             secureTextEntry={true}
             onChangeText={(password) => this.setState({ password })}
+            value={password}
           />
 
           <Text style={styles.TextStyle}>PW(CHECK)</Text>
@@ -147,6 +164,7 @@ export default class PageOne extends React.Component {
             placeholder="PW를 재입력하세요"
             secureTextEntry={true}
             onChangeText={(pwcheck) => this.setState({ pwcheck })}
+            value={pwcheck}
           />
 
           <Text style={styles.TextStyle}>NICKNAME</Text>
@@ -154,6 +172,7 @@ export default class PageOne extends React.Component {
             style={styles.inputBox}
             placeholder="사용하실 이름을 입력하세요"
             onChangeText={(nickname) => this.setState({ nickname })}
+            value={nickname}
           />
         </InputContainer>
         <BottomContainer>

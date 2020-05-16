@@ -107,13 +107,23 @@ export default class PageTwo extends React.Component {
 
     this.state = {
       page: 2,
-      sex: 1, // default 남자
+      sex: 0, // default 남자
       email: "",
       age: 2020,
-      language: "한국어",
-      country: "KOREA",
+      language: 1,
+      country: 410,
     };
   }
+
+  componentDidMount = () => {
+    this.setState({
+      sex: this.props.save.sex,
+      email: this.props.save.email,
+      age: this.props.save.age,
+      language: this.props.save.language,
+      country: this.props.save.country,
+    });
+  };
 
   SelectAge = (value) => {
     this.setState({
@@ -136,11 +146,11 @@ export default class PageTwo extends React.Component {
   };
 
   SelectMale = () => {
-    this.setState({ sex: "male" });
+    this.setState({ sex: 0 });
   };
 
   SelectFemale = () => {
-    this.setState({ sex: "female" });
+    this.setState({ sex: 1 });
   };
 
   // 화면 이동 및 state 값 전달
@@ -152,8 +162,8 @@ export default class PageTwo extends React.Component {
       sex: sex,
       email: email,
       age: age,
-      language: 1,
-      country: 10,
+      language: language,
+      country: country,
     });
   };
 
@@ -169,7 +179,7 @@ export default class PageTwo extends React.Component {
     });
   };
   render() {
-    const { sex, age, language, country, page } = this.state;
+    const { sex, email, age, language, country, page } = this.state;
 
     const years = [];
     for (let a = 1950; a <= 2020; a++) {
@@ -179,30 +189,30 @@ export default class PageTwo extends React.Component {
 
     const languages = [
       {
-        value: "한국어",
+        value: 1,
         label: "한국어",
       },
       {
-        value: "日本語",
+        value: 3,
         label: "日本語",
       },
       {
-        value: "English",
+        value: 2,
         label: "English",
       },
     ];
 
     const countries = [
       {
-        value: "KOREA",
+        value: 410,
         label: "KOREA",
       },
       {
-        value: "JAPAN",
+        value: 392,
         label: "JAPAN",
       },
       {
-        value: "USA",
+        value: 840,
         label: "USA",
       },
     ];
@@ -214,7 +224,7 @@ export default class PageTwo extends React.Component {
           <BtnContainer>
             <MaleButton
               activeOpacity={1}
-              style={sex == "male" ? styles.boxStyle1 : null}
+              style={sex == 0 ? styles.boxStyle1 : null}
               onPress={this.SelectMale}
             >
               <FontAwesome
@@ -227,7 +237,7 @@ export default class PageTwo extends React.Component {
             </MaleButton>
             <FemaleButton
               activeOpacity={1}
-              style={sex == "female" ? styles.boxStyle2 : null}
+              style={sex == 1 ? styles.boxStyle2 : null}
               onPress={this.SelectFemale}
             >
               <FontAwesome
@@ -246,6 +256,7 @@ export default class PageTwo extends React.Component {
               placeholder="e-mail을 입력하세요"
               secureTextEntry={false}
               onChangeText={(email) => this.setState({ email })}
+              value={email}
             />
             <Title>AGE</Title>
             <SelectInput

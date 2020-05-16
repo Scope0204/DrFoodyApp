@@ -9,45 +9,22 @@ import {
 } from "react-native";
 import axios from "axios"; // npm i axios@0.18.0
 import styled from "styled-components";
+import { FontAwesome } from "@expo/vector-icons";
 
 const { width, height } = Dimensions.get("window");
 
 const Container = styled.View`
   width: ${width - 20}px;
   background-color: white;
-  height: 120px;
+  height: 150px;
   border-radius: 10px;
   border: 1px solid #ecf0f1;
-  box-shadow: 1px 1px 1px gray;
+  box-shadow: 1px 2px 2px #f1f1f1;
   margin-bottom: 20px;
-  flex-direction: row;
-  align-items: center;
-`;
-const ReviewCon = styled.View`
-  flex: 1;
 `;
 
-//이름을 둔다
-const NameCon = styled.View`
-  flex: 0.2;
-  margin-top: 15px;
-  flex-direction: row;
-  justify-content: space-between;
-`;
+let stars = [];
 
-//별점을 둔다
-const StarCon = styled.View`
-  flex: 0.2;
-  margin-top: 5px;
-  flex-direction: row;
-`;
-
-//content를 둔다
-const ContentCon = styled.View`
-  flex: 0.7;
-  margin-top: 5px;
-  margin-right: 10px;
-`;
 export default class Review extends React.Component {
   constructor(props) {
     super(props);
@@ -61,6 +38,38 @@ export default class Review extends React.Component {
     };
   }
 
+  star = (e) => {
+    let stars = [];
+
+    for (let x = 1; x <= 5; x++) {
+      if (x <= e) {
+        stars.push(
+          <View>
+            <FontAwesome
+              name={"star"}
+              color={"orange"}
+              size={12}
+              style={{ marginHorizontal: 1 }}
+            />
+          </View>
+        );
+      } else {
+        stars.push(
+          <View>
+            <FontAwesome
+              name={"star"}
+              color={"#b1b1b1"}
+              size={12}
+              style={{ marginHorizontal: 1 }}
+            />
+          </View>
+        );
+      }
+    }
+
+    return <View style={{ flexDirection: "row", paddingTop: 6 }}>{stars}</View>;
+  };
+
   componentDidMount = async () => {
     const food_id = this.props.food_id;
     this.setState({ food_id: food_id });
@@ -73,7 +82,7 @@ export default class Review extends React.Component {
     try {
       // 리뷰 리스트 출력
       await axios({
-        url: "http://15.164.224.142/api/app/reviewList",
+        url: "http://3.34.97.97/api/app/reviewList",
       })
         .then((response) => {
           if (response) {
@@ -91,9 +100,11 @@ export default class Review extends React.Component {
                     user_id: list.user_id,
                     content: list.review_content,
                     language_code: list.language_code,
+                    country_code: list.country_code,
                     nickname: list.user_nickname,
                     photo: list.user_photo,
                     taste: list.review_type,
+                    point: list.review_point,
                   }),
                 });
 
@@ -211,42 +222,49 @@ export default class Review extends React.Component {
           </View>
         </View>
 
+        <View
+          style={{
+            height: 1,
+            borderColor: "white",
+            borderBottomColor: "#f5f5f5",
+            borderWidth: 1,
+            marginBottom: 20,
+          }}
+        ></View>
         {mode == 0
           ? review.map((list, key) => {
               return (
                 <View style={{ alignItems: "center" }} key={key}>
                   <Container>
-                    {list.photo ? (
+                    <View style={{ flexDirection: "row", paddingLeft: 10 }}>
+                      {list.country_code == 410 ? (
+                        <Image
+                          source={require("../../images/country/korea.png")}
+                          style={{ width: 60, height: 60 }}
+                        />
+                      ) : null}
                       <View
                         style={{
-                          borderWidth: 5,
-                          borderRadius: 200,
-                          width: 90,
-                          height: 90,
-                          marginLeft: 20,
-                          marginRight: 20,
-                          alignItems: "center",
-                          justifyContent: "center",
+                          width: width / 1.35,
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                          paddingTop: 12,
+                          paddingLeft: 10,
                         }}
                       >
-                        <Image
-                          source={{ uri: list.photo }}
-                          style={{ width: 80, height: 80, borderRadius: 100 }}
-                        />
-                      </View>
-                    ) : null}
-                    <ReviewCon>
-                      <NameCon>
-                        <Text style={{ fontSize: 16, fontWeight: "bold" }}>
-                          {list.nickname}
-                        </Text>
+                        <View style={{ flexDirection: "column" }}>
+                          <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+                            {list.nickname}
+                          </Text>
+                          {list.point ? this.star(list.point) : null}
+                        </View>
+
                         {user_id == list.user_id ? (
                           <TouchableOpacity onPress={() => this.update(list)}>
                             <Text
                               style={{
                                 fontSize: 16,
                                 fontWeight: "bold",
-                                marginRight: 12,
                                 color: "#F39C12",
                               }}
                             >
@@ -254,14 +272,22 @@ export default class Review extends React.Component {
                             </Text>
                           </TouchableOpacity>
                         ) : null}
-                      </NameCon>
-                      <StarCon>
-                        <Text>★</Text>
-                      </StarCon>
-                      <ContentCon>
-                        <Text>"{list.content}"</Text>
-                      </ContentCon>
-                    </ReviewCon>
+                      </View>
+                    </View>
+                    <View
+                      style={{
+                        paddingTop: 10,
+                        paddingLeft: 20,
+                      }}
+                    >
+                      <Text
+                        style={{
+                          fontSize: 16,
+                        }}
+                      >
+                        {list.content}
+                      </Text>
+                    </View>
                   </Container>
                 </View>
               );
@@ -272,37 +298,35 @@ export default class Review extends React.Component {
                 <View style={{ alignItems: "center" }} key={key}>
                   {list.taste == 1 ? (
                     <Container>
-                      {list.photo ? (
+                      <View style={{ flexDirection: "row", paddingLeft: 10 }}>
+                        {list.country_code == 410 ? (
+                          <Image
+                            source={require("../../images/country/korea.png")}
+                            style={{ width: 60, height: 60 }}
+                          />
+                        ) : null}
                         <View
                           style={{
-                            borderWidth: 5,
-                            borderRadius: 200,
-                            width: 90,
-                            height: 90,
-                            marginLeft: 20,
-                            marginRight: 20,
-                            alignItems: "center",
-                            justifyContent: "center",
+                            width: width / 1.35,
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                            paddingTop: 12,
+                            paddingLeft: 10,
                           }}
                         >
-                          <Image
-                            source={{ uri: list.photo }}
-                            style={{ width: 80, height: 80, borderRadius: 100 }}
-                          />
-                        </View>
-                      ) : null}
-                      <ReviewCon>
-                        <NameCon>
-                          <Text style={{ fontSize: 16, fontWeight: "bold" }}>
-                            {list.nickname}
-                          </Text>
+                          <View style={{ flexDirection: "column" }}>
+                            <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+                              {list.nickname}
+                            </Text>
+                            {list.point ? this.star(list.point) : null}
+                          </View>
+
                           {user_id == list.user_id ? (
                             <TouchableOpacity onPress={() => this.update(list)}>
                               <Text
                                 style={{
                                   fontSize: 16,
                                   fontWeight: "bold",
-                                  marginRight: 12,
                                   color: "#F39C12",
                                 }}
                               >
@@ -310,14 +334,22 @@ export default class Review extends React.Component {
                               </Text>
                             </TouchableOpacity>
                           ) : null}
-                        </NameCon>
-                        <StarCon>
-                          <Text>★</Text>
-                        </StarCon>
-                        <ContentCon>
-                          <Text>"{list.content}"</Text>
-                        </ContentCon>
-                      </ReviewCon>
+                        </View>
+                      </View>
+                      <View
+                        style={{
+                          paddingTop: 10,
+                          paddingLeft: 20,
+                        }}
+                      >
+                        <Text
+                          style={{
+                            fontSize: 16,
+                          }}
+                        >
+                          {list.content}
+                        </Text>
+                      </View>
                     </Container>
                   ) : null}
                 </View>

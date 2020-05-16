@@ -2,6 +2,7 @@ import React, { useCallback } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import styled from "styled-components";
 import Layout from "../constants/Layout";
+import { FontAwesome } from "@expo/vector-icons";
 
 const SWIPER_HEIGHT = Layout.height;
 const SWIPER_WIDTH = Layout.width;
@@ -39,7 +40,29 @@ export default List = ({ list }) => {
             ) : (
               <Text style={styles.listTitle2}>{list.name}</Text>
             )}
-            <Text>★★★★★</Text>
+            {list.point ? (
+              <View style={{ flexDirection: "row" }}>
+                <FontAwesome
+                  size={16}
+                  name={"star"}
+                  color={"#F5B041"}
+                  style={{ marginRight: 10 }}
+                />
+                <Text>{list.point}</Text>
+                <Text> / 5 점</Text>
+              </View>
+            ) : (
+              <View style={{ flexDirection: "row" }}>
+                <FontAwesome
+                  size={16}
+                  name={"star-o"}
+                  color={"#F5B041"}
+                  style={{ marginRight: 10 }}
+                />
+                <Text>0</Text>
+                <Text> / 5 점</Text>
+              </View>
+            )}
           </View>
         </View>
       </Container>

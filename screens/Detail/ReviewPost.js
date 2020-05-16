@@ -16,7 +16,7 @@ const { width, height } = Dimensions.get("window");
 
 const Container = styled.View`
   flex: 1;
-  margin-top: 100px;
+  margin-top: ${height / 14}px;
 `;
 
 //현 상태 및 뒤로가기 버튼이잇음
@@ -178,14 +178,21 @@ export default class ReviewPost extends React.Component {
   };
 
   save = async () => {
-    const { review, user_id, language_code, food_id, taste } = this.state;
+    const {
+      review,
+      user_id,
+      language_code,
+      food_id,
+      taste,
+      rating,
+    } = this.state;
     // console.log(review, user_id, language_code, food_id, taste);
 
     try {
       await axios({
         method: "post",
         // url: "http://192.168.0.3/User_Site/Review.php",
-        url: "http://15.164.224.142/api/app/reviewWrite",
+        url: "http://3.34.97.97/api/app/reviewWrite",
 
         headers: {
           //응답에 대한 정보
@@ -198,6 +205,7 @@ export default class ReviewPost extends React.Component {
           language_code: language_code,
           content: review,
           taste: taste,
+          point: rating,
         },
       })
         .then((response) => {

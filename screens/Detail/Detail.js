@@ -15,6 +15,7 @@ import Material from ".././Detail/Material";
 import Review from ".././Detail/Review";
 import Taste from ".././Detail/Taste";
 import axios from "axios"; // npm i axios@0.18.0
+import Rating from "../../components/Rating";
 
 const { width, height } = Dimensions.get("window");
 
@@ -32,7 +33,6 @@ const BackBtn = styled.TouchableOpacity`
   left: 20px;
 `;
 
-//
 const Page = styled.ScrollView`
   flex: 1;
   background-color: white;
@@ -85,11 +85,25 @@ export default class Detail extends React.Component {
     three: false,
     food_name: null,
     food_photo: null,
+    point: null,
     heart: false,
     user_id: null,
+    rating: 5,
   };
 
-  componentDidMount = async () => {
+  componentWillMount = async () => {
+    const { navigation } = this.props;
+    this.focusListener = await navigation.addListener("didFocus", () => {
+      this.setting();
+    });
+  };
+
+  componentWillUnmount() {
+    // Remove the event listener
+    this.focusListener.remove();
+  }
+
+  setting = async () => {
     //푸드 정보 초기화 (올때마다 바뀌니깐) <-- 이거 필요할까? 서버 연결되면 지워보자
     // this.setState({ food: [] });
 
@@ -105,7 +119,7 @@ export default class Detail extends React.Component {
     try {
       await axios({
         method: "post",
-        url: "http://15.164.224.142/api/app/detailFood",
+        url: "http://3.34.97.97/api/app/detailFood",
 
         headers: {
           //응답에 대한 정보
@@ -119,8 +133,9 @@ export default class Detail extends React.Component {
         .then((response) => {
           if (response) {
             this.setState({
-              food_name: response.data.food_name,
-              food_photo: response.data.food_photo,
+              food_name: response.data[0].food_name,
+              food_photo: response.data[0].food_photo,
+              point: parseInt(response.data[0].point),
             });
           } else {
             console.log("no");
@@ -137,7 +152,7 @@ export default class Detail extends React.Component {
       //찜목록 가져오기
       await axios({
         method: "post",
-        url: "http://15.164.224.142/api/app/heartList",
+        url: "http://3.34.97.97/api/app/heartList",
 
         headers: {
           //응답에 대한 정보
@@ -151,14 +166,12 @@ export default class Detail extends React.Component {
         },
       })
         .then((response) => {
-          //   console.log("찜목록");
           if (response.data == "OK") {
             console.log("찜 되어있음");
-            // console.log(response.data);
+
             this.setState({ heart: true });
           } else {
             console.log("안대있음");
-            // console.log(response.data);
           }
         })
         .catch(function (error) {
@@ -200,7 +213,7 @@ export default class Detail extends React.Component {
       // 외래키와 찜유무를 보낸다
       await axios({
         method: "post",
-        url: "http://15.164.224.142/api/app/dibsFood",
+        url: "http://3.34.97.97/api/app/dibsFood",
         // url: "http://192.168.0.3/User_Site/DibsFood.php",
 
         headers: {
@@ -247,10 +260,38 @@ export default class Detail extends React.Component {
   };
 
   render() {
-    const { one, two, three, heart, food_name, food_photo } = this.state;
+    const { one, two, three, heart, food_name, food_photo, point } = this.state;
     // console.log(this.state);
     const { navigation } = this.props;
     const food_id = navigation.getParam("Id");
+
+    let stars = [];
+
+    for (let x = 1; x <= 5; x++) {
+      if (x <= point) {
+        stars.push(
+          <View>
+            <FontAwesome
+              name={"star"}
+              color={"orange"}
+              size={16}
+              style={{ marginHorizontal: 6 }}
+            />
+          </View>
+        );
+      } else {
+        stars.push(
+          <View>
+            <FontAwesome
+              name={"star"}
+              color={"#b2b2b2"}
+              size={16}
+              style={{ marginHorizontal: 6 }}
+            />
+          </View>
+        );
+      }
+    }
 
     return (
       <View
@@ -267,22 +308,40 @@ export default class Detail extends React.Component {
             ></MaterialIcons>
           </BackBtn>
           <View style={{ alignItems: "center" }}>
-            <Text
-              style={{
-                fontSize: 27,
-                fontWeight: "600",
-                marginBottom: 20,
-                marginTop: 20,
-              }}
-            >
-              {food_name}
-            </Text>
+            {parseInt(food_name) < 8 ? (
+              <Text
+                style={{
+                  fontSize: 27,
+                  color: "red",
+                  fontWeight: "600",
+                  marginBottom: 20,
+                  marginTop: 40,
+                }}
+              >
+                {food_name}
+              </Text>
+            ) : (
+              <Text
+                style={{
+                  fontSize: 24,
+                  fontWeight: "600",
+                  marginBottom: 20,
+                  marginTop: 40,
+                }}
+              >
+                {food_name}
+              </Text>
+            )}
+
+            <View style={{ flexDirection: "row" }}>{stars}</View>
+
             {food_photo ? (
               <Image
                 source={{ uri: food_photo }}
                 style={{
-                  width: 200,
-                  height: 200,
+                  width: 180,
+                  height: 180,
+                  marginTop: 20,
                 }}
               />
             ) : null}

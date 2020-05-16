@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import axios from "axios"; // npm i axios@0.18.0
 import styled from "styled-components";
+import { FontAwesome } from "@expo/vector-icons";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -64,7 +65,7 @@ export default class Attention extends React.Component {
     try {
       await axios({
         method: "post",
-        url: "http://15.164.224.142/api/app/searchList",
+        url: "http://3.34.97.97/api/app/searchList",
         headers: {
           Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
           "Content-Type": "application/json;charset=utf-8",
@@ -74,7 +75,6 @@ export default class Attention extends React.Component {
         },
       })
         .then((response) => {
-          console.log(response.data[0].food);
           for (var key in response.data) {
             var List = response.data[key];
             this.setState({
@@ -122,10 +122,42 @@ export default class Attention extends React.Component {
                     />
                   </ImageContainer>
                   <FoodInfo>
-                    <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-                      {list.food_name}
-                    </Text>
-
+                    <View style={{ marginBottom: 10 }}>
+                      {list.food_name.length < 8 ? (
+                        <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+                          {list.food_name}
+                        </Text>
+                      ) : (
+                        <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+                          {list.food_name}
+                        </Text>
+                      )}
+                    </View>
+                    <View style={{ marginBottom: 30 }}>
+                      {list.point ? (
+                        <View style={{ flexDirection: "row" }}>
+                          <FontAwesome
+                            size={16}
+                            name={"star"}
+                            color={"#F5B041"}
+                            style={{ marginRight: 10 }}
+                          />
+                          <Text>{list.point}</Text>
+                          <Text> / 5 점</Text>
+                        </View>
+                      ) : (
+                        <View style={{ flexDirection: "row" }}>
+                          <FontAwesome
+                            size={16}
+                            name={"star-o"}
+                            color={"#F5B041"}
+                            style={{ marginRight: 10 }}
+                          />
+                          <Text>0</Text>
+                          <Text> / 5 점</Text>
+                        </View>
+                      )}
+                    </View>
                     <View
                       style={{
                         alignItems: "center",

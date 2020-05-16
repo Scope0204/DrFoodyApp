@@ -40,8 +40,9 @@ export default class Signip extends React.Component {
     sex: "",
     email: "",
     age: 2020,
-
+    //회원가입(3)
     material: [],
+    //회원가입(4)
     hot: 1,
     sweet: 1,
     salty: 1,
@@ -50,7 +51,7 @@ export default class Signip extends React.Component {
 
     //외래키
     language: 1,
-    country: 10,
+    country: 410,
   };
 
   // 버튼을 누를시 해당 state 값을 저장한다.
@@ -131,7 +132,7 @@ export default class Signip extends React.Component {
   };
 
   render() {
-    const { page } = this.state;
+    const { user_id, password, page } = this.state;
 
     return (
       <Container style={{ marginTop: 5 }}>
@@ -150,9 +151,15 @@ export default class Signip extends React.Component {
           <Text>Get Started for free</Text>
         </Header>
 
-        {page == 1 ? <PageOne information={this.information} /> : null}
-        {page == 2 ? <PageTwo information={this.information} /> : null}
-        {page == 3 ? <PageThree information={this.information} /> : null}
+        {page == 1 ? (
+          <PageOne information={this.information} save={this.state} />
+        ) : null}
+        {page == 2 ? (
+          <PageTwo information={this.information} save={this.state} />
+        ) : null}
+        {page == 3 ? (
+          <PageThree information={this.information} save={this.state} />
+        ) : null}
         {page == 4 ? (
           <PageFour
             information={this.information}

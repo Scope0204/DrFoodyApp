@@ -54,6 +54,7 @@ const ImageContainer = styled.View`
 
 const FoodInfo = styled.View`
   flex-direction: column;
+  justify-content: center;
 `;
 
 const StarCon = styled.View`
@@ -79,7 +80,7 @@ export default class Search extends React.Component {
     try {
       await axios({
         method: "post",
-        url: "http://15.164.224.142/api/app/searchHistory",
+        url: "http://3.34.97.97/api/app/searchHistory",
 
         headers: {
           //응답에 대한 정보
@@ -96,7 +97,6 @@ export default class Search extends React.Component {
           console.log(response);
         })
         .catch(function (err) {
-          console.log("ㄴㄴ");
           console.log(err);
         });
     } catch (err) {
@@ -106,7 +106,7 @@ export default class Search extends React.Component {
   };
 
   searchFood = async () => {
-    let { searchText, foodList } = this.state;
+    let { searchText } = this.state;
     console.log("검색물품 : " + searchText);
 
     //검색버튼 클릭시 기존 state값 초기화
@@ -121,8 +121,7 @@ export default class Search extends React.Component {
       try {
         await axios({
           method: "post",
-          //   url: "http://192.168.0.3/User_Site/SearchFood.php",
-          url: "http://15.164.224.142/api/app/searchFood",
+          url: "http://3.34.97.97/api/app/searchFood",
 
           headers: {
             //응답에 대한 정보
@@ -134,8 +133,8 @@ export default class Search extends React.Component {
             searchText: searchText,
           },
         }).then((response) => {
-          console.log(response.data.indexOf("No Results Found"));
-          // -1 : 아닌경우 , 즉 NO가 아닌경우
+          console.log(response.data.indexOf("No Results Found")); // 아니면 -1 반환
+          // -1이 아닌경우 , 즉 NO가 아닌경우
           if (response.data != "") {
             for (var key in response.data) {
               var List = response.data[key];
@@ -149,6 +148,7 @@ export default class Search extends React.Component {
                   food_id: List.food_id,
                   name: List.food_name,
                   photo: photo_path,
+                  point: List.point,
                 }),
               });
             }
@@ -203,18 +203,52 @@ export default class Search extends React.Component {
                         />
                       </ImageContainer>
                       <FoodInfo>
-                        <Text style={{ fontSize: 24, fontWeight: "bold" }}>
-                          {list.name}
-                        </Text>
+                        {list.name.length < 8 ? (
+                          <Text
+                            style={{
+                              fontSize: 24,
+                              fontWeight: "bold",
+                              marginTop: 5,
+                            }}
+                          >
+                            {list.name}
+                          </Text>
+                        ) : (
+                          <Text
+                            style={{
+                              fontSize: 20,
+                              fontWeight: "bold",
+                              marginTop: 5,
+                            }}
+                          >
+                            {list.name}
+                          </Text>
+                        )}
+
                         <StarCon>
-                          <FontAwesome
-                            size={16}
-                            name={"star"}
-                            color={"#F5B041"}
-                            style={{ marginRight: 10 }}
-                          />
-                          <Text>1</Text>
-                          <Text>/5</Text>
+                          {list.point ? (
+                            <View style={{ flexDirection: "row" }}>
+                              <FontAwesome
+                                size={16}
+                                name={"star"}
+                                color={"#F5B041"}
+                                style={{ marginRight: 10 }}
+                              />
+                              <Text>{list.point}</Text>
+                              <Text> / 5 점</Text>
+                            </View>
+                          ) : (
+                            <View style={{ flexDirection: "row" }}>
+                              <FontAwesome
+                                size={16}
+                                name={"star-o"}
+                                color={"#F5B041"}
+                                style={{ marginRight: 10 }}
+                              />
+                              <Text>0</Text>
+                              <Text> / 5 점</Text>
+                            </View>
+                          )}
                         </StarCon>
                         <View
                           style={{
@@ -223,7 +257,7 @@ export default class Search extends React.Component {
                             backgroundColor: "#FF2257",
                             width: 100,
                             height: 30,
-                            marginBottom: 5,
+                            marginTop: 15,
                             borderRadius: 10,
                           }}
                         >

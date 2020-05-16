@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import axios from "axios"; // npm i axios@0.18.0
 import styled from "styled-components";
+import { FontAwesome } from "@expo/vector-icons";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -55,6 +56,11 @@ export default class Attention extends React.Component {
     });
   };
 
+  componentWillUnmount() {
+    // Remove the event listener
+    this.focusListener.remove();
+  }
+
   dibs_list = async () => {
     await this.setState({ dibs_list: [] });
 
@@ -63,7 +69,7 @@ export default class Attention extends React.Component {
       //찜목록 가져오기
       await axios({
         method: "post",
-        url: "http://15.164.224.142/api/app/dibsList",
+        url: "http://3.34.97.97/api/app/dibsList",
         headers: {
           //응답에 대한 정보
           Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
@@ -103,7 +109,7 @@ export default class Attention extends React.Component {
     try {
       await axios({
         method: "post",
-        url: "http://15.164.224.142/api/app/searchHistory",
+        url: "http://3.34.97.97/api/app/searchHistory",
 
         headers: {
           //응답에 대한 정보
@@ -128,11 +134,6 @@ export default class Attention extends React.Component {
     this.props.navigation.navigate("Detail", { Id: food_id });
   };
 
-  componentWillUnmount() {
-    // Remove the event listener
-    this.focusListener.remove();
-  }
-
   render() {
     const { dibs_list } = this.state;
     return (
@@ -153,10 +154,38 @@ export default class Attention extends React.Component {
                     />
                   </ImageContainer>
                   <FoodInfo>
-                    <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        fontWeight: "bold",
+                        marginBottom: 10,
+                      }}
+                    >
                       {list.food_name}
                     </Text>
-
+                    {list.point ? (
+                      <View style={{ flexDirection: "row" }}>
+                        <FontAwesome
+                          size={16}
+                          name={"star"}
+                          color={"#F5B041"}
+                          style={{ marginRight: 10 }}
+                        />
+                        <Text>{list.point}</Text>
+                        <Text> / 5 점</Text>
+                      </View>
+                    ) : (
+                      <View style={{ flexDirection: "row" }}>
+                        <FontAwesome
+                          size={16}
+                          name={"star-o"}
+                          color={"#F5B041"}
+                          style={{ marginRight: 10 }}
+                        />
+                        <Text>0</Text>
+                        <Text> / 5 점</Text>
+                      </View>
+                    )}
                     <View
                       style={{
                         alignItems: "center",
@@ -166,6 +195,7 @@ export default class Attention extends React.Component {
                         height: 30,
                         marginBottom: 5,
                         borderRadius: 10,
+                        marginTop: 30,
                       }}
                     >
                       <TouchableOpacity onPress={() => this.info(list.food_id)}>

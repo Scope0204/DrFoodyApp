@@ -20,10 +20,6 @@ export default class Login extends React.Component {
       user_password: "",
     };
   }
-  //   componentDidMount = async () => {
-  //     await AsyncStorage.setItem("User", 1);
-  //     await AsyncStorage.setItem("Language", 1);
-  //   };
 
   callLogin = async () => {
     const { user_name } = this.state;
@@ -31,7 +27,7 @@ export default class Login extends React.Component {
     try {
       await axios({
         method: "post",
-        url: "http://15.164.224.142/api/app/login",
+        url: "http://3.34.97.97/api/app/login",
 
         headers: {
           //응답에 대한 정보
@@ -113,7 +109,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   signupBotton: {
-    color: "#F58541",
+    color: "#ff5122",
     fontSize: 16,
     fontWeight: "bold",
   },
@@ -142,7 +138,7 @@ const styles = StyleSheet.create({
     width: 330,
     height: 50,
     justifyContent: "center",
-    backgroundColor: "#F58541",
+    backgroundColor: "#ff5122",
     borderRadius: 10,
     marginVertical: 10,
     paddingVertical: 12,
