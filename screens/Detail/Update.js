@@ -1,5 +1,12 @@
 import React from "react";
-import { View, Text, Dimensions, AsyncStorage, Alert } from "react-native";
+import {
+  View,
+  Text,
+  Dimensions,
+  AsyncStorage,
+  Alert,
+  Image,
+} from "react-native";
 import styled from "styled-components";
 import axios from "axios"; // npm i axios@0.18.0
 import Modal from "react-native-modal";
@@ -9,18 +16,23 @@ const { width, height } = Dimensions.get("window");
 
 const Container = styled.View`
   flex: 1;
-  margin-top: 100px;
+  margin-top: ${height / 14}px;
 `;
 
 //현 상태 및 뒤로가기 버튼이잇음
 const ImgCon = styled.View`
   flex: 0.4;
-  background-color: yellow;
+  background-color: white;
+  align-items: center;
+  border-bottom-width: 5px;
+  border: 0 solid #f5f5f5;
 `;
 //별점 고르는 상자
 const StarCon = styled.View`
   flex: 0.1;
-  background-color: blue;
+  justify-content: center;
+  align-items: flex-start;
+  padding-left: 20px;
 `;
 //리뷰 폼
 const ReviewCon = styled.View`
@@ -99,6 +111,9 @@ export default class Update extends React.Component {
       taste: null, // 나중에 Info.taste로 바꿀것
       //별점
       rating: Info.point,
+      //음식 정보
+      food_photo: null,
+      food_name: null,
     };
   }
 
@@ -176,7 +191,6 @@ export default class Update extends React.Component {
       await axios({
         method: "post",
         url: "http://3.34.97.97/api/app/reviewUpdate",
-        // url: "http://192.168.0.119/New/Update.php",
 
         headers: {
           //응답에 대한 정보
@@ -242,8 +256,20 @@ export default class Update extends React.Component {
     this.setState({ rating: e });
   };
 
+  componentDidMount = () => {
+    const { navigation } = this.props;
+
+    const food_photo = navigation.getParam("Food_photo");
+    const food_name = navigation.getParam("Food_name");
+
+    this.setState({
+      food_photo: food_photo,
+      food_name: food_name,
+    });
+  };
+
   render() {
-    const { content, rating } = this.state;
+    const { content, rating, food_name, food_photo } = this.state;
     // mode 0이면 삭제 , 1이면 수정
     return (
       <Container>
@@ -273,7 +299,25 @@ export default class Update extends React.Component {
         </Modal>
 
         <ImgCon>
-          <Text>리뷰</Text>
+          <Text
+            style={{
+              fontSize: 27,
+              fontWeight: "bold",
+              marginBottom: 20,
+              marginTop: 20,
+            }}
+          >
+            {food_name}
+          </Text>
+          {food_photo ? (
+            <Image
+              source={{ uri: food_photo }}
+              style={{
+                width: 200,
+                height: 200,
+              }}
+            />
+          ) : null}
         </ImgCon>
         <StarCon>
           <Rating rating={rating} review_rating={this.review_rating} />

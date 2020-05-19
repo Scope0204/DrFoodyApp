@@ -40,12 +40,12 @@ export default class Review extends React.Component {
 
   star = (e) => {
     let stars = [];
-
     for (let x = 1; x <= 5; x++) {
       if (x <= e) {
         stars.push(
           <View>
             <FontAwesome
+              key={x}
               name={"star"}
               color={"orange"}
               size={12}
@@ -57,6 +57,7 @@ export default class Review extends React.Component {
         stars.push(
           <View>
             <FontAwesome
+              key={x}
               name={"star"}
               color={"#b1b1b1"}
               size={12}
@@ -299,12 +300,25 @@ export default class Review extends React.Component {
                   {list.taste == 1 ? (
                     <Container>
                       <View style={{ flexDirection: "row", paddingLeft: 10 }}>
+                        {list.country_code == 840 ? (
+                          <Image
+                            source={require("../../images/country/america.png")}
+                            style={{ width: 60, height: 60 }}
+                          />
+                        ) : null}
+                        {list.country_code == 392 ? (
+                          <Image
+                            source={require("../../images/country/japan.png")}
+                            style={{ width: 60, height: 60 }}
+                          />
+                        ) : null}
                         {list.country_code == 410 ? (
                           <Image
                             source={require("../../images/country/korea.png")}
                             style={{ width: 60, height: 60 }}
                           />
                         ) : null}
+
                         <View
                           style={{
                             width: width / 1.35,

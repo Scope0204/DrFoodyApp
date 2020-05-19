@@ -36,7 +36,7 @@ const Circle = styled.View`
   margin-left: 5px;
 `;
 const CircleNow = styled.View`
-  background-color: #fdcc1f;
+  background-color: #ff5122;
   width: 5px;
   height: 5px;
   border-radius: 75px;
@@ -101,7 +101,7 @@ const TasteBar = styled.View`
   height: 5px;
   margin-top: 20px;
   margin-bottom: 40px;
-  margin-left: 25;
+  margin-left: 25px;
   flex-direction: row;
   background-color: gray;
   width: 280px;
@@ -119,7 +119,7 @@ const SignInBtn = styled.TouchableOpacity`
   border-radius: 10px;
   width: 330px;
   height: 50px;
-  background-color: #fdcc1f;
+  background-color: #ff5122;
   justify-content: center;
 `;
 
@@ -273,9 +273,9 @@ export default class PageFour extends React.Component {
               </ModalBtn>
               <ModalBtn
                 onPress={() => this.toggleModal(1)}
-                style={{ backgroundColor: "#fdcc1f" }}
+                style={{ backgroundColor: "#ff5122" }}
               >
-                <Text>예</Text>
+                <Text style={{ color: "white", fontWeight: "bold" }}>예</Text>
               </ModalBtn>
             </ModalBtnCon>
           </ModalContainer>

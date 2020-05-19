@@ -28,6 +28,7 @@ export default class Login extends React.Component {
       await axios({
         method: "post",
         url: "http://3.34.97.97/api/app/login",
+        // url: "http://172.30.1.50/User_Site/User_Login.php",
 
         headers: {
           //응답에 대한 정보

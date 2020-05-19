@@ -81,8 +81,7 @@ export default class Main extends React.Component {
 
     const { navigation } = this.props;
     const User = navigation.getParam("User");
-    const { user_id } = this.state;
-    // User의 user_id, language_code 가 이곳저곳 사용되니 asyncstorage에 저장
+    AsyncStorage.setItem("UserName", User); // 유저 이름
 
     try {
       // 유저 정보 가져오기(이름과 사진)
@@ -98,6 +97,7 @@ export default class Main extends React.Component {
           id: User,
         },
       }).then((response) => {
+        console.log(response.data);
         if (response.data) {
           console.log(response.data.user_id);
           this.setState({
@@ -107,6 +107,8 @@ export default class Main extends React.Component {
             language_code: response.data.language_code,
           });
           //asyncstorage는 string형식으로만 저장가능
+          // User의 user_id, language_code 가 이곳저곳 사용되니 asyncstorage에 저장
+
           AsyncStorage.setItem("User", JSON.stringify(response.data.user_id));
         } else {
           alert("no");

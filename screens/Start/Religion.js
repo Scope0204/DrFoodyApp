@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 const SelectView = styled.TouchableOpacity`
   background-color: white;
-  height: 60;
+  height: 60px;
   align-items: center;
   justify-content: center;
   border-bottom-width: 1px;
@@ -12,7 +12,7 @@ const SelectView = styled.TouchableOpacity`
 `;
 
 const TextList = styled.Text`
-  font-size: 20;
+  font-size: 20px;
 `;
 
 export default class Religion extends React.Component {
@@ -94,7 +94,7 @@ export default class Religion extends React.Component {
 
 const styles = StyleSheet.create({
   selected: {
-    backgroundColor: "#FEEA9F",
+    backgroundColor: "#ffe1d4",
     color: "white",
   },
 });

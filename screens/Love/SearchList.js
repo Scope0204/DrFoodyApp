@@ -44,10 +44,15 @@ export default class Attention extends React.Component {
     super(props);
     this.state = {
       search_list: [],
+      user_id: null,
     };
   }
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
+    // 유저 id
+    const post_id = await AsyncStorage.getItem("User"); // 문자열로 읽힘
+    this.setState({ user_id: post_id });
+
     const { navigation } = this.props;
     this.focusListener = navigation.addListener("didFocus", () => {
       this.search_list();
@@ -99,7 +104,8 @@ export default class Attention extends React.Component {
 
   //상세 페이지로 이동
   info = (food_id) => {
-    this.props.navigation.navigate("Detail", { Id: food_id });
+    const { user_id } = this.state;
+    this.props.navigation.navigate("Detail", { Id: food_id, User: user_id });
   };
 
   render() {
@@ -122,7 +128,7 @@ export default class Attention extends React.Component {
                     />
                   </ImageContainer>
                   <FoodInfo>
-                    <View style={{ marginBottom: 10 }}>
+                    <View style={{ paddingBottom: 10, paddingTop: 10 }}>
                       {list.food_name.length < 8 ? (
                         <Text style={{ fontSize: 20, fontWeight: "bold" }}>
                           {list.food_name}
@@ -163,7 +169,7 @@ export default class Attention extends React.Component {
                         alignItems: "center",
                         justifyContent: "center",
                         backgroundColor: "#FF2257",
-                        width: 100,
+                        width: 90,
                         height: 30,
                         marginBottom: 5,
                         borderRadius: 10,

@@ -48,7 +48,7 @@ const Circle = styled.View`
   margin-left: 5px;
 `;
 const CircleNow = styled.View`
-  background-color: #fdcc1f;
+  background-color: #ff5122;
   width: 5px;
   height: 5px;
   border-radius: 75px;
@@ -202,10 +202,6 @@ export default class PageThree extends React.Component {
                         borderRadius={5}
                         cancelable={true}
                         onPress={() => this.deleteMetarial(material)}
-                        // backgroundColor={"#FDCC1F"}
-                        // titleStyle={{
-                        //   color: "white",
-                        // }}
                       />
                     </View>
                   );
@@ -236,7 +232,7 @@ export default class PageThree extends React.Component {
 
 const styles = StyleSheet.create({
   select: {
-    backgroundColor: "#FDCC1F",
+    backgroundColor: "#ff5122",
     width: 160,
     height: 25,
     borderWidth: 0.1,

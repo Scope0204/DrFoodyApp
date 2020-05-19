@@ -93,7 +93,7 @@ const Circle = styled.View`
   margin-left: 5px;
 `;
 const CircleNow = styled.View`
-  background-color: #fdcc1f;
+  background-color: #ff5122;
   width: 5px;
   height: 5px;
   border-radius: 75px;
@@ -220,7 +220,7 @@ export default class PageTwo extends React.Component {
     return (
       <Container>
         <MainContainer>
-          <Title style={{ marginTop: 20 }}>ZENDER</Title>
+          <Title style={{ marginTop: 20 }}>GENDER</Title>
           <BtnContainer>
             <MaleButton
               activeOpacity={1}

@@ -45,21 +45,21 @@ const ButtonView = styled.View`
 `;
 
 const Button1 = styled.TouchableOpacity`
-  width: ${width / 3};
+  width: ${width / 3}px;
   border: 0.5px #abb2b9;
   align-items: center;
   justify-content: center;
 `;
 
 const Button2 = styled.TouchableOpacity`
-  width: ${width / 3};
+  width: ${width / 3}px;
   border: 0.5px #abb2b9;
   align-items: center;
   justify-content: center;
 `;
 
 const Button3 = styled.TouchableOpacity`
-  width: ${width / 3};
+  width: ${width / 3}px;
   border: 0.5px #abb2b9;
   align-items: center;
   justify-content: center;
@@ -87,11 +87,15 @@ export default class Detail extends React.Component {
     food_photo: null,
     point: null,
     heart: false,
-    user_id: null,
+    // user_id: null,
     rating: 5,
   };
 
-  componentWillMount = async () => {
+  componentDidMount = async () => {
+    // // 유저 id
+    // const post_id = await AsyncStorage.getItem("User"); // 문자열로 읽힘
+    // this.setState({ user_id: post_id });
+
     const { navigation } = this.props;
     this.focusListener = await navigation.addListener("didFocus", () => {
       this.setting();
@@ -99,21 +103,14 @@ export default class Detail extends React.Component {
   };
 
   componentWillUnmount() {
-    // Remove the event listener
     this.focusListener.remove();
   }
 
   setting = async () => {
-    //푸드 정보 초기화 (올때마다 바뀌니깐) <-- 이거 필요할까? 서버 연결되면 지워보자
-    // this.setState({ food: [] });
-
     // 음식 id
     const { navigation } = this.props;
     const food_id = navigation.getParam("Id");
-
-    // 유저 id
-    const post_id = await AsyncStorage.getItem("User"); // 문자열로 읽힘
-    this.setState({ user_id: post_id });
+    const user_id = navigation.getParam("User");
 
     //음식정보 가져오기
     try {
@@ -161,7 +158,7 @@ export default class Detail extends React.Component {
         },
         data: {
           //   page: "Detail",
-          user_id: post_id,
+          user_id: user_id,
           food_id: food_id,
         },
       })
@@ -203,18 +200,17 @@ export default class Detail extends React.Component {
       post_heart = true;
     }
     //찜목록 => 유저아이디와 food_id가 필요하다
-    //유저 아이디
-    const { user_id } = this.state;
-    //음식 아이디
+
+    //유저 아이디 , 음식 아이디
     const { navigation } = this.props;
     const food_id = navigation.getParam("Id");
+    const user_id = navigation.getParam("User");
 
     try {
       // 외래키와 찜유무를 보낸다
       await axios({
         method: "post",
         url: "http://3.34.97.97/api/app/dibsFood",
-        // url: "http://192.168.0.3/User_Site/DibsFood.php",
 
         headers: {
           //응답에 대한 정보
@@ -229,7 +225,7 @@ export default class Detail extends React.Component {
       })
         .then((response) => {
           if (response) {
-            console.log(response);
+            // console.log(response);
           } else {
             console.log("no");
           }
@@ -255,8 +251,13 @@ export default class Detail extends React.Component {
 
   // 수정페이지로 이동 (댓글 전체 정보를 전달)
   update = (e) => {
+    const { food_photo, food_name } = this.state;
     this.setState({ three: false, one: true });
-    this.props.navigation.navigate("Update", { Info: e });
+    this.props.navigation.navigate("Update", {
+      Info: e,
+      Food_photo: food_photo,
+      Food_name: food_name,
+    });
   };
 
   render() {
@@ -264,6 +265,7 @@ export default class Detail extends React.Component {
     // console.log(this.state);
     const { navigation } = this.props;
     const food_id = navigation.getParam("Id");
+    const user_id = navigation.getParam("User");
 
     let stars = [];
 
@@ -272,6 +274,7 @@ export default class Detail extends React.Component {
         stars.push(
           <View>
             <FontAwesome
+              key={x}
               name={"star"}
               color={"orange"}
               size={16}
@@ -283,6 +286,7 @@ export default class Detail extends React.Component {
         stars.push(
           <View>
             <FontAwesome
+              key={x}
               name={"star"}
               color={"#b2b2b2"}
               size={16}
@@ -389,7 +393,7 @@ export default class Detail extends React.Component {
           </Button3>
         </ButtonView>
         <Page alwaysBounceHorizontal={false}>
-          {one ? <Material food_id={food_id} /> : null}
+          {one ? <Material food_id={food_id} user_id={user_id} /> : null}
           {two ? <Taste food_id={food_id} /> : null}
           {three ? <Review food_id={food_id} update={this.update} /> : null}
         </Page>

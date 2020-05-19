@@ -131,7 +131,7 @@ export default class Attention extends React.Component {
     } catch (err) {
       console.log(err);
     }
-    this.props.navigation.navigate("Detail", { Id: food_id });
+    this.props.navigation.navigate("Detail", { Id: food_id, User: user_id });
   };
 
   render() {
@@ -140,77 +140,80 @@ export default class Attention extends React.Component {
       <ScrollView style={{ backgroundColor: "#f5f5f5" }}>
         <View style={{ alignItems: "center" }}>
           <Text></Text>
-          {dibs_list ? (
-            dibs_list.map((list, key) => {
-              return (
-                <Container key={key}>
-                  <ImageContainer>
-                    <Image
-                      source={{ uri: list.food_photo }}
-                      style={{
-                        width: 150,
-                        height: 150,
-                      }}
-                    />
-                  </ImageContainer>
-                  <FoodInfo>
-                    <Text
-                      style={{
-                        fontSize: 20,
-                        fontWeight: "bold",
-                        marginBottom: 10,
-                      }}
-                    >
-                      {list.food_name}
-                    </Text>
-                    {list.point ? (
-                      <View style={{ flexDirection: "row" }}>
-                        <FontAwesome
-                          size={16}
-                          name={"star"}
-                          color={"#F5B041"}
-                          style={{ marginRight: 10 }}
-                        />
-                        <Text>{list.point}</Text>
-                        <Text> / 5 점</Text>
-                      </View>
-                    ) : (
-                      <View style={{ flexDirection: "row" }}>
-                        <FontAwesome
-                          size={16}
-                          name={"star-o"}
-                          color={"#F5B041"}
-                          style={{ marginRight: 10 }}
-                        />
-                        <Text>0</Text>
-                        <Text> / 5 점</Text>
-                      </View>
-                    )}
-                    <View
-                      style={{
-                        alignItems: "center",
-                        justifyContent: "center",
-                        backgroundColor: "#FF2257",
-                        width: 100,
-                        height: 30,
-                        marginBottom: 5,
-                        borderRadius: 10,
-                        marginTop: 30,
-                      }}
-                    >
-                      <TouchableOpacity onPress={() => this.info(list.food_id)}>
-                        <Text style={{ color: "white", fontWeight: "bold" }}>
-                          Check this
+          {dibs_list
+            ? dibs_list.map((list, key) => {
+                return (
+                  <Container key={key}>
+                    <ImageContainer>
+                      <Image
+                        source={{ uri: list.food_photo }}
+                        style={{
+                          width: 150,
+                          height: 150,
+                        }}
+                      />
+                    </ImageContainer>
+                    <FoodInfo>
+                      <View style={{ paddingBottom: 10, paddingTop: 10 }}>
+                        <Text
+                          style={{
+                            fontSize: 20,
+                            fontWeight: "bold",
+                            marginBottom: 10,
+                          }}
+                        >
+                          {list.food_name}
                         </Text>
-                      </TouchableOpacity>
-                    </View>
-                  </FoodInfo>
-                </Container>
-              );
-            })
-          ) : (
-            <Text>asdasdasd</Text>
-          )}
+                        <View style={{ marginBottom: 20 }}>
+                          {list.point ? (
+                            <View style={{ flexDirection: "row" }}>
+                              <FontAwesome
+                                size={16}
+                                name={"star"}
+                                color={"#F5B041"}
+                                style={{ marginRight: 10 }}
+                              />
+                              <Text>{list.point}</Text>
+                              <Text> / 5 점</Text>
+                            </View>
+                          ) : (
+                            <View style={{ flexDirection: "row" }}>
+                              <FontAwesome
+                                size={16}
+                                name={"star-o"}
+                                color={"#F5B041"}
+                                style={{ marginRight: 10 }}
+                              />
+                              <Text>0</Text>
+                              <Text> / 5 점</Text>
+                            </View>
+                          )}
+                        </View>
+                      </View>
+                      <View
+                        style={{
+                          alignItems: "center",
+                          justifyContent: "center",
+                          backgroundColor: "#FF2257",
+                          width: 90,
+                          height: 30,
+                          marginBottom: 5,
+                          borderRadius: 10,
+                        }}
+                      >
+                        <TouchableOpacity
+                          onPress={() => this.info(list.food_id)}
+                        >
+                          <Text style={{ color: "white", fontWeight: "bold" }}>
+                            Check this
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
+                    </FoodInfo>
+                  </Container>
+                );
+              })
+            : null}
         </View>
       </ScrollView>
     );

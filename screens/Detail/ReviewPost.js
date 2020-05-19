@@ -191,7 +191,6 @@ export default class ReviewPost extends React.Component {
     try {
       await axios({
         method: "post",
-        // url: "http://192.168.0.3/User_Site/Review.php",
         url: "http://3.34.97.97/api/app/reviewWrite",
 
         headers: {

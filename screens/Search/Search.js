@@ -102,7 +102,7 @@ export default class Search extends React.Component {
     } catch (err) {
       console.log(err);
     }
-    this.props.navigation.navigate("Detail", { Id: food_id });
+    this.props.navigation.navigate("Detail", { Id: food_id, User: user_id });
   };
 
   searchFood = async () => {

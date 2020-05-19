@@ -46,7 +46,7 @@ const Search = styled.View`
 
 const ModalBtnCon = styled.TouchableOpacity`
   flex: 0.1;
-  background-color: #fdcc1f;
+  background-color: #ff5122;
   justify-content: center;
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
@@ -171,7 +171,7 @@ export default class List extends React.Component {
 
 const styles = StyleSheet.create({
   selected: {
-    backgroundColor: "#FEEA9F",
+    backgroundColor: "#ffe1d4",
     color: "white",
   },
 });
