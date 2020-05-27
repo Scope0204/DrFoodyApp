@@ -1,5 +1,6 @@
 import React from "react";
 import { Text } from "react-native";
+import SimpleColumn from "../../components/SimpleColumn";
 
 export default class Chart extends React.Component {
   componentWillMount() {
@@ -7,5 +8,7 @@ export default class Chart extends React.Component {
       this.chart.dispose();
     }
   }
-  render() {}
+  render() {
+    return <SimpleColumn />;
+  }
 }

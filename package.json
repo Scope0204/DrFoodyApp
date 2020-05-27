@@ -8,6 +8,9 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@amcharts/amcharts4": "^4.9.23",
+    "@amcharts/amcharts4-fonts": "^4.0.1",
+    "@amcharts/amcharts4-geodata": "^4.1.15",
     "axios": "^0.18.0",
     "expo": "~36.0.0",
     "expo-camera": "^8.0.0",
