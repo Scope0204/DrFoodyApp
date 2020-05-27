@@ -49,8 +49,7 @@ const TabNavigation = createBottomTabNavigator(
         Main: {
           screen: MainScreen,
           navigationOptions: {
-            title: "Main",
-            ...headerStyles,
+            header: null,
           },
         },
       }),

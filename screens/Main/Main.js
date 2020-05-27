@@ -12,7 +12,8 @@ import styled from "styled-components";
 import List from "../../components/List";
 import SearchBar from "../../components/SearchBar";
 import axios from "axios"; // npm i axios@0.18.0
-import { EvilIcons, Octicons, Entypo } from "@expo/vector-icons";
+import { EvilIcons, Octicons, Entypo, AntDesign } from "@expo/vector-icons";
+import Address from "../../components/Address";
 
 const { width, height } = Dimensions.get("window");
 
@@ -73,12 +74,13 @@ export default class Main extends React.Component {
       user_id: "",
       language_code: "",
       food_list: [],
+      //위도 , 경도
+      latitude: null,
+      longitude: null,
     };
   }
 
   componentDidMount = async () => {
-    // alert(await AsyncStorage.getItem("User"));
-
     const { navigation } = this.props;
     const User = navigation.getParam("User");
     AsyncStorage.setItem("UserName", User); // 유저 이름
@@ -154,117 +156,142 @@ export default class Main extends React.Component {
   render() {
     const { user_name, user_photo, food_list } = this.state;
     return (
-      <Container>
-        {/* <AdSlider /> */}
-        <CameraContainer>
-          <CameraBtn onPress={() => this.props.navigation.navigate("Camera")}>
-            <Entypo size={120} name={"camera"} color={"white"} />
-            <CameraText>제품 조회</CameraText>
-          </CameraBtn>
-        </CameraContainer>
-        <View
+      <View style={{ flex: 1 }}>
+        <View //커스텀 헤더
           style={{
+            flex: 0.12,
+            borderBottomColor: "black",
+            borderBottomWidth: 0.5,
             alignItems: "center",
-            marginTop: 10,
-            marginBottom: 10,
-            alignItems: "center",
+            justifyContent: "flex-end",
+            paddingBottom: 10,
           }}
         >
-          <UserState>
-            {user_photo == "" ? (
-              <EvilIcons size={120} name={"user"} color={"black"} />
-            ) : (
-              <View
-                style={{
-                  borderWidth: 5,
-                  borderRadius: 200,
-                  width: 90,
-                  height: 90,
-                  marginLeft: 20,
-                  marginRight: 20,
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Image
-                  source={{
-                    uri: user_photo,
-                  }}
-                  style={{
-                    width: 80,
-                    height: 80,
-                    borderRadius: 100,
-                  }}
-                />
-              </View>
-            )}
-            <View style={{ flexDirection: "column" }}>
-              <Text style={{ fontSize: 23 }}>{user_name}</Text>
-              <Text>한국에 있습니다</Text>
-            </View>
-          </UserState>
+          <View style={{ flexDirection: "row" }}>
+            <Address />
+            <TouchableOpacity
+              onPress={() => this.props.navigation.navigate("Map")}
+            >
+              <AntDesign
+                name={"downcircle"}
+                size={18}
+                color={"orange"}
+                style={{ paddingLeft: 10 }}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
-        <View style={{ alignItems: "center" }}>
-          <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("Search")}
-            style={{ marginBottom: 5 }}
-          >
-            <SearchBar />
-          </TouchableOpacity>
-        </View>
-        <SelectContainer>
-          {/* <FoodSlider info={this.info} /> */}
+        <Container style={{ flex: 0.88 }}>
+          <CameraContainer>
+            <CameraBtn onPress={() => this.props.navigation.navigate("Camera")}>
+              <Entypo size={120} name={"camera"} color={"white"} />
+              <CameraText>제품 조회</CameraText>
+            </CameraBtn>
+          </CameraContainer>
           <View
             style={{
-              marginTop: 5,
-              height: height / 3.2,
-              backgroundColor: "white",
-              borderBottomWidth: 1,
-              borderBottomColor: "#ECF0F1",
-              flex: 1,
+              alignItems: "center",
+              marginTop: 10,
+              marginBottom: 10,
+              alignItems: "center",
             }}
           >
+            <UserState>
+              {user_photo == "" ? (
+                <EvilIcons size={120} name={"user"} color={"black"} />
+              ) : (
+                <View
+                  style={{
+                    borderWidth: 5,
+                    borderRadius: 200,
+                    width: 90,
+                    height: 90,
+                    marginLeft: 20,
+                    marginRight: 20,
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Image
+                    source={{
+                      uri: user_photo,
+                    }}
+                    style={{
+                      width: 80,
+                      height: 80,
+                      borderRadius: 100,
+                    }}
+                  />
+                </View>
+              )}
+              <View style={{ flexDirection: "column" }}>
+                <Text style={{ fontSize: 23 }}>{user_name}</Text>
+                <Text>한국에 있습니다</Text>
+              </View>
+            </UserState>
+          </View>
+          <View style={{ alignItems: "center" }}>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.navigate("Search")}
+              style={{ marginBottom: 5 }}
+            >
+              <SearchBar />
+            </TouchableOpacity>
+          </View>
+          <SelectContainer>
+            {/* <FoodSlider info={this.info} /> */}
             <View
               style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
+                marginTop: 5,
+                height: height / 3.2,
+                backgroundColor: "white",
+                borderBottomWidth: 1,
+                borderBottomColor: "#ECF0F1",
+                flex: 1,
               }}
             >
-              <Text
+              <View
                 style={{
-                  fontWeight: "bold",
-                  fontSize: 20,
-                  marginLeft: 20,
-                  marginTop: 20,
-                  // backgroundColor: "red",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
                 }}
               >
-                제품 리스트
-              </Text>
-              <Text
-                style={{
-                  fontSize: 16,
-                  marginRight: 20,
-                  marginTop: 25,
-                  color: "#808B96",
-                }}
-              >
-                더보기
-              </Text>
-            </View>
+                <Text
+                  style={{
+                    fontWeight: "bold",
+                    fontSize: 20,
+                    marginLeft: 20,
+                    marginTop: 20,
+                    // backgroundColor: "red",
+                  }}
+                >
+                  제품 리스트
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    marginRight: 20,
+                    marginTop: 25,
+                    color: "#808B96",
+                  }}
+                >
+                  더보기
+                </Text>
+              </View>
 
-            <FlatList
-              data={food_list}
-              keyExtractor={(item) => item.name}
-              horizontal={true}
-              showsHorizontalScrollIndicator={false}
-              renderItem={({ item }) => <List list={item} />}
-              info={this.info}
-              style={{ paddingLeft: 0 }}
-            />
-          </View>
-        </SelectContainer>
-      </Container>
+              <FlatList
+                data={food_list}
+                keyExtractor={(item) => item.name}
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+                renderItem={({ item }) => <List list={item} />}
+                info={this.info}
+                style={{ paddingLeft: 0 }}
+              />
+            </View>
+          </SelectContainer>
+        </Container>
+      </View>
     );
   }
 }

@@ -9,6 +9,7 @@ import SingupScreen from "../screens/Start/Signup";
 import SearchScreen from "../screens/Search/Search";
 import ReviewScreen from "../screens/Detail/ReviewPost";
 import UpdateScreen from "../screens/Detail/Update";
+import MapScreen from "../screens/Main/Map";
 
 const MainNavigation = createStackNavigator(
   {
@@ -69,6 +70,12 @@ const MainNavigation = createStackNavigator(
       navigationOptions: {
         header: null,
         // title: "리뷰 작성",
+      },
+    },
+    Map: {
+      screen: MapScreen,
+      navigationOptions: {
+        title: "지도",
       },
     },
   },

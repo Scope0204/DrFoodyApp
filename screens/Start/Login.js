@@ -9,8 +9,9 @@ import {
   AsyncStorage, // 유저 정보 저장
 } from "react-native";
 import Logo from "../../components/Logo";
-// import Form from "../../components/Form";
 import axios from "axios"; // npm i axios@0.18.0
+// import * as Permissions from "expo-permissions";
+// import * as Location from "expo-location";
 
 export default class Login extends React.Component {
   constructor(props) {
