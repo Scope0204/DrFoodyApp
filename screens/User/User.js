@@ -1,8 +1,14 @@
 import React from "react";
-import { View, Text, Dimensions, AsyncStorage } from "react-native";
+import { View, Text, Dimensions, AsyncStorage, Image } from "react-native";
 import styled, { keyframes } from "styled-components";
-import { Ionicons, MaterialIcons, Entypo, AntDesign } from "@expo/vector-icons";
 import axios from "axios"; // npm i axios@0.18.0
+import {
+  FontAwesome,
+  EvilIcons,
+  Octicons,
+  Entypo,
+  AntDesign,
+} from "@expo/vector-icons";
 
 const { width, height } = Dimensions.get("window");
 
@@ -33,11 +39,13 @@ export default class User extends React.Component {
         },
       })
         .then((response) => {
+          console.log(response.data);
           const list = response.data;
           this.setState({
             user: this.state.user.concat({
               id: list.id,
               language_code: list.language_code,
+              country_code: list.country_code,
               user_birth: list.user_birth,
               user_hot: list.user_hot,
               user_sweet: list.user_sweet,
@@ -46,6 +54,7 @@ export default class User extends React.Component {
               user_bitter: list.user_bitter,
               user_photo: list.user_photo,
               user_nickname: list.user_nickname,
+              user_sex: list.user_sex,
             }),
           });
         })
@@ -62,12 +71,29 @@ export default class User extends React.Component {
     return (
       <Container>
         <UserOptions>
-          <Text>User</Text>
           {user
             ? user.map((list, key) => {
                 return (
                   <View key={key}>
-                    <Text>{list.user_nickname}</Text>
+                    <View style={{ flexDirection: "row" }}>
+                      {/* <Image
+                        source={{ uri: list.user_photo }}
+                        style={{ width: 120, height: 120 }}
+                      /> */}
+                      <Image
+                        source={require("../../images/user.png")}
+                        style={{ width: 120, height: 120 }}
+                      />
+                      <Text>{list.user_nickname}</Text>
+                    </View>
+                    <Text>{list.user_birth}</Text>
+                    <Text>{list.country_code}</Text>
+                    <Text>{list.user_hot}</Text>
+                    <Text>{list.user_bitter}</Text>
+                    <Text>{list.user_salty}</Text>
+                    <Text>{list.user_sour}</Text>
+                    <Text>{list.user_salty}</Text>
+                    <Text>{list.user_sex}</Text>
                   </View>
                 );
               })

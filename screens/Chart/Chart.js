@@ -20,9 +20,8 @@ import { FontAwesome, AntDesign } from "@expo/vector-icons";
 import styled from "styled-components";
 import ListGraph from "../../components/ListGraph";
 import DropDownPicker from "react-native-dropdown-picker";
-import DateTimePicker from "@react-native-community/datetimepicker";
-
-import Modal from "react-native-modal";
+// import DateTimePicker from "@react-native-community/datetimepicker"; // 안쓰기로함
+import axios from "axios"; // npm i axios@0.18.0
 
 const { width, height } = Dimensions.get("window");
 
@@ -32,136 +31,95 @@ const Container = styled.ScrollView`
   height: ${height}px;
 `;
 
-// 모달
-
-const ModalContainer = styled.View`
-  width: ${width}px;
-  height: ${height / 2 - 50}px;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
-`;
-const DateContainer = styled.View`
-  align-items: center;
-  padding-left: 15px;
-  flex-direction: row;
-  padding-bottom: 5px;
-  padding-top: 5px;
-`;
-const DateSelectBox = styled.View`
-  width: ${width / 3}px;
+const SelectBtn = styled.View`
+  background-color: #fafafa;
+  width: ${width / 4}px;
   height: 40px;
-  background-color: white;
   border-radius: 5px;
-  border-width: 1px;
-  border-color: #d5d8dc;
-  justify-content: center;
-  align-items: center;
+  border: 1px solid;
 `;
 
+const ChartBox = styled.View`
+  width: ${width - 20}px;
+  background-color: white;
+  height: 100px;
+  border-radius: 10px;
+  border: 1px solid #ecf0f1;
+  box-shadow: 2px 2px 2px #f1f1f1;
+  margin-bottom: 7px;
+`;
 export default class Chart extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      click: 1,
       country: 0, //국가
-      birthH: 0, //나이
-      birthL: 0, //나이
-      sex: null, //성별
+      date: 4, // 기간
+      sex: 2, //성별
+      age: 0, //나이
+      category: 0, // 조회수 0, 찜목록 1, 별점 2
 
-      views: null, //조회수
-      dibs: null, //찜목록
-      stars: null, //별점
-
-      date: null,
-      dateOn: false,
-
-      setting: true,
+      setting: false,
     };
   }
 
-  SelectAge = (value, lv) => {
-    if (lv == 1) {
-      // 낮은 레벨
-      this.setState({
-        birthL: value,
-      });
-    } else if (lv == 2) {
-      this.setState({
-        // 높은 레벨
-        birthH: value,
-      });
+  componentDidMount = () => {
+    this.search();
+  };
+
+  search = async () => {
+    const state = this.state;
+    try {
+      await axios({
+        method: "post",
+        url: "http://3.34.97.97/api/app/rankList",
+        headers: {
+          Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
+          "Content-Type": "application/json; charset=utf-8",
+        },
+        data: {
+          category: state.category, // 조회수 0 , 찜목록 1, 별점2
+          sex: state.sex, //성별
+          age: state.age, //나이
+          country: state.country, //국가
+          date: state.date, // 기간
+        },
+      })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((err) => console.log(err));
+    } catch (err) {
+      console.log(err);
     }
   };
 
-  SelectCon = (value) => {
-    this.setState({
-      // 높은 레벨
-      country: value,
-    });
+  setDate = (e) => {
+    this.setState({ date: e });
+    console.log(e);
   };
 
-  SelectDate = (event, selectedDate) => {
-    // console.log(event);
-    console.log(selectedDate);
+  setAge = (e) => {
+    this.setState({ age: e });
+    console.log(e);
+  };
+
+  setCountry = (e) => {
+    this.setState({ country: e });
+    console.log(e);
+  };
+
+  setSex = (e) => {
+    this.setState({ sex: e });
+    console.log(e);
   };
 
   render() {
     const state = this.state;
-    const { click, dateOn, date, setting } = this.state;
+    const { setting, category } = this.state;
 
     return (
       <View>
-        <Modal //날짜가 나타남
-          isVisible={this.state.dateOn}
-          style={{ alignItems: "center", justifyContent: "center" }}
-        >
-          <ModalContainer>
-            <Text
-              style={{
-                fontSize: 18,
-                fontWeight: "bold",
-                paddingBottom: 6,
-              }}
-            >
-              시작 날짜를 선택하세요
-            </Text>
-            <DateTimePicker
-              testID="dateTimePicker"
-              timeZoneOffsetInMinutes={0}
-              value={new Date()}
-              mode={"date"}
-              is24Hour={true}
-              display="default"
-              onChange={this.SelectDate}
-              style={{
-                width: width - 30,
-                justifyContent: "center",
-              }}
-            />
-
-            <View style={{ paddingTop: 10 }}>
-              <TouchableOpacity
-                onPress={() => this.setState({ dateOn: false })}
-                style={{
-                  width: width / 4,
-                  height: 40,
-                  backgroundColor: "#ff5122",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  borderRadius: 10,
-                }}
-              >
-                <Text
-                  style={{ color: "white", fontSize: 16, fontWeight: "bold" }}
-                >
-                  완료
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </ModalContainer>
-        </Modal>
         <View
           style={{
             flexDirection: "row",
@@ -196,61 +154,104 @@ export default class Chart extends React.Component {
         </View>
 
         {setting ? (
-          <View>
-            <DateContainer>
-              <DateSelectBox>
-                <TouchableOpacity
-                  onPress={() => this.setState({ dateOn: true })}
-                >
-                  <Text>{date ? date : "시작 기간"}</Text>
-                </TouchableOpacity>
-              </DateSelectBox>
-
-              <Text
-                style={{
-                  fontSize: 20,
-
-                  paddingRight: 15,
-                  paddingLeft: 15,
-                }}
-              >
-                ~
+          <View
+            style={{ marginLeft: 3, marginBottom: 15, flexDirection: "row" }}
+          >
+            <TouchableOpacity
+              style={category == 1 ? styles.search : styles.selectBtn}
+              onPress={() => this.setState({ category: 1 })}
+            >
+              <Text style={category == 1 ? styles.selectTxt : null}>
+                조회수
               </Text>
+            </TouchableOpacity>
 
-              <DateSelectBox>
-                <TouchableOpacity
-                  onPress={() => this.setState({ dateOn: true })}
-                >
-                  <Text>{date ? date : "종료 기간"}</Text>
-                </TouchableOpacity>
-              </DateSelectBox>
-            </DateContainer>
+            <TouchableOpacity
+              style={category == 2 ? styles.review : styles.selectBtn}
+              onPress={() => this.setState({ category: 2 })}
+            >
+              <Text style={category == 2 ? styles.selectTxt : null}>
+                리뷰수
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={category == 3 ? styles.star : styles.selectBtn}
+              onPress={() => this.setState({ category: 3 })}
+            >
+              <Text style={category == 3 ? styles.selectTxt : null}>
+                별점수
+              </Text>
+            </TouchableOpacity>
           </View>
         ) : null}
 
-        <View style={{ alignItems: "center" }}>
+        {setting ? (
+          <Text style={{ marginLeft: 15, marginBottom: 7, fontSize: 14 }}>
+            기간
+          </Text>
+        ) : null}
+        {setting ? (
+          <DropDownPicker
+            items={[
+              { label: "오늘", value: "1" },
+              { label: "일주일", value: "2" },
+              { label: "1달", value: "3" },
+              { label: "1년", value: "4" },
+            ]}
+            defaultValue="4"
+            containerStyle={{
+              width: 120,
+              height: 40,
+              marginLeft: 13,
+              marginBottom: 15,
+            }}
+            style={{
+              backgroundColor: "#fafafa",
+            }}
+            dropDownStyle={{
+              backgroundColor: "#fafafa",
+            }}
+            onChangeItem={(item) => this.setDate(item.value)}
+          />
+        ) : null}
+
+        {setting ? (
+          <Text
+            style={{
+              marginLeft: 15,
+              marginBottom: 7,
+              fontSize: 14,
+            }}
+          >
+            나이대 / 국가 / 성별
+          </Text>
+        ) : null}
+        <View>
           {setting ? (
             <View
               style={{
                 position: "relative",
                 zIndex: 2,
                 flexDirection: "row",
-                paddingBottom: 10,
+                paddingBottom: 15,
+                marginLeft: 15,
               }}
             >
               <DropDownPicker
                 items={[
-                  { label: "10대", value: "item1" },
-                  { label: "20대", value: "item2" },
-                  { label: "30대", value: "item3" },
-                  { label: "40대", value: "item1" },
-                  { label: "50대", value: "item2" },
+                  { label: "모든 나이", value: "0" },
+                  { label: "10대", value: "1" },
+                  { label: "20대", value: "2" },
+                  { label: "30대", value: "3" },
+                  { label: "40대", value: "4" },
+                  { label: "50대이상", value: "5" },
                 ]}
-                defaultValue="item1"
+                defaultValue="0"
                 containerStyle={{
                   width: 120,
                   height: 40,
-                  paddingRight: 5,
+                  marginRight: 10,
                 }}
                 style={{
                   backgroundColor: "#fafafa",
@@ -258,52 +259,69 @@ export default class Chart extends React.Component {
                 dropDownStyle={{
                   backgroundColor: "#fafafa",
                 }}
-                onChangeItem={(item) => console.log(item.label, item.value)}
+                onChangeItem={(item) => this.setAge(item.value)}
               />
 
               <DropDownPicker
                 items={[
-                  { label: "KOREA", value: "item1" },
-                  { label: "USA", value: "item2" },
-                  { label: "JAPAN", value: "item3" },
+                  { label: "모든 국가", value: "0" },
+                  { label: "KOREA", value: "1" },
+                  { label: "USA", value: "2" },
+                  { label: "JAPAN", value: "3" },
                 ]}
-                defaultValue="item1"
-                containerStyle={{ width: 120, height: 40, paddingRight: 5 }}
+                defaultValue="0"
+                containerStyle={{ width: 120, height: 40, marginRight: 10 }}
                 style={{
                   backgroundColor: "#fafafa",
                 }}
                 dropDownStyle={{
                   backgroundColor: "#fafafa",
                 }}
-                onChangeItem={(item) => console.log(item.label, item.value)}
+                onChangeItem={(item) => this.setCountry(item.value)}
               />
 
               <DropDownPicker
                 items={[
-                  { label: "남", value: "item1" },
-                  { label: "여", value: "item2" },
+                  { label: "여", value: "0" },
+                  { label: "남", value: "1" },
+                  { label: "전체", value: "2" },
                 ]}
-                defaultValue="item1"
-                containerStyle={{ width: 80, height: 40 }}
+                defaultValue="2"
+                containerStyle={{ width: 120, height: 40, marginRight: 10 }}
                 style={{
                   backgroundColor: "#fafafa",
                 }}
                 dropDownStyle={{
                   backgroundColor: "#fafafa",
                 }}
-                onChangeItem={(item) => console.log(item.label, item.value)}
+                onChangeItem={(item) => this.setSex(item.value)}
               />
+            </View>
+          ) : null}
+
+          {setting ? (
+            <View
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                marginBottom: 10,
+                marginTop: 10,
+              }}
+            >
               <TouchableOpacity
                 style={{
-                  marginLeft: 10,
                   paddingLeft: 15,
                   paddingRight: 15,
                   justifyContent: "center",
+                  alignItems: "center",
                   backgroundColor: "black",
                   borderRadius: 5,
+                  width: width - 30,
+                  height: 40,
                 }}
               >
-                <FontAwesome size={24} name={"search"} color={"white"} />
+                {/* <FontAwesome size={24} name={"search"} color={"white"} /> */}
+                <Text style={{ color: "white", fontSize: 18 }}>조회하기</Text>
               </TouchableOpacity>
             </View>
           ) : null}
@@ -329,7 +347,12 @@ export default class Chart extends React.Component {
             }}
           ></View>
 
-          <Container></Container>
+          <Container>
+            <View style={{ alignItems: "center" }}>
+              <ChartBox />
+              <ChartBox />
+            </View>
+          </Container>
         </View>
       </View>
     );
@@ -360,5 +383,57 @@ const styles = StyleSheet.create({
   noSelectTxt: {
     fontSize: 16,
     fontWeight: "bold",
+  },
+
+  //조회수 , 별점, 리뷰순 선택 버튼
+  selectBtn: {
+    backgroundColor: "#fafafa",
+    width: 120,
+    height: 40,
+    borderRadius: 5,
+    borderWidth: 1,
+    marginLeft: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    borderColor: "#D5D8DC",
+  },
+
+  //조회수
+  search: {
+    backgroundColor: "red",
+    width: 120,
+    height: 40,
+    borderRadius: 5,
+    borderWidth: 1,
+    marginLeft: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    borderColor: "#D5D8DC",
+  },
+
+  //리뷰
+  review: {
+    backgroundColor: "blue",
+    width: 120,
+    height: 40,
+    borderRadius: 5,
+    borderWidth: 1,
+    marginLeft: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    borderColor: "#D5D8DC",
+  },
+
+  //별점
+  star: {
+    backgroundColor: "orange",
+    width: 120,
+    height: 40,
+    borderRadius: 5,
+    borderWidth: 1,
+    marginLeft: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    borderColor: "#D5D8DC",
   },
 });

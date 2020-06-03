@@ -27,6 +27,7 @@ export default class ListGraph extends React.Component {
           flexDirection: "row",
           justifyContent: "center",
           alignItems: "center",
+          marginLeft: 12,
         }}
       >
         <TouchableOpacity onPress={() => this.setState({ click: 1 })}>
