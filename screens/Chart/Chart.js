@@ -16,17 +16,18 @@ import {
   StyleSheet,
 } from "react-native";
 
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome, AntDesign } from "@expo/vector-icons";
 import styled from "styled-components";
 import ListGraph from "../../components/ListGraph";
 import DropDownPicker from "react-native-dropdown-picker";
 import DateTimePicker from "@react-native-community/datetimepicker";
+
 import Modal from "react-native-modal";
 
 const { width, height } = Dimensions.get("window");
 
 const Container = styled.ScrollView`
-  background-color: green;
+  background-color: #f5f5f5;
   width: ${width}px;
   height: ${height}px;
 `;
@@ -75,6 +76,8 @@ export default class Chart extends React.Component {
 
       date: null,
       dateOn: false,
+
+      setting: true,
     };
   }
 
@@ -106,7 +109,7 @@ export default class Chart extends React.Component {
 
   render() {
     const state = this.state;
-    const { click, dateOn, date } = this.state;
+    const { click, dateOn, date, setting } = this.state;
 
     return (
       <View>
@@ -159,109 +162,173 @@ export default class Chart extends React.Component {
             </View>
           </ModalContainer>
         </Modal>
-        <View>
-          <DateContainer>
-            <DateSelectBox>
-              <TouchableOpacity onPress={() => this.setState({ dateOn: true })}>
-                <Text>{date ? date : "시작 기간"}</Text>
-              </TouchableOpacity>
-            </DateSelectBox>
-
-            <Text
-              style={{
-                fontSize: 20,
-
-                paddingRight: 15,
-                paddingLeft: 15,
-              }}
-            >
-              ~
-            </Text>
-
-            <DateSelectBox>
-              <TouchableOpacity onPress={() => this.setState({ dateOn: true })}>
-                <Text>{date ? date : "종료 기간"}</Text>
-              </TouchableOpacity>
-            </DateSelectBox>
-          </DateContainer>
-        </View>
-        <View style={{ alignItems: "center" }}>
-          <View
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            paddingBottom: 10,
+            paddingTop: 10,
+          }}
+        >
+          <Text
             style={{
-              position: "relative",
-              zIndex: 2,
-              flexDirection: "row",
-              paddingBottom: 5,
+              fontWeight: "bold",
+              paddingLeft: 15,
+              paddingRight: 5,
+              fontSize: 16,
             }}
           >
-            <DropDownPicker
-              items={[
-                { label: "10대", value: "item1" },
-                { label: "20대", value: "item2" },
-                { label: "30대", value: "item3" },
-                { label: "40대", value: "item1" },
-                { label: "50대", value: "item2" },
-              ]}
-              defaultValue="item1"
-              containerStyle={{
-                width: 120,
-                height: 40,
-                paddingRight: 5,
-              }}
-              style={{
-                backgroundColor: "#fafafa",
-              }}
-              dropDownStyle={{
-                backgroundColor: "#fafafa",
-              }}
-              onChangeItem={(item) => console.log(item.label, item.value)}
-            />
+            카테고리 지정
+          </Text>
+          <TouchableOpacity
+            onPress={() => {
+              setting
+                ? this.setState({ setting: false })
+                : this.setState({ setting: true });
+            }}
+          >
+            {setting ? (
+              <AntDesign name="upcircle" size={18} color="black" />
+            ) : (
+              <AntDesign name="downcircle" size={18} color="black" />
+            )}
+          </TouchableOpacity>
+        </View>
 
-            <DropDownPicker
-              items={[
-                { label: "KOREA", value: "item1" },
-                { label: "USA", value: "item2" },
-                { label: "JAPAN", value: "item3" },
-              ]}
-              defaultValue="item1"
-              containerStyle={{ width: 120, height: 40, paddingRight: 5 }}
-              style={{
-                backgroundColor: "#fafafa",
-              }}
-              dropDownStyle={{
-                backgroundColor: "#fafafa",
-              }}
-              onChangeItem={(item) => console.log(item.label, item.value)}
-            />
+        {setting ? (
+          <View>
+            <DateContainer>
+              <DateSelectBox>
+                <TouchableOpacity
+                  onPress={() => this.setState({ dateOn: true })}
+                >
+                  <Text>{date ? date : "시작 기간"}</Text>
+                </TouchableOpacity>
+              </DateSelectBox>
 
-            <DropDownPicker
-              items={[
-                { label: "남", value: "item1" },
-                { label: "여", value: "item2" },
-              ]}
-              defaultValue="item1"
-              containerStyle={{ width: 80, height: 40 }}
+              <Text
+                style={{
+                  fontSize: 20,
+
+                  paddingRight: 15,
+                  paddingLeft: 15,
+                }}
+              >
+                ~
+              </Text>
+
+              <DateSelectBox>
+                <TouchableOpacity
+                  onPress={() => this.setState({ dateOn: true })}
+                >
+                  <Text>{date ? date : "종료 기간"}</Text>
+                </TouchableOpacity>
+              </DateSelectBox>
+            </DateContainer>
+          </View>
+        ) : null}
+
+        <View style={{ alignItems: "center" }}>
+          {setting ? (
+            <View
               style={{
-                backgroundColor: "#fafafa",
-              }}
-              dropDownStyle={{
-                backgroundColor: "#fafafa",
-              }}
-              onChangeItem={(item) => console.log(item.label, item.value)}
-            />
-            <TouchableOpacity
-              style={{
-                paddingLeft: 30,
-                paddingRight: 10,
-                justifyContent: "center",
+                position: "relative",
+                zIndex: 2,
+                flexDirection: "row",
+                paddingBottom: 10,
               }}
             >
-              <FontAwesome size={28} name={"search"} />
-            </TouchableOpacity>
-          </View>
+              <DropDownPicker
+                items={[
+                  { label: "10대", value: "item1" },
+                  { label: "20대", value: "item2" },
+                  { label: "30대", value: "item3" },
+                  { label: "40대", value: "item1" },
+                  { label: "50대", value: "item2" },
+                ]}
+                defaultValue="item1"
+                containerStyle={{
+                  width: 120,
+                  height: 40,
+                  paddingRight: 5,
+                }}
+                style={{
+                  backgroundColor: "#fafafa",
+                }}
+                dropDownStyle={{
+                  backgroundColor: "#fafafa",
+                }}
+                onChangeItem={(item) => console.log(item.label, item.value)}
+              />
+
+              <DropDownPicker
+                items={[
+                  { label: "KOREA", value: "item1" },
+                  { label: "USA", value: "item2" },
+                  { label: "JAPAN", value: "item3" },
+                ]}
+                defaultValue="item1"
+                containerStyle={{ width: 120, height: 40, paddingRight: 5 }}
+                style={{
+                  backgroundColor: "#fafafa",
+                }}
+                dropDownStyle={{
+                  backgroundColor: "#fafafa",
+                }}
+                onChangeItem={(item) => console.log(item.label, item.value)}
+              />
+
+              <DropDownPicker
+                items={[
+                  { label: "남", value: "item1" },
+                  { label: "여", value: "item2" },
+                ]}
+                defaultValue="item1"
+                containerStyle={{ width: 80, height: 40 }}
+                style={{
+                  backgroundColor: "#fafafa",
+                }}
+                dropDownStyle={{
+                  backgroundColor: "#fafafa",
+                }}
+                onChangeItem={(item) => console.log(item.label, item.value)}
+              />
+              <TouchableOpacity
+                style={{
+                  marginLeft: 10,
+                  paddingLeft: 15,
+                  paddingRight: 15,
+                  justifyContent: "center",
+                  backgroundColor: "black",
+                  borderRadius: 5,
+                }}
+              >
+                <FontAwesome size={24} name={"search"} color={"white"} />
+              </TouchableOpacity>
+            </View>
+          ) : null}
+
+          <View
+            style={{
+              backgroundColor: "#808B96",
+              height: 0.5,
+              width: width,
+              marginBottom: 10,
+            }}
+          ></View>
           <View>
             <ListGraph />
           </View>
+
+          <View
+            style={{
+              backgroundColor: "#f5f5f5",
+              height: 5,
+              width: width,
+              marginTop: 10,
+            }}
+          ></View>
+
           <Container></Container>
         </View>
       </View>
