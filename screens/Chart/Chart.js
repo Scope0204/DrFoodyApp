@@ -22,32 +22,16 @@ import ListGraph from "../../components/ListGraph";
 import DropDownPicker from "react-native-dropdown-picker";
 // import DateTimePicker from "@react-native-community/datetimepicker"; // 안쓰기로함
 import axios from "axios"; // npm i axios@0.18.0
+import ChartList from "../../components/ChartList";
 
 const { width, height } = Dimensions.get("window");
 
 const Container = styled.ScrollView`
   background-color: #f5f5f5;
   width: ${width}px;
-  height: ${height}px;
+  height: ${615}px;
 `;
 
-const SelectBtn = styled.View`
-  background-color: #fafafa;
-  width: ${width / 4}px;
-  height: 40px;
-  border-radius: 5px;
-  border: 1px solid;
-`;
-
-const ChartBox = styled.View`
-  width: ${width - 20}px;
-  background-color: white;
-  height: 100px;
-  border-radius: 10px;
-  border: 1px solid #ecf0f1;
-  box-shadow: 2px 2px 2px #f1f1f1;
-  margin-bottom: 7px;
-`;
 export default class Chart extends React.Component {
   constructor(props) {
     super(props);
@@ -60,13 +44,21 @@ export default class Chart extends React.Component {
       category: 0, // 조회수 0, 찜목록 1, 별점 2
 
       setting: false,
+
+      list: [],
+
+      show: false,
     };
   }
 
-  componentDidMount = () => {
+  componentDidMount() {
     this.search();
-  };
+  }
 
+  reset() {
+    this.setState({ show: false, list: [] });
+    this.search();
+  }
   search = async () => {
     const state = this.state;
     try {
@@ -86,7 +78,20 @@ export default class Chart extends React.Component {
         },
       })
         .then((response) => {
-          console.log(response);
+          if (response) {
+            for (var key in response.data) {
+              var list = response.data[key];
+              this.setState({
+                list: this.state.list.concat({
+                  id: key,
+                  food_name: list.food_name,
+                  food_photo: list.food_photo,
+                  order_point: list.order_point,
+                }),
+              });
+            }
+            this.setState({ show: true });
+          }
         })
         .catch((err) => console.log(err));
     } catch (err) {
@@ -117,8 +122,7 @@ export default class Chart extends React.Component {
   render() {
     const state = this.state;
     const { setting, category } = this.state;
-
-    return (
+    return state.show ? (
       <View>
         <View
           style={{
@@ -158,28 +162,28 @@ export default class Chart extends React.Component {
             style={{ marginLeft: 3, marginBottom: 15, flexDirection: "row" }}
           >
             <TouchableOpacity
-              style={category == 1 ? styles.search : styles.selectBtn}
-              onPress={() => this.setState({ category: 1 })}
+              style={category == 0 ? styles.search : styles.selectBtn}
+              onPress={() => this.setState({ category: 0 })}
             >
-              <Text style={category == 1 ? styles.selectTxt : null}>
+              <Text style={category == 0 ? styles.selectTxt : null}>
                 조회수
               </Text>
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={category == 2 ? styles.review : styles.selectBtn}
-              onPress={() => this.setState({ category: 2 })}
+              style={category == 1 ? styles.review : styles.selectBtn}
+              onPress={() => this.setState({ category: 1 })}
             >
-              <Text style={category == 2 ? styles.selectTxt : null}>
+              <Text style={category == 1 ? styles.selectTxt : null}>
                 리뷰수
               </Text>
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={category == 3 ? styles.star : styles.selectBtn}
-              onPress={() => this.setState({ category: 3 })}
+              style={category == 2 ? styles.star : styles.selectBtn}
+              onPress={() => this.setState({ category: 2 })}
             >
-              <Text style={category == 3 ? styles.selectTxt : null}>
+              <Text style={category == 2 ? styles.selectTxt : null}>
                 별점수
               </Text>
             </TouchableOpacity>
@@ -194,12 +198,12 @@ export default class Chart extends React.Component {
         {setting ? (
           <DropDownPicker
             items={[
-              { label: "오늘", value: "1" },
-              { label: "일주일", value: "2" },
-              { label: "1달", value: "3" },
-              { label: "1년", value: "4" },
+              { label: "오늘", value: 1 },
+              { label: "일주일", value: 2 },
+              { label: "1달", value: 3 },
+              { label: "1년", value: 4 },
             ]}
-            defaultValue="4"
+            defaultValue={state.date}
             containerStyle={{
               width: 120,
               height: 40,
@@ -240,14 +244,14 @@ export default class Chart extends React.Component {
             >
               <DropDownPicker
                 items={[
-                  { label: "모든 나이", value: "0" },
-                  { label: "10대", value: "1" },
-                  { label: "20대", value: "2" },
-                  { label: "30대", value: "3" },
-                  { label: "40대", value: "4" },
-                  { label: "50대이상", value: "5" },
+                  { label: "모든 나이", value: 0 },
+                  { label: "10대", value: 1 },
+                  { label: "20대", value: 2 },
+                  { label: "30대", value: 3 },
+                  { label: "40대", value: 4 },
+                  { label: "50대이상", value: 5 },
                 ]}
-                defaultValue="0"
+                defaultValue={state.age}
                 containerStyle={{
                   width: 120,
                   height: 40,
@@ -264,12 +268,12 @@ export default class Chart extends React.Component {
 
               <DropDownPicker
                 items={[
-                  { label: "모든 국가", value: "0" },
-                  { label: "KOREA", value: "1" },
-                  { label: "USA", value: "2" },
-                  { label: "JAPAN", value: "3" },
+                  { label: "모든 국가", value: 0 },
+                  { label: "KOREA", value: 1 },
+                  { label: "USA", value: 2 },
+                  { label: "JAPAN", value: 3 },
                 ]}
-                defaultValue="0"
+                defaultValue={state.country}
                 containerStyle={{ width: 120, height: 40, marginRight: 10 }}
                 style={{
                   backgroundColor: "#fafafa",
@@ -282,11 +286,11 @@ export default class Chart extends React.Component {
 
               <DropDownPicker
                 items={[
-                  { label: "여", value: "0" },
-                  { label: "남", value: "1" },
-                  { label: "전체", value: "2" },
+                  { label: "여", value: 0 },
+                  { label: "남", value: 1 },
+                  { label: "전체", value: 2 },
                 ]}
-                defaultValue="2"
+                defaultValue={state.sex}
                 containerStyle={{ width: 120, height: 40, marginRight: 10 }}
                 style={{
                   backgroundColor: "#fafafa",
@@ -319,8 +323,8 @@ export default class Chart extends React.Component {
                   width: width - 30,
                   height: 40,
                 }}
+                onPress={() => this.reset()}
               >
-                {/* <FontAwesome size={24} name={"search"} color={"white"} /> */}
                 <Text style={{ color: "white", fontSize: 18 }}>조회하기</Text>
               </TouchableOpacity>
             </View>
@@ -346,16 +350,14 @@ export default class Chart extends React.Component {
               marginTop: 10,
             }}
           ></View>
-
           <Container>
-            <View style={{ alignItems: "center" }}>
-              <ChartBox />
-              <ChartBox />
+            <View style={{ alignItems: "center", marginTop: 10 }}>
+              <ChartList list={state.list} />
             </View>
           </Container>
         </View>
       </View>
-    );
+    ) : null;
   }
 }
 
