@@ -13,6 +13,15 @@ export default class ListGraph extends React.Component {
   state = {
     click: 1,
   };
+
+  click = (e) => {
+    this.props.click(e);
+    if (e == 1) {
+      this.setState({ click: 1 });
+    } else if (e == 2) {
+      this.setState({ click: 2 });
+    }
+  };
   render() {
     const { click } = this.state;
     return (
@@ -30,14 +39,14 @@ export default class ListGraph extends React.Component {
           marginLeft: 12,
         }}
       >
-        <TouchableOpacity onPress={() => this.setState({ click: 1 })}>
+        <TouchableOpacity onPress={() => this.click(1)}>
           <View style={click == 1 ? styles.select : styles.noSelect}>
             <Text style={click == 1 ? styles.selectTxt : styles.noSelectTxt}>
               리스트
             </Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => this.setState({ click: 2 })}>
+        <TouchableOpacity onPress={() => this.click(2)}>
           <View style={click == 2 ? styles.select : styles.noSelect}>
             <Text style={click == 2 ? styles.selectTxt : styles.noSelectTxt}>
               그래프

@@ -1,5 +1,12 @@
 import React from "react";
-import { View, Text, Dimensions, AsyncStorage, Image } from "react-native";
+import {
+  View,
+  Text,
+  Dimensions,
+  AsyncStorage,
+  Image,
+  TouchableHighlightBase,
+} from "react-native";
 import styled, { keyframes } from "styled-components";
 import axios from "axios"; // npm i axios@0.18.0
 import {
@@ -9,19 +16,88 @@ import {
   Entypo,
   AntDesign,
 } from "@expo/vector-icons";
+import { PieChart, ProgressChart } from "react-native-chart-kit";
+import TasteGraph from "../../components/TasteGraph";
 
 const { width, height } = Dimensions.get("window");
 
+const chartConfig = {
+  color: (opacity = 0) => `rgb(0, 0, 0, ${opacity})`,
+};
+
+const Bar = styled.View`
+  background-color: #f5f5f5;
+  height: 5px;
+  width: ${width}px;
+`;
+
 const UserOptions = styled.View``;
 
-const Container = styled.ScrollView`
-  background-color: #f5f5f5;
-  height: ${height}px;
+const Container = styled.View``;
+
+const ImgAge = styled.View`
+  flex-direction: row;
+  align-items: center;
+  background-color: white;
+  padding-left: 20px;
+  margin-top: 15px;
+  padding-bottom: 15px;
+`;
+
+const AvoidCon = styled.View`
+  margin-top: 15px;
+  padding-bottom: 15px;
+`;
+
+const TasteCon = styled.View`
+  margin-top: 15px;
+  padding-bottom: 15px;
+`;
+
+const Title = styled.Text`
+  font-weight: bold;
+  font-size: 20px;
+  margin-left: 20px;
+  margin-bottom: 15px;
+`;
+
+const DivBox = styled.View`
+  flex-direction: row;
+  flex-wrap : wrap
+  border-radius: 10px;
+  width: ${width - 30}px;
+  height: ${height / 7.5}px;
+  border-width: 2px;
+  border-color: #b8b8b8;
+  background-color: #fcfcfc;
+  padding: 15px;
+`;
+const GraphBox = styled.View`
+  background-color: white;
+  width: ${width - 30}px;
+  height: ${height / 2.7}px;
+  border: 0px solid;
+  border-radius: 10px;
+  margin-top: 5px;
+  box-shadow: 1px 1px 2px gray;
+  flex-direction: row;
+  align-items: center;
+`;
+// 맛 바
+const TasteBar = styled.View`
+  border-radius: 10px;
+  height: 5px;
+  background-color: gray;
+  width: ${width - 100}px;
+  margin-top: 30px;
+  margin-bottom: 20px;
 `;
 
 export default class User extends React.Component {
   state = {
     user: [],
+    show: false,
+    avoid: [],
   };
   componentDidMount = async () => {
     const User = await AsyncStorage.getItem("UserName"); // 유저이름
@@ -57,6 +133,9 @@ export default class User extends React.Component {
               user_sex: list.user_sex,
             }),
           });
+          this.setState({
+            avoid: list.keyword,
+          });
         })
         .catch((err) => {
           console.log(err);
@@ -67,7 +146,7 @@ export default class User extends React.Component {
   };
 
   render() {
-    const { user } = this.state;
+    const { user, avoid } = this.state;
     return (
       <Container>
         <UserOptions>
@@ -75,30 +154,59 @@ export default class User extends React.Component {
             ? user.map((list, key) => {
                 return (
                   <View key={key}>
-                    <View style={{ flexDirection: "row" }}>
+                    <Bar />
+                    <ImgAge>
                       {/* <Image
                         source={{ uri: list.user_photo }}
                         style={{ width: 120, height: 120 }}
                       /> */}
-                      <Image
-                        source={require("../../images/user.png")}
-                        style={{ width: 120, height: 120 }}
+                      <FontAwesome
+                        name="user-circle-o"
+                        size={80}
+                        color="black"
                       />
-                      <Text>{list.user_nickname}</Text>
-                    </View>
-                    <Text>{list.user_birth}</Text>
-                    <Text>{list.country_code}</Text>
-                    <Text>{list.user_hot}</Text>
-                    <Text>{list.user_bitter}</Text>
-                    <Text>{list.user_salty}</Text>
-                    <Text>{list.user_sour}</Text>
-                    <Text>{list.user_salty}</Text>
-                    <Text>{list.user_sex}</Text>
+                      {list.country_code == 410 ? (
+                        <Image
+                          source={require("../../images/country/korea.png")}
+                          style={{
+                            width: 40,
+                            height: 40,
+                            marginLeft: 20,
+                            marginRight: 10,
+                          }}
+                        />
+                      ) : null}
+                      <Text style={{ fontSize: 20 }}>
+                        {list.user_nickname}
+                        {" ("}
+                        {2020 - parseInt(list.user_birth.substring(0, 4))}
+                        {")"}
+                      </Text>
+                    </ImgAge>
+                    <Bar />
+                    <AvoidCon>
+                      <Title>기피 원재료</Title>
+                      <View style={{ alignItems: "center" }}>
+                        <DivBox>
+                          <Text style={{ fontSize: 18 }}>{avoid}</Text>
+                        </DivBox>
+                      </View>
+                    </AvoidCon>
+                    <Bar />
+                    <TasteCon>
+                      <Title>맛 선호도</Title>
+                      <View style={{ alignItems: "center" }}>
+                        <GraphBox>
+                          <TasteGraph user={user} />
+                        </GraphBox>
+                      </View>
+                    </TasteCon>
                   </View>
                 );
               })
             : null}
         </UserOptions>
+        <View></View>
       </Container>
     );
   }

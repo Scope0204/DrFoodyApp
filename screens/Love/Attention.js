@@ -30,13 +30,12 @@ const ImageContainer = styled.View`
   margin-left: 20px;
   margin-right: 30px;
   align-items: center;
-  flex: 0.5;
+  flex: 0.45;
 `;
 
 const FoodInfo = styled.View`
   flex-direction: column;
-  padding-left: 20px;
-  flex: 0.5;
+  flex: 0.55;
 `;
 
 export default class Attention extends React.Component {
@@ -155,15 +154,28 @@ export default class Attention extends React.Component {
                     </ImageContainer>
                     <FoodInfo>
                       <View style={{ paddingBottom: 10, paddingTop: 10 }}>
-                        <Text
-                          style={{
-                            fontSize: 20,
-                            fontWeight: "bold",
-                            marginBottom: 10,
-                          }}
-                        >
-                          {list.food_name}
-                        </Text>
+                        {list.food_name < 8 ? (
+                          <Text
+                            style={{
+                              fontSize: 20,
+                              fontWeight: "bold",
+                              marginBottom: 10,
+                            }}
+                          >
+                            {list.food_name}
+                          </Text>
+                        ) : (
+                          <Text
+                            style={{
+                              fontSize: 13,
+                              fontWeight: "bold",
+                              marginBottom: 10,
+                            }}
+                          >
+                            {list.food_name}
+                          </Text>
+                        )}
+
                         <View style={{ marginBottom: 20 }}>
                           {list.point ? (
                             <View style={{ flexDirection: "row" }}>

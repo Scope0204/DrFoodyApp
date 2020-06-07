@@ -40,17 +40,24 @@ export default class ChartList extends React.Component {
     const { list } = this.state;
     return (
       <View>
+        <View style={{ marginBottom: 10, marginLeft: 5 }}>
+          <Text style={{ fontWeight: "bold" }}>리스트</Text>
+          <Text style={{ fontSize: 12 }}>
+            카테고리에 따른 상위 10개의 제품들을 나타냅니다
+          </Text>
+        </View>
+
         {list.map((list, key) => {
           if (key < 10) {
             // 상위 10개만 추출
             return (
-              <ChartBox id={key}>
+              <ChartBox key={key}>
                 <View style={{ flex: 0.2, alignItems: "center" }}>
                   <Text
                     style={{
                       fontSize: 36,
                       fontWeight: "bold",
-                      //   color: "orange",
+                      color: "orange",
                     }}
                   >
                     {key + 1}

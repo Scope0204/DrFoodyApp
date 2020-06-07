@@ -99,9 +99,9 @@ export default class Main extends React.Component {
           id: User,
         },
       }).then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         if (response.data) {
-          console.log(response.data.user_id);
+          //   console.log(response.data.user_id);
           this.setState({
             user_name: response.data.user_nickname,
             user_photo: response.data.user_photo,
@@ -125,7 +125,7 @@ export default class Main extends React.Component {
       await axios({
         url: "http://3.34.97.97/api/app/foodList",
       }).then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         if (response) {
           for (var key in response.data) {
             var List = response.data[key];

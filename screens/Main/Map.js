@@ -24,7 +24,7 @@ export default class Map extends React.Component {
       } = await Location.getCurrentPositionAsync();
       this.setState({ show: true, latitude: latitude, longitude: longitude });
     } catch (error) {
-      Alert.alert("can't find you.", " so sad");
+      Alert.alert("can't find you.", "so sad");
     }
   };
 

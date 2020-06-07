@@ -30,13 +30,13 @@ const ImageContainer = styled.View`
   margin-left: 20px;
   margin-right: 30px;
   align-items: center;
-  flex: 0.5;
+  flex: 0.45;
 `;
 
 const FoodInfo = styled.View`
   flex-direction: column;
-  padding-left: 20px;
-  flex: 0.5;
+
+  flex: 0.55;
 `;
 
 export default class Attention extends React.Component {
@@ -134,7 +134,7 @@ export default class Attention extends React.Component {
                           {list.food_name}
                         </Text>
                       ) : (
-                        <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+                        <Text style={{ fontSize: 13, fontWeight: "bold" }}>
                           {list.food_name}
                         </Text>
                       )}

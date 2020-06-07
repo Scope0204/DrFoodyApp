@@ -42,7 +42,7 @@ export default class Address extends React.Component {
 
   render() {
     const { address } = this.state;
-    console.log(address);
+    // console.log(address);
     return (
       <View>
         <Text style={{ fontSize: 16, fontWeight: "bold" }}>{address}</Text>

@@ -28,8 +28,8 @@ export default class Login extends React.Component {
     try {
       await axios({
         method: "post",
-        url: "http://3.34.97.97/api/app/login",
-        // url: "http://172.30.1.50/User_Site/User_Login.php",
+        // url: "http://3.34.97.97/api/app/login",
+        url: "http://3.34.97.97/api/login",
 
         headers: {
           //응답에 대한 정보
@@ -42,7 +42,9 @@ export default class Login extends React.Component {
         },
       })
         .then((response) => {
-          if (response.data == "Data Matched") {
+          if (response.data) {
+            console.log(response);
+
             this.props.navigation.navigate("Main", { User: user_name });
           } else {
             Alert.alert("Login Error", "다시입력해 주세요");

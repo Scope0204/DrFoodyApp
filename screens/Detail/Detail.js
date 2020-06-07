@@ -28,9 +28,7 @@ const FoodScreen = styled.View`
 `;
 
 const BackBtn = styled.TouchableOpacity`
-  position: absolute;
-  top: 40px;
-  left: 20px;
+  margin-left: 20px;
 `;
 
 const Page = styled.ScrollView`
@@ -304,13 +302,6 @@ export default class Detail extends React.Component {
         }}
       >
         <FoodScreen>
-          <BackBtn onPress={() => this.props.navigation.navigate("Main")}>
-            <MaterialIcons
-              size={27}
-              name={"arrow-back"}
-              color={"black"}
-            ></MaterialIcons>
-          </BackBtn>
           <View style={{ alignItems: "center" }}>
             {parseInt(food_name) < 8 ? (
               <Text
@@ -327,7 +318,7 @@ export default class Detail extends React.Component {
             ) : (
               <Text
                 style={{
-                  fontSize: 24,
+                  fontSize: 20,
                   fontWeight: "600",
                   marginBottom: 20,
                   marginTop: 40,
@@ -352,8 +343,21 @@ export default class Detail extends React.Component {
           </View>
         </FoodScreen>
         <View
-          style={{ alignItems: "flex-end", marginBottom: 20, marginRight: 20 }}
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            marginBottom: 20,
+            marginRight: 20,
+          }}
         >
+          <BackBtn onPress={() => this.props.navigation.navigate("Main")}>
+            <MaterialIcons
+              size={27}
+              name={"arrow-back"}
+              color={"black"}
+            ></MaterialIcons>
+          </BackBtn>
+
           <TouchableOpacity onPress={this.heart}>
             {heart ? (
               <AntDesign size={26} name={"heart"} color={"red"} />
@@ -392,6 +396,7 @@ export default class Detail extends React.Component {
             <Text style={[three ? styles.click : styles.noClick]}>리뷰</Text>
           </Button3>
         </ButtonView>
+
         <Page alwaysBounceHorizontal={false}>
           {one ? <Material food_id={food_id} user_id={user_id} /> : null}
           {two ? <Taste food_id={food_id} /> : null}

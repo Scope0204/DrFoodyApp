@@ -1,14 +1,6 @@
 import React from "react";
 
 import {
-  LineChart,
-  BarChart,
-  PieChart,
-  ProgressChart,
-  ContributionGraph,
-} from "react-native-chart-kit";
-
-import {
   Text,
   View,
   TouchableOpacity,
@@ -23,13 +15,14 @@ import DropDownPicker from "react-native-dropdown-picker";
 // import DateTimePicker from "@react-native-community/datetimepicker"; // 안쓰기로함
 import axios from "axios"; // npm i axios@0.18.0
 import ChartList from "../../components/ChartList";
+import GraphList from "../../components/GraphList";
 
 const { width, height } = Dimensions.get("window");
 
 const Container = styled.ScrollView`
   background-color: #f5f5f5;
   width: ${width}px;
-  height: ${615}px;
+  height: 600px;
 `;
 
 export default class Chart extends React.Component {
@@ -44,10 +37,9 @@ export default class Chart extends React.Component {
       category: 0, // 조회수 0, 찜목록 1, 별점 2
 
       setting: false,
-
       list: [],
-
       show: false,
+      click: 1,
     };
   }
 
@@ -56,7 +48,7 @@ export default class Chart extends React.Component {
   }
 
   reset() {
-    this.setState({ show: false, list: [] });
+    this.setState({ show: false, list: [], click: 1 });
     this.search();
   }
   search = async () => {
@@ -119,11 +111,28 @@ export default class Chart extends React.Component {
     console.log(e);
   };
 
+  click = (e) => {
+    if (e == 1) {
+      this.setState({ click: e });
+    } else if (e == 2) {
+      this.setState({ click: e });
+    }
+  };
+
+  //리스트와 그래프를 나눠줌
+
   render() {
     const state = this.state;
     const { setting, category } = this.state;
     return state.show ? (
       <View>
+        <View
+          style={{
+            backgroundColor: "#f5f5f5",
+            height: 5,
+            width: width,
+          }}
+        />
         <View
           style={{
             flexDirection: "row",
@@ -332,14 +341,14 @@ export default class Chart extends React.Component {
 
           <View
             style={{
-              backgroundColor: "#808B96",
-              height: 0.5,
+              backgroundColor: "#f5f5f5",
+              height: 5,
               width: width,
               marginBottom: 10,
             }}
-          ></View>
+          />
           <View>
-            <ListGraph />
+            <ListGraph click={this.click} />
           </View>
 
           <View
@@ -351,9 +360,15 @@ export default class Chart extends React.Component {
             }}
           ></View>
           <Container>
-            <View style={{ alignItems: "center", marginTop: 10 }}>
-              <ChartList list={state.list} />
-            </View>
+            {state.click == 1 ? (
+              <View style={{ alignItems: "center", marginTop: 10 }}>
+                <ChartList list={state.list} />
+              </View>
+            ) : (
+              <View style={{ alignItems: "center", marginTop: 10 }}>
+                <GraphList list={state.list} category={state.category} />
+              </View>
+            )}
           </Container>
         </View>
       </View>

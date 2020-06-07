@@ -55,6 +55,7 @@ const ImageContainer = styled.View`
 const FoodInfo = styled.View`
   flex-direction: column;
   justify-content: center;
+  margin-left: 5px;
 `;
 
 const StarCon = styled.View`
@@ -206,7 +207,7 @@ export default class Search extends React.Component {
                         {list.name.length < 8 ? (
                           <Text
                             style={{
-                              fontSize: 24,
+                              fontSize: 20,
                               fontWeight: "bold",
                               marginTop: 5,
                             }}
@@ -216,7 +217,7 @@ export default class Search extends React.Component {
                         ) : (
                           <Text
                             style={{
-                              fontSize: 20,
+                              fontSize: 14,
                               fontWeight: "bold",
                               marginTop: 5,
                             }}
