@@ -1,23 +1,10 @@
 import React from "react";
-import {
-  View,
-  Text,
-  Dimensions,
-  AsyncStorage,
-  Image,
-  TouchableHighlightBase,
-} from "react-native";
-import styled, { keyframes } from "styled-components";
+import { View, Text, Dimensions, AsyncStorage, Image } from "react-native";
+import styled from "styled-components";
 import axios from "axios"; // npm i axios@0.18.0
-import {
-  FontAwesome,
-  EvilIcons,
-  Octicons,
-  Entypo,
-  AntDesign,
-} from "@expo/vector-icons";
-import { PieChart, ProgressChart } from "react-native-chart-kit";
+import { FontAwesome } from "@expo/vector-icons";
 import TasteGraph from "../../components/TasteGraph";
+import Svg, { Polygon } from "react-native-svg";
 
 const { width, height } = Dimensions.get("window");
 
@@ -66,7 +53,7 @@ const DivBox = styled.View`
   flex-wrap : wrap
   border-radius: 10px;
   width: ${width - 30}px;
-  height: ${height / 7.5}px;
+  height: ${height / 8.5}px;
   border-width: 2px;
   border-color: #b8b8b8;
   background-color: #fcfcfc;
@@ -75,12 +62,11 @@ const DivBox = styled.View`
 const GraphBox = styled.View`
   background-color: white;
   width: ${width - 30}px;
-  height: ${height / 2.7}px;
+  height: ${height / 2.6}px;
   border: 0px solid;
   border-radius: 10px;
-  margin-top: 5px;
+  margin-top: 0px;
   box-shadow: 1px 1px 2px gray;
-  flex-direction: row;
   align-items: center;
 `;
 // 맛 바
@@ -101,7 +87,6 @@ export default class User extends React.Component {
   };
   componentDidMount = async () => {
     const User = await AsyncStorage.getItem("UserName"); // 유저이름
-
     try {
       await axios({
         method: "post",
@@ -188,7 +173,7 @@ export default class User extends React.Component {
                       <Title>기피 원재료</Title>
                       <View style={{ alignItems: "center" }}>
                         <DivBox>
-                          <Text style={{ fontSize: 18 }}>{avoid}</Text>
+                          <Text style={{ fontSize: 16 }}>{avoid}</Text>
                         </DivBox>
                       </View>
                     </AvoidCon>
@@ -196,9 +181,127 @@ export default class User extends React.Component {
                     <TasteCon>
                       <Title>맛 선호도</Title>
                       <View style={{ alignItems: "center" }}>
-                        <GraphBox>
-                          <TasteGraph user={user} />
-                        </GraphBox>
+                        {/* <TasteGraph user={user} /> */}
+                        <View>
+                          <Text
+                            style={{
+                              color: "red",
+                              fontSize: 16,
+                            }}
+                          >
+                            매운맛
+                          </Text>
+                        </View>
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            padding: 0,
+                            marginTop: -30,
+                          }}
+                        >
+                          <Text
+                            style={{
+                              marginRight: -55,
+                              marginTop: -135,
+                              color: "blue",
+                              fontSize: 16,
+                            }}
+                          >
+                            짠맛
+                          </Text>
+                          <View style={{ marginLeft: 20 }}>
+                            <Svg height="400" width="400">
+                              <Polygon
+                                points="190,40 350,160 280,330 100,330 30,160"
+                                fill="white"
+                                stroke="#DCDCDC"
+                                strokeWidth="1"
+                              />
+                              <Polygon
+                                points="190,70 318,166 262,302 118,302 62,166"
+                                fill="white"
+                                stroke="#DCDCDC"
+                                strokeWidth="1"
+                              />
+                              <Polygon
+                                points="190,100 286,172 244,274 136,274 94,172"
+                                fill="white"
+                                stroke="#DCDCDC"
+                                strokeWidth="1"
+                              />
+                              <Polygon
+                                points="190,130 254,178 226,246 154,246 126,178"
+                                fill="white"
+                                stroke="#DCDCDC"
+                                strokeWidth="1"
+                              />
+                              <Polygon
+                                points="190,160 222,184 208,218 172,218 158,184"
+                                fill="white"
+                                stroke="#DCDCDC"
+                                strokeWidth="1"
+                              />
+
+                              <Polygon
+                                points="190,190 190,190 190,190 190,190 190,190"
+                                fill="red"
+                                stroke="#ff5122"
+                                strokeWidth="1"
+                              />
+                              <Polygon
+                                points={`190,${190 - list.user_hot * 30} ${
+                                  190 + list.user_sweet * 32
+                                },${190 - list.user_sweet * 6} ${
+                                  190 + list.user_sour * 18
+                                },${190 + list.user_sour * 28} ${
+                                  190 - list.user_bitter * 18
+                                },${190 + list.user_bitter * 28} ${
+                                  190 - list.user_salty * 32
+                                },${190 - list.user_salty * 6}`}
+                                fill="rgba(255, 81, 34, 0.8)"
+                              />
+                            </Svg>
+                          </View>
+
+                          <Text
+                            style={{
+                              marginLeft: -55,
+                              marginTop: -135,
+                              color: "orange",
+                              fontSize: 16,
+                            }}
+                          >
+                            단맛
+                          </Text>
+                        </View>
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                            width: 215,
+                          }}
+                        >
+                          <Text
+                            style={{
+                              marginTop: -60,
+                              color: "green",
+                              fontSize: 16,
+                            }}
+                          >
+                            쓴맛
+                          </Text>
+                          <Text
+                            style={{
+                              marginTop: -60,
+                              color: "#F9E415",
+                              fontSize: 16,
+                            }}
+                          >
+                            신맛
+                          </Text>
+                        </View>
                       </View>
                     </TasteCon>
                   </View>

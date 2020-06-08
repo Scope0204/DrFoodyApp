@@ -99,12 +99,16 @@ export default class Main extends React.Component {
           id: User,
         },
       }).then((response) => {
-        // console.log(response.data);
+        console.log(response.data);
         if (response.data) {
           //   console.log(response.data.user_id);
+          const user_photo = ""; // user_photo가 없으면 null을 반환해서 "" 으로 바꿔줌
+          if (response.data.user_photo) {
+            user_photo == response.data.user_photo;
+          }
           this.setState({
             user_name: response.data.user_nickname,
-            user_photo: response.data.user_photo,
+            user_photo: user_photo,
             user_id: response.data.user_id,
             language_code: response.data.language_code,
           });

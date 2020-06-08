@@ -95,7 +95,6 @@ const ModalBtn = styled.TouchableOpacity`
 export default class ReviewPost extends React.Component {
   state = {
     review: "",
-
     //외래키
     user_id: null,
     language_code: null,
@@ -107,6 +106,12 @@ export default class ReviewPost extends React.Component {
     taste: null,
     //별점 기본값
     rating: 5,
+    //맛
+    hot: 5,
+    sweet: 1,
+    sour: 1,
+    bitter: 1,
+    salty: 1,
   };
 
   componentDidMount = async () => {
@@ -185,6 +190,11 @@ export default class ReviewPost extends React.Component {
       food_id,
       taste,
       rating,
+      hot,
+      sweet,
+      sour,
+      bitter,
+      salty,
     } = this.state;
     // console.log(review, user_id, language_code, food_id, taste);
 
@@ -205,6 +215,11 @@ export default class ReviewPost extends React.Component {
           content: review,
           taste: taste,
           point: rating,
+          hot: hot,
+          sweet: sweet,
+          sour: sour,
+          bitter: bitter,
+          salty: salty,
         },
       })
         .then((response) => {

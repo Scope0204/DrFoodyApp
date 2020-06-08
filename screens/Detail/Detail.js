@@ -303,30 +303,16 @@ export default class Detail extends React.Component {
       >
         <FoodScreen>
           <View style={{ alignItems: "center" }}>
-            {parseInt(food_name) < 8 ? (
-              <Text
-                style={{
-                  fontSize: 27,
-                  color: "red",
-                  fontWeight: "600",
-                  marginBottom: 20,
-                  marginTop: 40,
-                }}
-              >
-                {food_name}
-              </Text>
-            ) : (
-              <Text
-                style={{
-                  fontSize: 20,
-                  fontWeight: "600",
-                  marginBottom: 20,
-                  marginTop: 40,
-                }}
-              >
-                {food_name}
-              </Text>
-            )}
+            <Text
+              style={{
+                fontSize: 25,
+                fontWeight: "600",
+                marginBottom: 20,
+                marginTop: 40,
+              }}
+            >
+              {food_name}
+            </Text>
 
             <View style={{ flexDirection: "row" }}>{stars}</View>
 

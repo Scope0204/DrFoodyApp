@@ -71,7 +71,7 @@ export default class GraphSWp extends Component {
               color: color[e],
             }}
           >
-            {e}
+            {e + 1}
           </Text>
         </View>
         <View style={{ flex: 0.2, alignItems: "center" }}>
@@ -98,11 +98,11 @@ export default class GraphSWp extends Component {
   render() {
     return (
       <Swiper style={styles.wrapper} autoplay={true} autoplayTimeout={2}>
+        <View>{this.graphList(0)}</View>
         <View>{this.graphList(1)}</View>
         <View>{this.graphList(2)}</View>
         <View>{this.graphList(3)}</View>
         <View>{this.graphList(4)}</View>
-        <View>{this.graphList(5)}</View>
       </Swiper>
     );
   }

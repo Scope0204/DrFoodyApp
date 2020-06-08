@@ -154,7 +154,7 @@ export default class Attention extends React.Component {
                     </ImageContainer>
                     <FoodInfo>
                       <View style={{ paddingBottom: 10, paddingTop: 10 }}>
-                        {list.food_name < 8 ? (
+                        {list.food_name.length < 10 ? (
                           <Text
                             style={{
                               fontSize: 20,
