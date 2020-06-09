@@ -42,28 +42,6 @@ const SelectContainer = styled.View`
   background-color: white;
 `;
 
-const CameraContainer = styled.View`
-  width: ${width}px;
-  align-items: center;
-  margin-top: 5px;
-`;
-
-const CameraBtn = styled.TouchableOpacity`
-  width: ${width - 10}px;
-  height: ${height / 3.8}px;
-  background-color: #ff5122;
-  border-radius: 10px;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 1px 1px 1px gray;
-`;
-
-const CameraText = styled.Text`
-  font-size: 20px;
-  font-weight: bold;
-  color: white;
-`;
-
 export default class Main extends React.Component {
   constructor(props) {
     super(props);
@@ -186,12 +164,6 @@ export default class Main extends React.Component {
           </View>
         </View>
         <Container style={{ flex: 0.88 }}>
-          <CameraContainer>
-            <CameraBtn onPress={() => this.props.navigation.navigate("Camera")}>
-              <Entypo size={120} name={"camera"} color={"white"} />
-              <CameraText>제품 조회</CameraText>
-            </CameraBtn>
-          </CameraContainer>
           <View
             style={{
               alignItems: "center",

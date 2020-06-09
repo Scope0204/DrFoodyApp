@@ -26,7 +26,8 @@ const ListName = styled.Text`
 `;
 
 const GraphCon = styled.View`
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+  margin-top: 10px;
   background-color: white;
   width: ${width - 20}px;
   margin-left: 10px;
@@ -118,33 +119,36 @@ export default class GraphList extends React.Component {
 
     return (
       <View>
-        <View
-          style={{
-            marginBottom: 10,
-            // backgroundColor: "white",
-            width: width,
-            paddingBottom: 10,
-          }}
-        >
+        <View>
           <Text style={{ fontWeight: "bold", marginLeft: 15 }}>그래프</Text>
           <Text style={{ fontSize: 12, marginLeft: 15 }}>
             카테고리에 따른 상위 5개의 제품들을 나타냅니다
           </Text>
         </View>
-        <View>
-          <Text
+
+        <View style={{ height: 100, marginTop: 10 }}>
+          <GraphSwp list={list} color={color} />
+        </View>
+
+        <GraphCon>
+          <View
             style={{
-              fontWeight: "bold",
-              fontSize: 22,
-              marginBottom: 12,
-              marginLeft: 15,
-              marginTop: 5,
+              justifyContent: "center",
+              marginLeft: 20,
+              marginTop: 10,
+              marginBottom: 20,
             }}
           >
-            {type[category]}
-          </Text>
-        </View>
-        <GraphCon>
+            <Text
+              style={{
+                fontWeight: "bold",
+                fontSize: 22,
+              }}
+            >
+              {type[category]}
+            </Text>
+          </View>
+
           <PieChart
             data={data}
             width={width}
@@ -177,7 +181,7 @@ export default class GraphList extends React.Component {
           </View>
         </GraphCon>
 
-        <View style={{ marginTop: 10 }}>
+        {/* <View style={{ marginTop: 10 }}>
           <Text
             style={{
               fontWeight: "bold",
@@ -188,10 +192,7 @@ export default class GraphList extends React.Component {
           >
             제품 정보
           </Text>
-        </View>
-        <View>
-          <GraphSwp list={list} color={color} />
-        </View>
+        </View> */}
       </View>
     );
   }

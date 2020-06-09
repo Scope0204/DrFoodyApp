@@ -10,7 +10,9 @@ import MaterialTop from "../navigation/MaterialTop";
 import ChartScreen from "../screens/Chart/Chart";
 import UserScreen from "../screens/User/User";
 import TabBarIcon from "../components/TabBarIcon";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, AntDesign } from "@expo/vector-icons";
+import CameraScreen from "../screens/Camera/Shot";
+import AddButton from "./AddBotton";
 
 const styles = StyleSheet.create({
   setting: {
@@ -55,10 +57,7 @@ const TabNavigation = createBottomTabNavigator(
       }),
       navigationOptions: {
         tabBarIcon: ({ focused }) => (
-          <TabBarIcon
-            focused={focused}
-            name={Platform.OS === "ios" ? "ios-home" : "md-home"}
-          />
+          <TabBarIcon focused={focused} name={"home"} />
         ),
       },
     },
@@ -75,11 +74,16 @@ const TabNavigation = createBottomTabNavigator(
       }),
       navigationOptions: {
         tabBarIcon: ({ focused }) => (
-          <TabBarIcon
-            focused={focused}
-            name={Platform.OS === "ios" ? "ios-heart" : "md-heart-empty"}
-          />
+          <TabBarIcon focused={focused} name={"hearto"} />
         ),
+      },
+    },
+
+    Camera: {
+      screen: CameraScreen,
+      navigationOptions: {
+        tabBarIcon: <AddButton />,
+        tabBarVisible: false,
       },
     },
 
@@ -95,10 +99,7 @@ const TabNavigation = createBottomTabNavigator(
       }),
       navigationOptions: {
         tabBarIcon: ({ focused }) => (
-          <TabBarIcon
-            focused={focused}
-            name={Platform.OS === "ios" ? "ios-trophy" : "md-trophy"}
-          />
+          <TabBarIcon focused={focused} name={"Trophy"} />
         ),
       },
     },
@@ -123,10 +124,7 @@ const TabNavigation = createBottomTabNavigator(
       }),
       navigationOptions: {
         tabBarIcon: ({ focused }) => (
-          <TabBarIcon
-            focused={focused}
-            name={Platform.OS === "ios" ? "ios-contact" : "md-contact"}
-          />
+          <TabBarIcon focused={focused} name={"user"} />
         ),
       },
     },

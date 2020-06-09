@@ -69,8 +69,16 @@ export default class Shot extends React.Component {
     } else {
       this.setState({ hasPermission: false });
     }
-    Alert.alert("", "해당영역에 맞게 촬영해 주세요");
+    const { navigation } = this.props;
+    this.focusListener = navigation.addListener("didFocus", () => {
+      Alert.alert("", "해당영역에 맞게 촬영해 주세요");
+    });
   };
+
+  componentWillUnmount() {
+    // Remove the event listener
+    this.focusListener.remove();
+  }
 
   render() {
     const { hasPermission, cameraType } = this.state;

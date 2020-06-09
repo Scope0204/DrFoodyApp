@@ -19,7 +19,7 @@ const MainNavigation = createStackNavigator(
     },
     Tabs: {
       screen: TabNavigation,
-      navigationOptions: { header: null },
+      navigationOptions: { header: null, gesturesEnabled: false },
     },
     Signup: {
       screen: SingupScreen,
@@ -39,12 +39,12 @@ const MainNavigation = createStackNavigator(
         header: null,
       },
     },
-    Camera: {
-      screen: CameraScreen,
-      navigationOptions: {
-        header: null,
-      },
-    },
+    // Camera: {
+    //   screen: CameraScreen,
+    //   navigationOptions: {
+    //     header: null,
+    //   },
+    // },
     UserDetail: {
       screen: UserDetailScreen,
       navigationOptions: {

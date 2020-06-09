@@ -18,9 +18,13 @@ const Bar = styled.View`
   width: ${width}px;
 `;
 
-const UserOptions = styled.View``;
+const UserOptions = styled.View`
+  background-color: white;
+`;
 
-const Container = styled.View``;
+const Container = styled.ScrollView`
+  background-color: #f5f5f5;
+`;
 
 const ImgAge = styled.View`
   flex-direction: row;
@@ -58,25 +62,6 @@ const DivBox = styled.View`
   border-color: #b8b8b8;
   background-color: #fcfcfc;
   padding: 15px;
-`;
-const GraphBox = styled.View`
-  background-color: white;
-  width: ${width - 30}px;
-  height: ${height / 2.6}px;
-  border: 0px solid;
-  border-radius: 10px;
-  margin-top: 0px;
-  box-shadow: 1px 1px 2px gray;
-  align-items: center;
-`;
-// 맛 바
-const TasteBar = styled.View`
-  border-radius: 10px;
-  height: 5px;
-  background-color: gray;
-  width: ${width - 100}px;
-  margin-top: 30px;
-  margin-bottom: 20px;
 `;
 
 export default class User extends React.Component {
@@ -168,15 +153,7 @@ export default class User extends React.Component {
                         {")"}
                       </Text>
                     </ImgAge>
-                    <Bar />
-                    <AvoidCon>
-                      <Title>기피 원재료</Title>
-                      <View style={{ alignItems: "center" }}>
-                        <DivBox>
-                          <Text style={{ fontSize: 16 }}>{avoid}</Text>
-                        </DivBox>
-                      </View>
-                    </AvoidCon>
+
                     <Bar />
                     <TasteCon>
                       <Title>맛 선호도</Title>
@@ -189,7 +166,7 @@ export default class User extends React.Component {
                               fontSize: 16,
                             }}
                           >
-                            매운맛
+                            매운
                           </Text>
                         </View>
                         <View
@@ -203,37 +180,37 @@ export default class User extends React.Component {
                         >
                           <Text
                             style={{
-                              marginRight: -55,
-                              marginTop: -135,
+                              marginRight: -40,
+                              marginTop: -85,
                               color: "blue",
                               fontSize: 16,
                             }}
                           >
-                            짠맛
+                            짠
                           </Text>
                           <View style={{ marginLeft: 20 }}>
                             <Svg height="400" width="400">
                               <Polygon
                                 points="190,40 350,160 280,330 100,330 30,160"
-                                fill="white"
+                                fill="#F9F9F9"
                                 stroke="#DCDCDC"
                                 strokeWidth="1"
                               />
                               <Polygon
                                 points="190,70 318,166 262,302 118,302 62,166"
-                                fill="white"
+                                fill="#F9F9F9"
                                 stroke="#DCDCDC"
                                 strokeWidth="1"
                               />
                               <Polygon
                                 points="190,100 286,172 244,274 136,274 94,172"
-                                fill="white"
+                                fill="#F9F9F9"
                                 stroke="#DCDCDC"
                                 strokeWidth="1"
                               />
                               <Polygon
                                 points="190,130 254,178 226,246 154,246 126,178"
-                                fill="white"
+                                fill="#F9F9F9"
                                 stroke="#DCDCDC"
                                 strokeWidth="1"
                               />
@@ -244,12 +221,6 @@ export default class User extends React.Component {
                                 strokeWidth="1"
                               />
 
-                              <Polygon
-                                points="190,190 190,190 190,190 190,190 190,190"
-                                fill="red"
-                                stroke="#ff5122"
-                                strokeWidth="1"
-                              />
                               <Polygon
                                 points={`190,${190 - list.user_hot * 30} ${
                                   190 + list.user_sweet * 32
@@ -267,13 +238,13 @@ export default class User extends React.Component {
 
                           <Text
                             style={{
-                              marginLeft: -55,
-                              marginTop: -135,
+                              marginLeft: -40,
+                              marginTop: -85,
                               color: "orange",
                               fontSize: 16,
                             }}
                           >
-                            단맛
+                            단
                           </Text>
                         </View>
                         <View
@@ -290,7 +261,7 @@ export default class User extends React.Component {
                               fontSize: 16,
                             }}
                           >
-                            쓴맛
+                            쓴
                           </Text>
                           <Text
                             style={{
@@ -299,11 +270,21 @@ export default class User extends React.Component {
                               fontSize: 16,
                             }}
                           >
-                            신맛
+                            신
                           </Text>
                         </View>
                       </View>
                     </TasteCon>
+
+                    <Bar />
+                    <AvoidCon>
+                      <Title>기피 원재료</Title>
+                      <View style={{ alignItems: "center" }}>
+                        <DivBox>
+                          <Text style={{ fontSize: 16 }}>{avoid}</Text>
+                        </DivBox>
+                      </View>
+                    </AvoidCon>
                   </View>
                 );
               })

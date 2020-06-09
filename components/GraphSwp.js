@@ -97,7 +97,12 @@ export default class GraphSWp extends Component {
   };
   render() {
     return (
-      <Swiper style={styles.wrapper} autoplay={true} autoplayTimeout={2}>
+      <Swiper
+        style={styles.wrapper}
+        autoplay={true}
+        autoplayTimeout={5}
+        showsPagination={false}
+      >
         <View>{this.graphList(0)}</View>
         <View>{this.graphList(1)}</View>
         <View>{this.graphList(2)}</View>

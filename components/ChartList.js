@@ -77,9 +77,15 @@ export default class ChartList extends React.Component {
                   )}
                 </View>
                 <View style={{ flex: 0.6 }}>
-                  <Text style={{ marginLeft: 30, fontSize: 16 }}>
-                    {list.food_name}
-                  </Text>
+                  {list.food_name.length > 10 ? (
+                    <Text style={{ marginLeft: 30, fontSize: 13 }}>
+                      {list.food_name}
+                    </Text>
+                  ) : (
+                    <Text style={{ marginLeft: 30, fontSize: 16 }}>
+                      {list.food_name}
+                    </Text>
+                  )}
                 </View>
               </ChartBox>
             );
