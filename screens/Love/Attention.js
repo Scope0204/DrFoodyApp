@@ -10,32 +10,32 @@ import {
 } from "react-native";
 import axios from "axios"; // npm i axios@0.18.0
 import styled from "styled-components";
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 
 const { width, height } = Dimensions.get("screen");
 
-const Container = styled.View`
-  background-color: white;
+const Container = styled.TouchableOpacity`
   width: ${width - 20}px;
-  height: ${height / 5}px;
-  border: 0px solid;
-  border-radius: 5px;
-  margin-top: 10px;
-  box-shadow: 2px 2px 2px gray;
+  background-color: white;
+  height: 100px;
+  border-radius: 10px;
+  border: 1px solid #ecf0f1;
+  box-shadow: 2px 2px 2px #f1f1f1;
+  margin-bottom: 7px;
   flex-direction: row;
   align-items: center;
 `;
 
 const ImageContainer = styled.View`
   margin-left: 20px;
-  margin-right: 30px;
   align-items: center;
-  flex: 0.45;
+  flex: 2;
 `;
 
 const FoodInfo = styled.View`
-  flex-direction: column;
-  flex: 0.55;
+  justify-content: center;
+  padding-left: 30px;
+  flex: 6;
 `;
 
 export default class Attention extends React.Component {
@@ -142,86 +142,60 @@ export default class Attention extends React.Component {
           {dibs_list
             ? dibs_list.map((list, key) => {
                 return (
-                  <Container key={key}>
+                  <Container key={key} onPress={() => this.info(list.food_id)}>
                     <ImageContainer>
                       <Image
                         source={{ uri: list.food_photo }}
                         style={{
-                          width: 150,
-                          height: 150,
+                          width: 60,
+                          height: 60,
                         }}
                       />
                     </ImageContainer>
-                    <FoodInfo>
-                      <View style={{ paddingBottom: 10, paddingTop: 10 }}>
-                        {list.food_name.length < 10 ? (
-                          <Text
-                            style={{
-                              fontSize: 20,
-                              fontWeight: "bold",
-                              marginBottom: 10,
-                            }}
-                          >
-                            {list.food_name}
-                          </Text>
-                        ) : (
-                          <Text
-                            style={{
-                              fontSize: 13,
-                              fontWeight: "bold",
-                              marginBottom: 10,
-                            }}
-                          >
-                            {list.food_name}
-                          </Text>
-                        )}
 
-                        <View style={{ marginBottom: 20 }}>
-                          {list.point ? (
-                            <View style={{ flexDirection: "row" }}>
-                              <FontAwesome
-                                size={16}
-                                name={"star"}
-                                color={"#F5B041"}
-                                style={{ marginRight: 10 }}
-                              />
-                              <Text>{list.point}</Text>
-                              <Text> / 5 점</Text>
-                            </View>
-                          ) : (
-                            <View style={{ flexDirection: "row" }}>
-                              <FontAwesome
-                                size={16}
-                                name={"star-o"}
-                                color={"#F5B041"}
-                                style={{ marginRight: 10 }}
-                              />
-                              <Text>0</Text>
-                              <Text> / 5 점</Text>
-                            </View>
-                          )}
-                        </View>
-                      </View>
-                      <View
+                    <FoodInfo>
+                      <Text
                         style={{
-                          alignItems: "center",
-                          justifyContent: "center",
-                          backgroundColor: "#FF2257",
-                          width: 90,
-                          height: 30,
-                          marginBottom: 5,
-                          borderRadius: 10,
+                          fontSize: 15,
+                          fontWeight: "bold",
                         }}
                       >
-                        <TouchableOpacity
-                          onPress={() => this.info(list.food_id)}
-                        >
-                          <Text style={{ color: "white", fontWeight: "bold" }}>
-                            Check this
-                          </Text>
-                        </TouchableOpacity>
+                        {list.food_name}
+                      </Text>
+
+                      <View style={{ paddingTop: 8 }}>
+                        {list.point ? (
+                          <View style={{ flexDirection: "row" }}>
+                            <FontAwesome
+                              size={16}
+                              name={"star"}
+                              color={"#F5B041"}
+                              style={{ marginRight: 10 }}
+                            />
+                            <Text>{list.point}</Text>
+                            <Text> / 5 점</Text>
+                          </View>
+                        ) : (
+                          <View style={{ flexDirection: "row" }}>
+                            <FontAwesome
+                              size={16}
+                              name={"star-o"}
+                              color={"#F5B041"}
+                              style={{}}
+                            />
+                            <Text>0</Text>
+                            <Text> / 5 점</Text>
+                          </View>
+                        )}
                       </View>
                     </FoodInfo>
+                    <View style={{ alignItems: "center", flex: 1 }}>
+                      <MaterialIcons
+                        name="navigate-next"
+                        size={24}
+                        color="#DFDFDF"
+                      />
+                    </View>
                   </Container>
                 );
               })
