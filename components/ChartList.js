@@ -9,7 +9,6 @@ import {
   Image,
 } from "react-native";
 
-import { FontAwesome, AntDesign } from "@expo/vector-icons";
 import styled from "styled-components";
 
 const { width, height } = Dimensions.get("window");

@@ -99,6 +99,7 @@ export default class Material extends React.Component {
 
   render() {
     const { material, avoid, call } = this.state;
+    const message = "데이터가 없습니다";
     return (
       <View>
         <View style={styles.textCon}>
@@ -163,6 +164,14 @@ export default class Material extends React.Component {
                   );
                 })
               : null}
+
+            {material ? (
+              <View>
+                <Text style={{ fontSize: 16, paddingBottom: 10 }}>
+                  데이터가 없습니다
+                </Text>
+              </View>
+            ) : null}
           </View>
         </View>
       </View>
@@ -195,6 +204,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#E9F2F9",
     borderRadius: 10,
+    padding: 5,
   },
 
   avoidTxt: {

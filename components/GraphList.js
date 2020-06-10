@@ -41,26 +41,28 @@ export default class GraphList extends React.Component {
     super(props);
     this.state = {
       list: this.props.list,
+      //   color: ["#7DB8E3", "#7DE3DC", "#7DE3B6", "#91E37D", "#C0E37D"],
       color: ["#581845", "#900C3F", "#c70039", "#ff5733", "#ffc30f"],
+
       category: this.props.category,
       type: ["조회수", "리뷰수", "별점수"],
     };
   }
 
   list = (e) => {
-    const { list } = this.state;
+    const { list, color, category } = this.state;
     let backgroundColor = null;
 
     if (e == 0) {
-      backgroundColor = "#581845";
+      backgroundColor = color[0];
     } else if (e == 1) {
-      backgroundColor = "#900C3F";
+      backgroundColor = color[1];
     } else if (e == 2) {
-      backgroundColor = "#c70039";
+      backgroundColor = color[2];
     } else if (e == 3) {
-      backgroundColor = "#ff5733";
+      backgroundColor = color[3];
     } else if (e == 4) {
-      backgroundColor = "#ffc30f";
+      backgroundColor = color[4];
     }
     return (
       <View
@@ -71,7 +73,11 @@ export default class GraphList extends React.Component {
         }}
       >
         <Circle style={{ backgroundColor: backgroundColor }} />
-        <ListName>{parseInt(list[e].order_point)}건</ListName>
+        {category == 2 ? (
+          <ListName>{parseInt(list[e].order_point)}점</ListName>
+        ) : (
+          <ListName>{parseInt(list[e].order_point)}건</ListName>
+        )}
       </View>
     );
   };
@@ -83,35 +89,35 @@ export default class GraphList extends React.Component {
       {
         name: "",
         population: parseInt(list[0].order_point),
-        color: "#581845",
+        color: color[0],
         legendFontColor: "#7F7F7F",
         legendFontSize: 15,
       },
       {
         name: "",
         population: parseInt(list[1].order_point),
-        color: "#900C3F",
+        color: color[1],
         legendFontColor: "#7F7F7F",
         legendFontSize: 15,
       },
       {
         name: "",
         population: parseInt(list[2].order_point),
-        color: "#c70039",
+        color: color[2],
         legendFontColor: "#7F7F7F",
         legendFontSize: 15,
       },
       {
         name: "",
         population: parseInt(list[3].order_point),
-        color: "#ff5733",
+        color: color[3],
         legendFontColor: "#7F7F7F",
         legendFontSize: 15,
       },
       {
         name: "",
         population: parseInt(list[4].order_point),
-        color: "#ffc30f",
+        color: color[4],
         legendFontColor: "#7F7F7F",
         legendFontSize: 15,
       },

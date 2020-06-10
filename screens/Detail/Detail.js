@@ -270,9 +270,8 @@ export default class Detail extends React.Component {
     for (let x = 1; x <= 5; x++) {
       if (x <= point) {
         stars.push(
-          <View>
+          <View key={x}>
             <FontAwesome
-              key={x}
               name={"star"}
               color={"orange"}
               size={16}
@@ -282,9 +281,8 @@ export default class Detail extends React.Component {
         );
       } else {
         stars.push(
-          <View>
+          <View key={x}>
             <FontAwesome
-              key={x}
               name={"star"}
               color={"#b2b2b2"}
               size={16}

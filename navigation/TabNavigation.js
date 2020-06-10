@@ -108,18 +108,10 @@ const TabNavigation = createBottomTabNavigator(
       screen: createStackNavigator({
         User: {
           screen: UserScreen,
-          navigationOptions: ({ navigation }) => ({
+          navigationOptions: {
             title: "User",
             ...headerStyles,
-            headerRight: (
-              <Ionicons
-                size={32}
-                name={"ios-settings"}
-                style={styles.setting}
-                onPress={() => navigation.navigate("UserDetail")}
-              />
-            ),
-          }),
+          },
         },
       }),
       navigationOptions: {

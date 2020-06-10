@@ -31,7 +31,7 @@ const IconBar = styled.View``;
 
 const BackBtn = styled.TouchableOpacity`
   position: absolute;
-  top: 70px;
+  top: 65px;
   left: 30px;
 `;
 
@@ -94,9 +94,9 @@ export default class Shot extends React.Component {
               color={"white"}
             ></Ionicons>
           </BackBtn>
-          <SwitchBtn onPress={this.switchCameraType}>
+          {/* <SwitchBtn onPress={this.switchCameraType}>
             <AntDesign name={"sync"} color="white" size={30} />
-          </SwitchBtn>
+          </SwitchBtn> */}
 
           <Camera
             ref={this.cameraRef}

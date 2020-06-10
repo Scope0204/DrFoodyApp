@@ -38,11 +38,12 @@ export default class SearchBar extends React.Component {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
-    width: width - 10,
+    width: width - 40,
     height: 45,
     borderStyle: "solid",
-    borderRadius: 10,
+    borderRadius: 20,
     borderWidth: 1.5,
+    borderColor: "#BDBDBD",
     flexDirection: "row",
     alignItems: "center",
   },

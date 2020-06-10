@@ -165,7 +165,12 @@ export default class Attention extends React.Component {
 
                       <View style={{ paddingTop: 8 }}>
                         {list.point ? (
-                          <View style={{ flexDirection: "row" }}>
+                          <View
+                            style={{
+                              flexDirection: "row",
+                              alignItems: "center",
+                            }}
+                          >
                             <FontAwesome
                               size={16}
                               name={"star"}
@@ -173,18 +178,23 @@ export default class Attention extends React.Component {
                               style={{ marginRight: 10 }}
                             />
                             <Text>{list.point}</Text>
-                            <Text> / 5 점</Text>
+                            <Text>점</Text>
                           </View>
                         ) : (
-                          <View style={{ flexDirection: "row" }}>
+                          <View
+                            style={{
+                              flexDirection: "row",
+                              alignItems: "center",
+                            }}
+                          >
                             <FontAwesome
                               size={16}
                               name={"star-o"}
                               color={"#F5B041"}
-                              style={{}}
+                              style={{ marginRight: 10 }}
                             />
                             <Text>0</Text>
-                            <Text> / 5 점</Text>
+                            <Text>점</Text>
                           </View>
                         )}
                       </View>

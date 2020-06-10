@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, Dimensions, AsyncStorage, Image } from "react-native";
 import styled from "styled-components";
 import axios from "axios"; // npm i axios@0.18.0
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import TasteGraph from "../../components/TasteGraph";
 import Svg, { Polygon } from "react-native-svg";
 
@@ -14,7 +14,7 @@ const chartConfig = {
 
 const Bar = styled.View`
   background-color: #f5f5f5;
-  height: 5px;
+  height: 10px;
   width: ${width}px;
 `;
 
@@ -26,7 +26,7 @@ const Container = styled.ScrollView`
   background-color: #f5f5f5;
 `;
 
-const ImgAge = styled.View`
+const ImgAge = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
   background-color: white;
@@ -40,9 +40,9 @@ const AvoidCon = styled.View`
   padding-bottom: 15px;
 `;
 
-const TasteCon = styled.View`
+const TasteTitle = styled.View`
   margin-top: 15px;
-  padding-bottom: 15px;
+  padding-bottom: 10px;
 `;
 
 const Title = styled.Text`
@@ -58,9 +58,9 @@ const DivBox = styled.View`
   border-radius: 10px;
   width: ${width - 30}px;
   height: ${height / 8.5}px;
-  border-width: 2px;
+  border-width: 1px;
   border-color: #b8b8b8;
-  background-color: #fcfcfc;
+  background-color: #FAFAFA;
   padding: 15px;
 `;
 
@@ -125,7 +125,12 @@ export default class User extends React.Component {
                 return (
                   <View key={key}>
                     <Bar />
-                    <ImgAge>
+                    <ImgAge
+                      activeOpacity={0.8}
+                      onPress={() =>
+                        this.props.navigation.navigate("UserDetail")
+                      }
+                    >
                       {/* <Image
                         source={{ uri: list.user_photo }}
                         style={{ width: 120, height: 120 }}
@@ -152,131 +157,30 @@ export default class User extends React.Component {
                         {2020 - parseInt(list.user_birth.substring(0, 4))}
                         {")"}
                       </Text>
+
+                      <View
+                        style={{
+                          alignItems: "flex-end",
+                          flex: 1,
+                          paddingRight: 10,
+                        }}
+                      >
+                        <MaterialIcons
+                          name="navigate-next"
+                          size={40}
+                          color="#DFDFDF"
+                        />
+                      </View>
                     </ImgAge>
 
-                    <Bar />
-                    <TasteCon>
-                      <Title>맛 선호도</Title>
-                      <View style={{ alignItems: "center" }}>
-                        {/* <TasteGraph user={user} /> */}
-                        <View>
-                          <Text
-                            style={{
-                              color: "red",
-                              fontSize: 16,
-                            }}
-                          >
-                            매운
-                          </Text>
-                        </View>
-                        <View
-                          style={{
-                            flexDirection: "row",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                            padding: 0,
-                            marginTop: -30,
-                          }}
-                        >
-                          <Text
-                            style={{
-                              marginRight: -40,
-                              marginTop: -85,
-                              color: "blue",
-                              fontSize: 16,
-                            }}
-                          >
-                            짠
-                          </Text>
-                          <View style={{ marginLeft: 20 }}>
-                            <Svg height="400" width="400">
-                              <Polygon
-                                points="190,40 350,160 280,330 100,330 30,160"
-                                fill="#F9F9F9"
-                                stroke="#DCDCDC"
-                                strokeWidth="1"
-                              />
-                              <Polygon
-                                points="190,70 318,166 262,302 118,302 62,166"
-                                fill="#F9F9F9"
-                                stroke="#DCDCDC"
-                                strokeWidth="1"
-                              />
-                              <Polygon
-                                points="190,100 286,172 244,274 136,274 94,172"
-                                fill="#F9F9F9"
-                                stroke="#DCDCDC"
-                                strokeWidth="1"
-                              />
-                              <Polygon
-                                points="190,130 254,178 226,246 154,246 126,178"
-                                fill="#F9F9F9"
-                                stroke="#DCDCDC"
-                                strokeWidth="1"
-                              />
-                              <Polygon
-                                points="190,160 222,184 208,218 172,218 158,184"
-                                fill="white"
-                                stroke="#DCDCDC"
-                                strokeWidth="1"
-                              />
+                    <View
+                      style={{
+                        backgroundColor: "#f5f5f5",
+                        height: 1.5,
+                        width: width,
+                      }}
+                    />
 
-                              <Polygon
-                                points={`190,${190 - list.user_hot * 30} ${
-                                  190 + list.user_sweet * 32
-                                },${190 - list.user_sweet * 6} ${
-                                  190 + list.user_sour * 18
-                                },${190 + list.user_sour * 28} ${
-                                  190 - list.user_bitter * 18
-                                },${190 + list.user_bitter * 28} ${
-                                  190 - list.user_salty * 32
-                                },${190 - list.user_salty * 6}`}
-                                fill="rgba(255, 81, 34, 0.8)"
-                              />
-                            </Svg>
-                          </View>
-
-                          <Text
-                            style={{
-                              marginLeft: -40,
-                              marginTop: -85,
-                              color: "orange",
-                              fontSize: 16,
-                            }}
-                          >
-                            단
-                          </Text>
-                        </View>
-                        <View
-                          style={{
-                            flexDirection: "row",
-                            justifyContent: "space-between",
-                            width: 215,
-                          }}
-                        >
-                          <Text
-                            style={{
-                              marginTop: -60,
-                              color: "green",
-                              fontSize: 16,
-                            }}
-                          >
-                            쓴
-                          </Text>
-                          <Text
-                            style={{
-                              marginTop: -60,
-                              color: "#F9E415",
-                              fontSize: 16,
-                            }}
-                          >
-                            신
-                          </Text>
-                        </View>
-                      </View>
-                    </TasteCon>
-
-                    <Bar />
                     <AvoidCon>
                       <Title>기피 원재료</Title>
                       <View style={{ alignItems: "center" }}>
@@ -285,12 +189,138 @@ export default class User extends React.Component {
                         </DivBox>
                       </View>
                     </AvoidCon>
+
+                    <View
+                      style={{
+                        backgroundColor: "#f5f5f5",
+                        height: 1.5,
+                        width: width,
+                      }}
+                    />
+
+                    <TasteTitle>
+                      <Title>맛 선호도</Title>
+                    </TasteTitle>
+
+                    <View style={{ alignItems: "center" }}>
+                      <View>
+                        <Text
+                          style={{
+                            color: "red",
+                            fontSize: 16,
+                          }}
+                        >
+                          매운맛
+                        </Text>
+                      </View>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          marginTop: -55,
+                        }}
+                      >
+                        <Text
+                          style={{
+                            marginRight: -65,
+                            marginTop: -70,
+                            color: "blue",
+                            fontSize: 16,
+                          }}
+                        >
+                          짠맛
+                        </Text>
+                        <View style={{ marginLeft: 20 }}>
+                          <Svg height="400" width="400">
+                            <Polygon
+                              points="190,70 318,166 262,302 118,302 62,166"
+                              fill="white"
+                              stroke="#EEEBEB"
+                              strokeWidth="1"
+                            />
+                            <Polygon
+                              points="190,94 292.4,170.8 247.6,279.6 132.4,279.6 87.6,170.8"
+                              fill="white"
+                              stroke="#EEEBEB"
+                              strokeWidth="1"
+                            />
+                            <Polygon
+                              points="190,118 266.8,175.6 233.2,257.2 146.8,257.2 113.2,175.6"
+                              fill="white"
+                              stroke="#EEEBEB"
+                              strokeWidth="1"
+                            />
+                            <Polygon
+                              points="190,142 241.2,180.4 218.8,234.8 161.2,234.8 161.2,234.8 138.8,180.4"
+                              fill="white"
+                              stroke="#EEEBEB"
+                              strokeWidth="1"
+                            />
+                            <Polygon
+                              points="190,166 215.6,185.2 204.4,212.4 175.6,212.4 164.4,185.2"
+                              fill="white"
+                              stroke="#EEEBEB"
+                              strokeWidth="1"
+                            />
+
+                            <Polygon
+                              points={`190,${190 - list.user_hot * 24} ${
+                                190 + list.user_sweet * 25.6
+                              },${190 - list.user_sweet * 4.8} ${
+                                190 + list.user_sour * 14.4
+                              },${190 + list.user_sour * 22.4} ${
+                                190 - list.user_bitter * 14.4
+                              },${190 + list.user_bitter * 22.4} ${
+                                190 - list.user_salty * 25.6
+                              },${190 - list.user_salty * 4.8}`}
+                              fill="rgba(255, 81, 34, 0.8)"
+                            />
+                          </Svg>
+                        </View>
+                        <Text
+                          style={{
+                            marginLeft: -65,
+                            marginTop: -70,
+                            color: "orange",
+                            fontSize: 16,
+                          }}
+                        >
+                          단맛
+                        </Text>
+                      </View>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                          width: 190,
+                        }}
+                      >
+                        <Text
+                          style={{
+                            marginTop: -80,
+                            color: "green",
+                            fontSize: 16,
+                          }}
+                        >
+                          쓴맛
+                        </Text>
+                        <Text
+                          style={{
+                            marginTop: -80,
+                            color: "#F9E415",
+                            fontSize: 16,
+                          }}
+                        >
+                          신맛
+                        </Text>
+                      </View>
+                    </View>
                   </View>
                 );
               })
             : null}
         </UserOptions>
-        <View></View>
       </Container>
     );
   }

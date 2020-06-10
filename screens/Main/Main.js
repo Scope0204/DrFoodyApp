@@ -12,34 +12,32 @@ import styled from "styled-components";
 import List from "../../components/List";
 import SearchBar from "../../components/SearchBar";
 import axios from "axios"; // npm i axios@0.18.0
-import { EvilIcons, Octicons, Entypo, AntDesign } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 import Address from "../../components/Address";
+import { LinearGradient } from "expo-linear-gradient";
 
 const { width, height } = Dimensions.get("window");
 
-const Container = styled.ScrollView`
+const Bar = styled.View`
   background-color: #f5f5f5;
-  height: ${height}px;
+  height: 1px;
+  width: ${width - 30}px;
 `;
 
-const UserState = styled.View`
-  width: ${width - 10}px;
-  height: ${height / 8}px;
-  border: 1px solid #F5F5F5 ;
-  border-radius: 10px
-  flex-direction: row;
-  align-items: center;
-  background-color: white;
-  box-shadow : 2px 2px 2px #ECF0F1;
-
+const Container = styled.View`
+  background-color: #ff5122;
+  flex: 1;
 `;
 
-const SelectContainer = styled.View`
-  width: ${width}px;
-  height: ${height / 3.7 + 5}px;
-  flex-direction: row;
-  margin-top: 5px;
-  background-color: white;
+const ContainerOne = styled.View`
+  flex: 1;
+`;
+
+const ContainerTwo = styled.View`
+  flex: 3;
+  background-color: #fff;
+  border-top-right-radius: 30px;
+  border-top-left-radius: 30px;
 `;
 
 export default class Main extends React.Component {
@@ -103,171 +101,224 @@ export default class Main extends React.Component {
     }
 
     //음식 리스트 가져오기
+    //     try {
+    //       await axios({
+    //         url: "http://3.34.97.97/api/app/foodList",
+    //       }).then((response) => {
+    //         // console.log(response.data);
+    //         if (response) {
+    //           for (var key in response.data) {
+    //             var List = response.data[key];
+    //             this.setState({
+    //               food_list: this.state.food_list.concat({
+    //                 id: key,
+    //                 food_id: List.food_id,
+    //                 name: List.food_name,
+    //                 photo: List.food_photo,
+    //                 point: List.point,
+    //               }),
+    //             });
+    //           }
+    //         } else {
+    //           console.log("no");
+    //         }
+    //       });
+    //     } catch (err) {
+    //       console.log(err);
+    //     }
+
+    // 랭킹 리스트
     try {
       await axios({
-        url: "http://3.34.97.97/api/app/foodList",
-      }).then((response) => {
-        // console.log(response.data);
-        if (response) {
-          for (var key in response.data) {
-            var List = response.data[key];
-            this.setState({
-              food_list: this.state.food_list.concat({
-                id: key,
-                food_id: List.food_id,
-                name: List.food_name,
-                photo: List.food_photo,
-                point: List.point,
-              }),
-            });
+        method: "post",
+        url: "http://3.34.97.97/api/app/rankList",
+        headers: {
+          Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
+          "Content-Type": "application/json; charset=utf-8",
+        },
+        data: {
+          category: 0,
+          sex: 2, //성별
+          age: 0, //나이
+          country: 0, //국가
+          date: 4, // 기간
+        },
+      })
+        .then((response) => {
+          if (response) {
+            console.log(response);
+
+            for (var key in response.data) {
+              var list = response.data[key];
+              this.setState({
+                food_list: this.state.food_list.concat({
+                  id: key,
+                  name: list.food_name,
+                  photo: list.food_photo,
+                  point: list.rPoint, // 좋아요
+                  view: list.order_point, // 조회수
+                  review: list.rCount, // 리뷰
+                }),
+              });
+            }
           }
-        } else {
-          console.log("no");
-        }
-      });
+        })
+        .catch((err) => console.log(err));
     } catch (err) {
       console.log(err);
     }
   };
 
-  // 제품 정보 페이지
-  info = (name, food_id) => {
-    this.props.navigation.navigate("Detail", { Name: name, Id: food_id });
-  };
-
   render() {
     const { user_name, user_photo, food_list } = this.state;
+
     return (
-      <View style={{ flex: 1 }}>
-        <View //커스텀 헤더
+      <Container>
+        <LinearGradient
+          colors={["orange", "#FA5820", "transparent"]}
           style={{
-            flex: 0.12,
-            borderBottomColor: "black",
-            borderBottomWidth: 0.5,
-            alignItems: "center",
-            justifyContent: "flex-end",
-            paddingBottom: 10,
+            position: "absolute",
+            left: 0,
+            right: 0,
+            top: 0,
+            height: 400,
           }}
-        >
-          <View style={{ flexDirection: "row" }}>
-            <Address />
-            <TouchableOpacity
-              onPress={() => this.props.navigation.navigate("Map")}
-            >
-              <AntDesign
-                name={"downcircle"}
-                size={18}
-                color={"orange"}
-                style={{ paddingLeft: 10 }}
-              />
-            </TouchableOpacity>
-          </View>
-        </View>
-        <Container style={{ flex: 0.88 }}>
+        />
+        <ContainerOne>
+          <View style={{ flex: 1 }}></View>
           <View
             style={{
+              flex: 1.5,
+              flexDirection: "row",
+              justifyContent: "space-between",
               alignItems: "center",
-              marginTop: 10,
-              marginBottom: 10,
-              alignItems: "center",
+              //   backgroundColor: "red",
+              marginTop: 25,
             }}
           >
-            <UserState>
-              {user_photo == "" ? (
-                <EvilIcons size={120} name={"user"} color={"black"} />
-              ) : (
-                <View
-                  style={{
-                    borderWidth: 5,
-                    borderRadius: 200,
-                    width: 90,
-                    height: 90,
-                    marginLeft: 20,
-                    marginRight: 20,
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Image
-                    source={{
-                      uri: user_photo,
-                    }}
-                    style={{
-                      width: 80,
-                      height: 80,
-                      borderRadius: 100,
-                    }}
-                  />
-                </View>
-              )}
-              <View style={{ flexDirection: "column" }}>
-                <Text style={{ fontSize: 23 }}>{user_name}</Text>
-                <Text>한국에 있습니다</Text>
-              </View>
-            </UserState>
-          </View>
-          <View style={{ alignItems: "center" }}>
-            <TouchableOpacity
-              onPress={() => this.props.navigation.navigate("Search")}
-              style={{ marginBottom: 5 }}
-            >
-              <SearchBar />
-            </TouchableOpacity>
-          </View>
-          <SelectContainer>
-            {/* <FoodSlider info={this.info} /> */}
-            <View
-              style={{
-                marginTop: 5,
-                height: height / 3.2,
-                backgroundColor: "white",
-                borderBottomWidth: 1,
-                borderBottomColor: "#ECF0F1",
-                flex: 1,
-              }}
-            >
-              <View
+            <View>
+              <Text
                 style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
+                  fontSize: 26,
+                  fontWeight: "bold",
+                  color: "white",
+                  paddingLeft: 25,
                 }}
               >
-                <Text
-                  style={{
-                    fontWeight: "bold",
-                    fontSize: 20,
-                    marginLeft: 20,
-                    marginTop: 20,
-                    // backgroundColor: "red",
+                Hi,{" " + user_name}
+              </Text>
+              <Text
+                style={{
+                  fontSize: 15,
+                  color: "white",
+                  paddingLeft: 25,
+                  paddingTop: 5,
+                }}
+              >
+                자신에게 맞는 제품을 검색해보세요
+              </Text>
+            </View>
+
+            {user_photo == "" ? (
+              <FontAwesome
+                name="user-circle"
+                size={65}
+                color="white"
+                style={{ marginRight: 20 }}
+              />
+            ) : (
+              <View
+                style={{
+                  borderWidth: 5,
+                  borderRadius: 200,
+                  width: 50,
+                  height: 50,
+                  marginRight: 20,
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                {/* <Image
+                  source={{
+                    uri: user_photo,
                   }}
-                >
-                  제품 리스트
-                </Text>
+                  style={{
+                    width: 40,
+                    height: 40,
+                    borderRadius: 100,
+                    position: "absolute",
+                    zIndex: 1,
+                  }}
+                /> */}
+              </View>
+            )}
+          </View>
+
+          {/* <View style={{ flex: 1, backgroundColor: "red" }}></View>
+          <View style={{ flex: 1 }}></View> */}
+        </ContainerOne>
+
+        <ContainerTwo>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate("Search")}
+            style={{ alignItems: "center", marginTop: 20 }}
+            activeOpacity={0.6}
+          >
+            <SearchBar />
+          </TouchableOpacity>
+
+          <View style={{ flex: 1 }}></View>
+
+          <View style={{ flex: 1.6 }}>
+            <View style={{ alignItems: "center" }}>
+              <Bar />
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                paddingBottom: 30,
+                paddingTop: 30,
+                // backgroundColor: "red",
+              }}
+            >
+              <Text
+                style={{
+                  fontWeight: "bold",
+                  fontSize: 20,
+                  marginLeft: 20,
+                  marginTop: 10,
+                }}
+              >
+                랭킹 리스트
+              </Text>
+              <TouchableOpacity
+                onPress={() => this.props.navigation.navigate("Chart")}
+              >
                 <Text
                   style={{
                     fontSize: 16,
                     marginRight: 20,
-                    marginTop: 25,
+                    marginTop: 10,
                     color: "#808B96",
                   }}
                 >
                   더보기
                 </Text>
-              </View>
-
-              <FlatList
-                data={food_list}
-                keyExtractor={(item) => item.name}
-                horizontal={true}
-                showsHorizontalScrollIndicator={false}
-                renderItem={({ item }) => <List list={item} />}
-                info={this.info}
-                style={{ paddingLeft: 0 }}
-              />
+              </TouchableOpacity>
             </View>
-          </SelectContainer>
-        </Container>
-      </View>
+            <FlatList
+              data={food_list}
+              keyExtractor={(item) => item.name}
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+              renderItem={({ item }) => <List list={item} />}
+              info={this.info}
+              style={{ paddingLeft: 0 }}
+            />
+          </View>
+        </ContainerTwo>
+      </Container>
     );
   }
 }

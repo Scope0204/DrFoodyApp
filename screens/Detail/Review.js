@@ -136,7 +136,7 @@ export default class Review extends React.Component {
       <View>
         <View style={{ marginLeft: 15, marginBottom: 15, marginTop: 15 }}>
           {mode == 0 ? (
-            <View style={{ flexDirection: "row" }}>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
               <Text
                 style={{
                   fontWeight: "bold",

@@ -2,7 +2,12 @@ import React, { useCallback } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import styled from "styled-components";
 import Layout from "../constants/Layout";
-import { FontAwesome } from "@expo/vector-icons";
+import {
+  FontAwesome,
+  EvilIcons,
+  Entypo,
+  MaterialIcons,
+} from "@expo/vector-icons";
 
 const SWIPER_HEIGHT = Layout.height;
 const SWIPER_WIDTH = Layout.width;
@@ -21,27 +26,55 @@ const Container = styled.View`
 export default List = ({ list }) => {
   // 제품 정보페이지로 이동
   return (
-    <View style={{ justifyContent: "center" }}>
+    <View style={list.id == 0 ? { marginLeft: 45 } : null}>
       <Container>
         <View style={styles.listCon}>
-          <View style={{ flex: 0.5 }}>
+          <View style={{ flex: 0.45 }}>
             <Image
               source={{
                 uri: list.photo,
               }}
-              style={{ width: 140, height: 140 }}
+              style={{ width: 110, height: 110 }}
             ></Image>
           </View>
           <View
-            style={{ flexDirection: "column", flex: 0.5, alignItems: "center" }}
+            style={{
+              flexDirection: "column",
+              flex: 0.5,
+              paddingLeft: 30,
+            }}
           >
-            {list.name.length < 8 ? (
+            {list.name.length < 7 ? (
               <Text style={styles.listTitle}>{list.name}</Text>
             ) : (
-              <Text style={styles.listTitle2}>{list.name}</Text>
+              <Text style={styles.listTitle2}>
+                {list.name.substring(0, 8) + "..."}
+              </Text>
             )}
+
+            <View style={{ flexDirection: "row" }}>
+              <Entypo
+                name="eye"
+                size={16}
+                color="black"
+                style={{ marginRight: 9 }}
+              />
+              <Text>{list.view}</Text>
+            </View>
+
+            <View style={{ flexDirection: "row" }}>
+              <MaterialIcons
+                name="rate-review"
+                size={16}
+                color="#5DADE2"
+                style={{ marginRight: 9 }}
+              />
+
+              <Text>{list.review}</Text>
+            </View>
+
             {list.point ? (
-              <View style={{ flexDirection: "row" }}>
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <FontAwesome
                   size={16}
                   name={"star"}
@@ -49,10 +82,10 @@ export default List = ({ list }) => {
                   style={{ marginRight: 10 }}
                 />
                 <Text>{list.point}</Text>
-                <Text> / 5 점</Text>
+                <Text>점</Text>
               </View>
             ) : (
-              <View style={{ flexDirection: "row" }}>
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <FontAwesome
                   size={16}
                   name={"star-o"}
@@ -60,7 +93,7 @@ export default List = ({ list }) => {
                   style={{ marginRight: 10 }}
                 />
                 <Text>0</Text>
-                <Text> / 5 점</Text>
+                <Text>점</Text>
               </View>
             )}
           </View>
