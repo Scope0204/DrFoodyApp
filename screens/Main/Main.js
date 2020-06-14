@@ -12,7 +12,7 @@ import styled from "styled-components";
 import List from "../../components/List";
 import SearchBar from "../../components/SearchBar";
 import axios from "axios"; // npm i axios@0.18.0
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome, Entypo, AntDesign } from "@expo/vector-icons";
 import Address from "../../components/Address";
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -40,6 +40,21 @@ const ContainerTwo = styled.View`
   border-top-left-radius: 30px;
 `;
 
+const LoveCon = styled.TouchableOpacity`
+  flex: 1;
+  background-color: white;
+  margin: 8px;
+  border-radius: 10px;
+  border: #ecf0f1;
+  box-shadow: 1px 2px 1px #b4b4b4;
+  justify-content: center;
+  align-items: center;
+`;
+const LoveTxt = styled.Text`
+  padding-top: 10px;
+  font-weight: bold;
+  color: #5a5858;
+`;
 export default class Main extends React.Component {
   constructor(props) {
     super(props);
@@ -225,33 +240,21 @@ export default class Main extends React.Component {
               </View>
             )}
           </View>
-
-          {/* <View style={{ flex: 1, backgroundColor: "red" }}></View>
-          <View style={{ flex: 1 }}></View> */}
         </ContainerOne>
 
         <ContainerTwo>
           <TouchableOpacity
             onPress={() => this.props.navigation.navigate("Search")}
-            style={{ alignItems: "center", marginTop: 20 }}
+            style={{ alignItems: "center", marginTop: 20, marginBottom: 30 }}
             activeOpacity={0.6}
           >
             <SearchBar />
           </TouchableOpacity>
 
-          <View style={{ flex: 1 }}></View>
-
-          <View style={{ flex: 1.6 }}>
-            <View style={{ alignItems: "center" }}>
-              <Bar />
-            </View>
+          <View style={{ flex: 1, marginBottom: 10 }}>
             <View
               style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                paddingBottom: 30,
-                paddingTop: 30,
-                // backgroundColor: "red",
+                justifyContent: "center",
               }}
             >
               <Text
@@ -259,7 +262,64 @@ export default class Main extends React.Component {
                   fontWeight: "bold",
                   fontSize: 20,
                   marginLeft: 20,
-                  marginTop: 10,
+                }}
+              >
+                관심제품
+              </Text>
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                flex: 1,
+                marginTop: 10,
+                marginBottom: 10,
+              }}
+            >
+              <LoveCon
+                style={{ marginLeft: 20 }}
+                onPress={() => this.props.navigation.navigate("Atention")}
+              >
+                <Entypo name="heart-outlined" size={46} color="#E43E3E" />
+                <LoveTxt>찜한제품</LoveTxt>
+              </LoveCon>
+              <LoveCon
+                onPress={() => this.props.navigation.navigate("SearchList")}
+              >
+                <AntDesign name="search1" size={46} color="gray" />
+
+                <LoveTxt>조회목록</LoveTxt>
+              </LoveCon>
+              <LoveCon
+                style={{ marginRight: 20 }}
+                onPress={() => this.props.navigation.navigate("CurationScreen")}
+              >
+                <AntDesign name="like2" size={46} color="#1E6EF1" />
+
+                <LoveTxt>큐레이션</LoveTxt>
+              </LoveCon>
+            </View>
+          </View>
+
+          <View style={{ flex: 1.5 }}>
+            <View style={{ alignItems: "center" }}>
+              <Bar />
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                paddingBottom: 25,
+                paddingTop: 20,
+                // backgroundColor: "red",
+                alignItems: "center",
+              }}
+            >
+              <Text
+                style={{
+                  fontWeight: "bold",
+                  fontSize: 20,
+                  marginLeft: 20,
                 }}
               >
                 랭킹 리스트
@@ -271,7 +331,6 @@ export default class Main extends React.Component {
                   style={{
                     fontSize: 16,
                     marginRight: 20,
-                    marginTop: 10,
                     color: "#808B96",
                   }}
                 >

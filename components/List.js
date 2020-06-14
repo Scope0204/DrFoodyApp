@@ -19,7 +19,7 @@ const Container = styled.View`
   margin-left: 20px;
   border-radius: 10px;
   border: #ecf0f1;
-  box-shadow: 1px 1px 1px gray;
+  box-shadow: 2px 1px 1px #b4b4b4;
   justify-content: center;
 `;
 export default List = ({ list }) => {
@@ -66,11 +66,11 @@ export default List = ({ list }) => {
                 <MaterialIcons
                   name="rate-review"
                   size={16}
-                  color="#5DADE2"
+                  color="#1E6EF1"
                   style={{ marginRight: 9 }}
                 />
 
-                <Text>{list.review}</Text>
+                <Text>{list.review}건</Text>
               </View>
 
               {list.point ? (

@@ -212,7 +212,7 @@ export default class Curation extends React.Component {
             <Text
               style={{
                 fontSize: 14,
-                color: "#5DADE2",
+                color: "orange",
                 fontWeight: "400",
                 fontWeight: "bold",
               }}

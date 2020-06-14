@@ -103,6 +103,8 @@ export default class GraphSWp extends Component {
     );
   };
   render() {
+    const { list } = this.state;
+
     return (
       <Swiper
         style={styles.wrapper}
@@ -111,19 +113,29 @@ export default class GraphSWp extends Component {
         showsPagination={false}
       >
         <View>
-          <TouchableOpacity>{this.graphList(0)}</TouchableOpacity>
+          <TouchableOpacity onPress={() => this.props.check(list[0].food_name)}>
+            {this.graphList(0)}
+          </TouchableOpacity>
         </View>
         <View>
-          <TouchableOpacity>{this.graphList(1)}</TouchableOpacity>
+          <TouchableOpacity onPress={() => this.props.check(list[1].food_name)}>
+            {this.graphList(1)}
+          </TouchableOpacity>
         </View>
         <View>
-          <TouchableOpacity>{this.graphList(2)}</TouchableOpacity>
+          <TouchableOpacity onPress={() => this.props.check(list[2].food_name)}>
+            {this.graphList(2)}
+          </TouchableOpacity>
         </View>
         <View>
-          <TouchableOpacity>{this.graphList(3)}</TouchableOpacity>
+          <TouchableOpacity onPress={() => this.props.check(list[3].food_name)}>
+            {this.graphList(3)}
+          </TouchableOpacity>
         </View>
         <View>
-          <TouchableOpacity>{this.graphList(4)}</TouchableOpacity>
+          <TouchableOpacity onPress={() => this.props.check(list[4].food_name)}>
+            {this.graphList(4)}
+          </TouchableOpacity>
         </View>
       </Swiper>
     );

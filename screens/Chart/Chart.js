@@ -123,8 +123,8 @@ export default class Chart extends React.Component {
 
   render() {
     const state = this.state;
-    const { setting, category } = this.state;
-    return state.show ? (
+    const { setting, category, show } = this.state;
+    return show ? (
       <View>
         <View
           style={{

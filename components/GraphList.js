@@ -1,6 +1,12 @@
 import React from "react";
 
-import { Text, View, Dimensions, FlatList } from "react-native";
+import {
+  Text,
+  View,
+  Dimensions,
+  FlatList,
+  TouchableHighlightBase,
+} from "react-native";
 
 import { PieChart } from "react-native-chart-kit";
 
@@ -83,6 +89,10 @@ export default class GraphList extends React.Component {
     );
   };
 
+  check = (e) => {
+    alert(e);
+  };
+
   render() {
     const { list, color, category, type } = this.state;
 
@@ -134,7 +144,7 @@ export default class GraphList extends React.Component {
         </View>
 
         <View style={{ height: 100, marginTop: 10 }}>
-          <GraphSwp list={list} color={color} />
+          <GraphSwp list={list} color={color} check={this.check} />
         </View>
 
         <GraphCon>

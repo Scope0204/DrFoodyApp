@@ -21,10 +21,10 @@ export default class Main extends React.Component {
   };
 
   postPhoto = async (photoUri) => {
+    // 폼데이터로 전송
     const { user_id } = this.state;
     console.log(photoUri);
-    // let base_url = "http://192.168.0.119/Post_Image/Image.php";
-    let base_url = "http://35.185.213.102:5000/predictPhoto";
+    let base_url = "http://35.185.221.213:5000/predictPhoto";
 
     let uploadData = new FormData();
     uploadData.append("image", {
@@ -53,12 +53,11 @@ export default class Main extends React.Component {
             });
           }
         } else {
-          Alert.alert("Error", "전송실패");
+          console.log("전송실패");
           this.props.navigation.navigate("Fail");
         }
       });
     } catch (error) {
-      Alert.alert("Error", "네트워크 에러");
       this.props.navigation.navigate("Fail");
       console.log(error);
     }
@@ -98,8 +97,8 @@ export default class Main extends React.Component {
             alignItems: "center",
             justifyContent: "center",
           }}
-          //   onPress={() => this.postPhoto(photoUri)}
-          onPress={() => this.props.navigation.navigate("Fail")}
+          onPress={() => this.postPhoto(photoUri)}
+          //   onPress={() => this.props.navigation.navigate("Fail")}
         >
           <Text style={{ fontSize: 20, color: "white" }}>전송하기</Text>
         </TouchableOpacity>

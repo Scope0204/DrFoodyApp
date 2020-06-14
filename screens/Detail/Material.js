@@ -18,6 +18,7 @@ export default class Material extends React.Component {
       material: [],
       avoid: [],
       call: false,
+      show: false,
     };
   }
 
@@ -95,12 +96,15 @@ export default class Material extends React.Component {
     } catch (error) {
       console.log(error);
     }
+
+    this.setState({ show: true });
   };
 
   render() {
-    const { material, avoid, call } = this.state;
+    const { material, avoid, call, show } = this.state;
     const message = "데이터가 없습니다";
-    return (
+    console.log(material);
+    return show ? (
       <View>
         <View style={styles.textCon}>
           <Text style={{ fontWeight: "bold", fontSize: 16 }}>기피 원재료</Text>
@@ -127,54 +131,64 @@ export default class Material extends React.Component {
         <View style={styles.textCon}>
           <Text style={{ fontWeight: "bold", fontSize: 16 }}>원재료</Text>
         </View>
-        <View style={{ alignItems: "center" }}>
-          <View
-            style={{
-              width: width - 20,
-              paddingTop: 15,
-              paddingBottom: 5,
-              paddingLeft: 15,
-              backgroundColor: "#f7f7f7",
-              borderWidth: 2,
-              borderColor: "#f7f7f7",
-              borderRadius: 10,
-            }}
-          >
-            {material
-              ? material.map((list, key) => {
-                  return (
-                    <View key={key}>
-                      {list.type == 0 ? (
-                        <Text style={{ fontSize: 16, paddingBottom: 10 }}>
-                          {list.material}
-                        </Text>
-                      ) : (
-                        <Text
-                          style={{
-                            fontSize: 16,
-                            paddingBottom: 10,
-                            color: "red",
-                            fontWeight: "bold",
-                          }}
-                        >
-                          {list.material}
-                        </Text>
-                      )}
-                    </View>
-                  );
-                })
-              : null}
 
-            {material ? (
-              <View>
-                <Text style={{ fontSize: 16, paddingBottom: 10 }}>
-                  데이터가 없습니다
-                </Text>
-              </View>
-            ) : null}
+        {material == "" ? (
+          <View style={{ alignItems: "center" }}>
+            <View
+              style={{
+                width: width - 20,
+                height: 80,
+                padding: 15,
+                backgroundColor: "#f7f7f7",
+                borderColor: "#f7f7f7",
+                borderRadius: 10,
+              }}
+            >
+              <Text style={{ fontSize: 16 }}>데이터가 없습니다</Text>
+            </View>
           </View>
-        </View>
+        ) : (
+          <View style={{ alignItems: "center" }}>
+            <View
+              style={{
+                width: width - 20,
+                paddingTop: 15,
+                paddingBottom: 5,
+                paddingLeft: 15,
+                backgroundColor: "#f7f7f7",
+                borderWidth: 2,
+                borderColor: "#f7f7f7",
+                borderRadius: 10,
+              }}
+            >
+              {material.map((list, key) => {
+                return (
+                  <View key={key}>
+                    {list.type == 0 ? (
+                      <Text style={{ fontSize: 16, paddingBottom: 10 }}>
+                        {list.material}
+                      </Text>
+                    ) : (
+                      <Text
+                        style={{
+                          fontSize: 16,
+                          paddingBottom: 10,
+                          color: "red",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {list.material}
+                      </Text>
+                    )}
+                  </View>
+                );
+              })}
+            </View>
+          </View>
+        )}
       </View>
+    ) : (
+      <View></View>
     );
   }
 }
