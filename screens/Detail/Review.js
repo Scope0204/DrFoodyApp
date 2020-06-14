@@ -23,8 +23,6 @@ const Container = styled.View`
   margin-bottom: 20px;
 `;
 
-let stars = [];
-
 export default class Review extends React.Component {
   constructor(props) {
     super(props);
@@ -33,8 +31,9 @@ export default class Review extends React.Component {
       reviewUser: [],
       mode: 0, //mode : 0(전체리뷰) , 1(맛 리뷰)
       user_id: null, // 자기 리뷰인지 확인할꺼임
-      food_id: null, // 자기 음식리뷰만 나오게하기위해 props로 받음
+      food_id: this.props.food_id, // 자기 음식리뷰만 나오게하기위해 props로 받음
       taste_review: 0, // 맛 리뷰 갯수 저장
+      setting: false,
     };
   }
 
@@ -43,7 +42,7 @@ export default class Review extends React.Component {
     for (let x = 1; x <= 5; x++) {
       if (x <= e) {
         stars.push(
-          <View>
+          <View key={x}>
             <FontAwesome
               key={x}
               name={"star"}
@@ -55,7 +54,7 @@ export default class Review extends React.Component {
         );
       } else {
         stars.push(
-          <View>
+          <View key={x}>
             <FontAwesome
               key={x}
               name={"star"}
@@ -73,6 +72,7 @@ export default class Review extends React.Component {
 
   componentDidMount = async () => {
     const food_id = this.props.food_id;
+
     this.setState({ food_id: food_id });
 
     const post_id = await AsyncStorage.getItem("User");
@@ -87,8 +87,8 @@ export default class Review extends React.Component {
       })
         .then((response) => {
           if (response) {
-            console.log("aa");
-            console.log(response.data);
+            // console.log("aa");
+            // console.log(response.data[0].review_point);
             let count = 0;
             for (var key in response.data) {
               var list = response.data[key];
@@ -106,6 +106,7 @@ export default class Review extends React.Component {
                     photo: list.user_photo,
                     taste: list.review_type,
                     point: list.review_point,
+                    review_date: list.review_date,
                   }),
                 });
 
@@ -123,6 +124,7 @@ export default class Review extends React.Component {
     } catch (err) {
       console.log(err);
     }
+    this.setState({ setting: true });
   };
 
   update = (e) => {
@@ -130,9 +132,16 @@ export default class Review extends React.Component {
   };
 
   render() {
-    const { review, mode, user_id, food_id, taste_review } = this.state;
+    const {
+      review,
+      mode,
+      user_id,
+      food_id,
+      taste_review,
+      setting,
+    } = this.state;
 
-    return (
+    return setting ? (
       <View>
         <View style={{ marginLeft: 15, marginBottom: 15, marginTop: 15 }}>
           {mode == 0 ? (
@@ -257,22 +266,37 @@ export default class Review extends React.Component {
                           <Text style={{ fontSize: 16, fontWeight: "bold" }}>
                             {list.nickname}
                           </Text>
+
                           {list.point ? this.star(list.point) : null}
                         </View>
 
-                        {user_id == list.user_id ? (
-                          <TouchableOpacity onPress={() => this.update(list)}>
-                            <Text
-                              style={{
-                                fontSize: 16,
-                                fontWeight: "bold",
-                                color: "#F39C12",
-                              }}
+                        <View>
+                          <Text
+                            style={{
+                              marginBottom: 5,
+                              fontSize: 12,
+                              color: "gray",
+                            }}
+                          >
+                            {list.review_date}
+                          </Text>
+                          {user_id == list.user_id ? (
+                            <TouchableOpacity
+                              onPress={() => this.update(list)}
+                              style={{ alignItems: "flex-end" }}
                             >
-                              수정
-                            </Text>
-                          </TouchableOpacity>
-                        ) : null}
+                              <Text
+                                style={{
+                                  fontSize: 14,
+                                  fontWeight: "bold",
+                                  color: "blue",
+                                }}
+                              >
+                                수정
+                              </Text>
+                            </TouchableOpacity>
+                          ) : null}
+                        </View>
                       </View>
                     </View>
                     <View
@@ -370,6 +394,6 @@ export default class Review extends React.Component {
               );
             })}
       </View>
-    );
+    ) : null;
   }
 }

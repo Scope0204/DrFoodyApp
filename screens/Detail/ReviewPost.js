@@ -224,8 +224,8 @@ export default class ReviewPost extends React.Component {
       })
         .then((response) => {
           if (response) {
-            Alert.alert("완료");
-            this.props.navigation.navigate("Detail");
+            // Alert.alert("완료");
+            this.props.navigation.navigate("Detail", { ReviewState: 1 });
           } else {
             console.log("no");
           }
@@ -304,7 +304,9 @@ export default class ReviewPost extends React.Component {
         <BtnCon>
           <Btn
             style={{ marginRight: 20 }}
-            onPress={() => this.props.navigation.navigate("Detail")}
+            onPress={() =>
+              this.props.navigation.navigate("Detail", { ReviewState: 0 })
+            }
           >
             <Text>취소</Text>
           </Btn>

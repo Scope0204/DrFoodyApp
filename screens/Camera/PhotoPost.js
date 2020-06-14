@@ -44,19 +44,26 @@ export default class Main extends React.Component {
           Alert.alert("OK", "전송");
           console.log(response.data.label);
           const food_id = response.data.label;
-          this.props.navigation.navigate("Detail", {
-            Id: food_id,
-            User: user_id,
-          });
+          if (food_id == 0) {
+            this.props.navigation.navigate("Fail");
+          } else {
+            this.props.navigation.navigate("Detail", {
+              Id: food_id,
+              User: user_id,
+            });
+          }
         } else {
           Alert.alert("Error", "전송실패");
+          this.props.navigation.navigate("Fail");
         }
       });
     } catch (error) {
       Alert.alert("Error", "네트워크 에러");
+      this.props.navigation.navigate("Fail");
       console.log(error);
     }
   };
+
   render() {
     const { navigation } = this.props;
     const photoUri = navigation.getParam("photoUri", "no");
@@ -91,7 +98,8 @@ export default class Main extends React.Component {
             alignItems: "center",
             justifyContent: "center",
           }}
-          onPress={() => this.postPhoto(photoUri)}
+          //   onPress={() => this.postPhoto(photoUri)}
+          onPress={() => this.props.navigation.navigate("Fail")}
         >
           <Text style={{ fontSize: 20, color: "white" }}>전송하기</Text>
         </TouchableOpacity>

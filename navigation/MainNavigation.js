@@ -10,6 +10,7 @@ import SearchScreen from "../screens/Search/Search";
 import ReviewScreen from "../screens/Detail/ReviewPost";
 import UpdateScreen from "../screens/Detail/Update";
 import MapScreen from "../screens/Main/Map";
+import FailScreen from "../screens/Camera/LinkFail";
 
 const MainNavigation = createStackNavigator(
   {
@@ -39,12 +40,7 @@ const MainNavigation = createStackNavigator(
         header: null,
       },
     },
-    // Camera: {
-    //   screen: CameraScreen,
-    //   navigationOptions: {
-    //     header: null,
-    //   },
-    // },
+
     UserDetail: {
       screen: UserDetailScreen,
       navigationOptions: {
@@ -61,7 +57,7 @@ const MainNavigation = createStackNavigator(
       screen: ReviewScreen,
       navigationOptions: {
         header: null,
-        // title: "리뷰 작성",
+        gesturesEnabled: false,
       },
     },
 
@@ -69,13 +65,20 @@ const MainNavigation = createStackNavigator(
       screen: UpdateScreen,
       navigationOptions: {
         header: null,
-        // title: "리뷰 작성",
+        gesturesEnabled: false,
       },
     },
-    Map: {
-      screen: MapScreen,
+    // Map: {
+    //   screen: MapScreen,
+    //   navigationOptions: {
+    //     title: "지도",
+    //   },
+    // },
+    Fail: {
+      screen: FailScreen,
       navigationOptions: {
-        title: "지도",
+        header: null,
+        gesturesEnabled: false,
       },
     },
   },

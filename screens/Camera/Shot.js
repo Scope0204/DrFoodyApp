@@ -46,7 +46,7 @@ const PhotoArea = styled.View`
   align-items: center;
   width: 280px;
   height: 400px;
-  border: 3px solid white;
+  border: 1px solid white;
   border-radius: 10px;
 `;
 

@@ -22,83 +22,84 @@ const Container = styled.View`
   box-shadow: 1px 1px 1px gray;
   justify-content: center;
 `;
-
 export default List = ({ list }) => {
   // 제품 정보페이지로 이동
   return (
     <View style={list.id == 0 ? { marginLeft: 45 } : null}>
-      <Container>
-        <View style={styles.listCon}>
-          <View style={{ flex: 0.45 }}>
-            <Image
-              source={{
-                uri: list.photo,
+      {list.id < 10 ? (
+        <Container>
+          <View style={styles.listCon}>
+            <View style={{ flex: 0.45 }}>
+              <Image
+                source={{
+                  uri: list.photo,
+                }}
+                style={{ width: 110, height: 110 }}
+              ></Image>
+            </View>
+            <View
+              style={{
+                flexDirection: "column",
+                flex: 0.5,
+                paddingLeft: 30,
               }}
-              style={{ width: 110, height: 110 }}
-            ></Image>
-          </View>
-          <View
-            style={{
-              flexDirection: "column",
-              flex: 0.5,
-              paddingLeft: 30,
-            }}
-          >
-            {list.name.length < 7 ? (
-              <Text style={styles.listTitle}>{list.name}</Text>
-            ) : (
-              <Text style={styles.listTitle2}>
-                {list.name.substring(0, 8) + "..."}
-              </Text>
-            )}
+            >
+              {list.name.length < 7 ? (
+                <Text style={styles.listTitle}>{list.name}</Text>
+              ) : (
+                <Text style={styles.listTitle2}>
+                  {list.name.substring(0, 8) + "..."}
+                </Text>
+              )}
 
-            <View style={{ flexDirection: "row" }}>
-              <Entypo
-                name="eye"
-                size={16}
-                color="black"
-                style={{ marginRight: 9 }}
-              />
-              <Text>{list.view}</Text>
-            </View>
-
-            <View style={{ flexDirection: "row" }}>
-              <MaterialIcons
-                name="rate-review"
-                size={16}
-                color="#5DADE2"
-                style={{ marginRight: 9 }}
-              />
-
-              <Text>{list.review}</Text>
-            </View>
-
-            {list.point ? (
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <FontAwesome
+              <View style={{ flexDirection: "row" }}>
+                <Entypo
+                  name="eye"
                   size={16}
-                  name={"star"}
-                  color={"#F5B041"}
-                  style={{ marginRight: 10 }}
+                  color="gray"
+                  style={{ marginRight: 9 }}
                 />
-                <Text>{list.point}</Text>
-                <Text>점</Text>
+                <Text>{list.view}</Text>
               </View>
-            ) : (
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <FontAwesome
+
+              <View style={{ flexDirection: "row" }}>
+                <MaterialIcons
+                  name="rate-review"
                   size={16}
-                  name={"star-o"}
-                  color={"#F5B041"}
-                  style={{ marginRight: 10 }}
+                  color="#5DADE2"
+                  style={{ marginRight: 9 }}
                 />
-                <Text>0</Text>
-                <Text>점</Text>
+
+                <Text>{list.review}</Text>
               </View>
-            )}
+
+              {list.point ? (
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <FontAwesome
+                    size={16}
+                    name={"star"}
+                    color={"#F5B041"}
+                    style={{ marginRight: 10 }}
+                  />
+                  <Text>{list.point}</Text>
+                  <Text>점</Text>
+                </View>
+              ) : (
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <FontAwesome
+                    size={16}
+                    name={"star-o"}
+                    color={"#F5B041"}
+                    style={{ marginRight: 10 }}
+                  />
+                  <Text>0</Text>
+                  <Text>점</Text>
+                </View>
+              )}
+            </View>
           </View>
-        </View>
-      </Container>
+        </Container>
+      ) : null}
     </View>
   );
 };

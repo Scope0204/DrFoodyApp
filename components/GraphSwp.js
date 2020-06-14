@@ -6,6 +6,7 @@ import {
   View,
   Dimensions,
   Image,
+  TouchableOpacity,
 } from "react-native";
 import styled from "styled-components";
 import Swiper from "react-native-swiper";
@@ -88,9 +89,15 @@ export default class GraphSWp extends Component {
           )}
         </View>
         <View style={{ flex: 0.6 }}>
-          <Text style={{ marginLeft: 30, fontSize: 16 }}>
-            {list[e].food_name}
-          </Text>
+          {list[e].food_name.length > 10 ? (
+            <Text style={{ marginLeft: 30, fontSize: 13 }}>
+              {list[e].food_name}
+            </Text>
+          ) : (
+            <Text style={{ marginLeft: 30, fontSize: 16 }}>
+              {list[e].food_name}
+            </Text>
+          )}
         </View>
       </ChartBox>
     );
@@ -103,11 +110,21 @@ export default class GraphSWp extends Component {
         autoplayTimeout={5}
         showsPagination={false}
       >
-        <View>{this.graphList(0)}</View>
-        <View>{this.graphList(1)}</View>
-        <View>{this.graphList(2)}</View>
-        <View>{this.graphList(3)}</View>
-        <View>{this.graphList(4)}</View>
+        <View>
+          <TouchableOpacity>{this.graphList(0)}</TouchableOpacity>
+        </View>
+        <View>
+          <TouchableOpacity>{this.graphList(1)}</TouchableOpacity>
+        </View>
+        <View>
+          <TouchableOpacity>{this.graphList(2)}</TouchableOpacity>
+        </View>
+        <View>
+          <TouchableOpacity>{this.graphList(3)}</TouchableOpacity>
+        </View>
+        <View>
+          <TouchableOpacity>{this.graphList(4)}</TouchableOpacity>
+        </View>
       </Swiper>
     );
   }

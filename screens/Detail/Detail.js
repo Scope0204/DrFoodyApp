@@ -7,6 +7,7 @@ import {
   Image,
   TouchableOpacity,
   AsyncStorage,
+  Alert,
 } from "react-native";
 import { AntDesign, FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import styled from "styled-components";
@@ -16,6 +17,7 @@ import Review from ".././Detail/Review";
 import Taste from ".././Detail/Taste";
 import axios from "axios"; // npm i axios@0.18.0
 import Rating from "../../components/Rating";
+import ReviewGrp from "../../components/ReviewGrp";
 
 const { width, height } = Dimensions.get("window");
 
@@ -87,12 +89,12 @@ export default class Detail extends React.Component {
     heart: false,
     // user_id: null,
     rating: 5,
+    setting: false,
+    post_point: null, //별점 점수 문자열
   };
 
-  componentDidMount = async () => {
-    // // 유저 id
-    // const post_id = await AsyncStorage.getItem("User"); // 문자열로 읽힘
-    // this.setState({ user_id: post_id });
+  componentWillMount = async () => {
+    // 유저 id
 
     const { navigation } = this.props;
     this.focusListener = await navigation.addListener("didFocus", () => {
@@ -108,8 +110,20 @@ export default class Detail extends React.Component {
     // 음식 id
     const { navigation } = this.props;
     const food_id = navigation.getParam("Id");
+    alert(food_id);
     const user_id = navigation.getParam("User");
-
+    let reviewState = navigation.getParam("ReviewState");
+    if (reviewState == 1) {
+      //0 취소 1 작성 2 삭제 3 수정
+      reviewState == 0;
+      Alert.alert("작성되었습니다");
+    } else if (reviewState == 2) {
+      reviewState == 0;
+      Alert.alert("삭제되었습니다");
+    } else if (reviewState == 3) {
+      reviewState == 0;
+      Alert.alert("수정되었습니다");
+    }
     //음식정보 가져오기
     try {
       await axios({
@@ -131,6 +145,7 @@ export default class Detail extends React.Component {
               food_name: response.data[0].food_name,
               food_photo: response.data[0].food_photo,
               point: parseInt(response.data[0].point),
+              post_point: response.data[0].point,
             });
           } else {
             console.log("no");
@@ -175,6 +190,8 @@ export default class Detail extends React.Component {
     } catch (err) {
       console.log(err);
     }
+
+    this.setState({ setting: true });
   };
 
   heart = () => {
@@ -259,8 +276,17 @@ export default class Detail extends React.Component {
   };
 
   render() {
-    const { one, two, three, heart, food_name, food_photo, point } = this.state;
-    // console.log(this.state);
+    const {
+      one,
+      two,
+      three,
+      heart,
+      food_name,
+      food_photo,
+      point,
+      setting,
+      post_point,
+    } = this.state;
     const { navigation } = this.props;
     const food_id = navigation.getParam("Id");
     const user_id = navigation.getParam("User");
@@ -293,7 +319,7 @@ export default class Detail extends React.Component {
       }
     }
 
-    return (
+    return setting ? (
       <View
         style={{
           flex: 1,
@@ -384,13 +410,18 @@ export default class Detail extends React.Component {
         <Page alwaysBounceHorizontal={false}>
           {one ? <Material food_id={food_id} user_id={user_id} /> : null}
           {two ? <Taste food_id={food_id} /> : null}
-          {three ? <Review food_id={food_id} update={this.update} /> : null}
+          {three ? (
+            <>
+              <ReviewGrp food_id={food_id} point={post_point} />
+              <Review food_id={food_id} update={this.update} />
+            </>
+          ) : null}
         </Page>
         <ReviewBtn onPress={() => this.move()}>
           <FontAwesome size={30} name={"pencil"} color={"white"} />
         </ReviewBtn>
       </View>
-    );
+    ) : null;
   }
 }
 

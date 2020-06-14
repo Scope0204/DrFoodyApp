@@ -42,7 +42,8 @@ export default class GraphList extends React.Component {
     this.state = {
       list: this.props.list,
       //   color: ["#7DB8E3", "#7DE3DC", "#7DE3B6", "#91E37D", "#C0E37D"],
-      color: ["#581845", "#900C3F", "#c70039", "#ff5733", "#ffc30f"],
+      //   color: ["#E7CA71", "#9465DA", "#BA66E0", "#E77186", "#E79C71"],
+      color: ["#218380", "#519D9E", "#9DC8C8", "#BAD8D8", "#D8E6E7"],
 
       category: this.props.category,
       type: ["조회수", "리뷰수", "별점수"],

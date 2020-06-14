@@ -73,7 +73,7 @@ export default class Material extends React.Component {
         },
       })
         .then((response) => {
-          console.log(response.data);
+          //   console.log(response.data);
           if (response) {
             for (var key in response.data) {
               var List = response.data[key];

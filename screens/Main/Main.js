@@ -100,33 +100,6 @@ export default class Main extends React.Component {
       console.log(err);
     }
 
-    //음식 리스트 가져오기
-    //     try {
-    //       await axios({
-    //         url: "http://3.34.97.97/api/app/foodList",
-    //       }).then((response) => {
-    //         // console.log(response.data);
-    //         if (response) {
-    //           for (var key in response.data) {
-    //             var List = response.data[key];
-    //             this.setState({
-    //               food_list: this.state.food_list.concat({
-    //                 id: key,
-    //                 food_id: List.food_id,
-    //                 name: List.food_name,
-    //                 photo: List.food_photo,
-    //                 point: List.point,
-    //               }),
-    //             });
-    //           }
-    //         } else {
-    //           console.log("no");
-    //         }
-    //       });
-    //     } catch (err) {
-    //       console.log(err);
-    //     }
-
     // 랭킹 리스트
     try {
       await axios({
@@ -146,8 +119,7 @@ export default class Main extends React.Component {
       })
         .then((response) => {
           if (response) {
-            console.log(response);
-
+            // console.log(response);
             for (var key in response.data) {
               var list = response.data[key];
               this.setState({

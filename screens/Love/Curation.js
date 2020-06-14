@@ -19,7 +19,7 @@ const { width, height } = Dimensions.get("screen");
 
 const CardCon = styled.View`
   width: 315px;
-  height: 425px;
+  height: 450px;
   background-color: white;
   align-items: center;
   border-radius: 15px;
@@ -133,12 +133,12 @@ export default class Curation extends React.Component {
           resizeMode="cover"
         ></Image>
         <View>
-          <View style={{ height: 100, backgroundColor: "white" }}>
+          <View style={{ height: 130, backgroundColor: "white" }}>
             <Text>맛 정보</Text>
           </View>
           <TouchableOpacity>
             <LinearGradient
-              colors={["orange", "#ffc30f"]}
+              colors={["#ff5122", "#F6A12F"]}
               style={{
                 alignItems: "center",
                 justifyContent: "center",
@@ -197,37 +197,35 @@ export default class Curation extends React.Component {
               fontSize: 12,
             }}
           >
-            User분의 맛정보에 따른 음식을 추천해드리는 서비스 입니다.
+            User분의 맛기호도에 따른 음식을 추천해드리는 서비스 입니다.
           </Text>
         </View>
-        <View
-          style={{
-            height: 65,
-            alignItems: "center",
-            justifyContent: "flex-end",
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 16,
-              color: "#ff5122",
-              fontWeight: "400",
-            }}
-          >
-            Drag and drop to view the list
-          </Text>
-        </View>
+
         <View
           style={{
             backgroundColor: "#f5f5f5",
             height: height,
+            marginTop: 40,
           }}
         >
+          <View style={{ alignItems: "center" }}>
+            <Text
+              style={{
+                fontSize: 14,
+                color: "#5DADE2",
+                fontWeight: "400",
+                fontWeight: "bold",
+              }}
+            >
+              Drag and drop to view the list
+            </Text>
+          </View>
+
           <View
             style={{
               alignItems: "center",
               //   backgroundColor: "blue",
-              marginTop: 20,
+              marginTop: 15,
               height: 500,
             }}
           >
@@ -244,6 +242,8 @@ export default class Curation extends React.Component {
           </View>
         </View>
       </View>
-    ) : null;
+    ) : (
+      <View></View>
+    );
   }
 }

@@ -9,7 +9,12 @@ import {
   Alert,
   AsyncStorage,
 } from "react-native";
-import { FontAwesome, Ionicons, Feather } from "@expo/vector-icons";
+import {
+  FontAwesome,
+  Ionicons,
+  Feather,
+  MaterialIcons,
+} from "@expo/vector-icons";
 import styled from "styled-components";
 import axios from "axios"; // npm i axios@0.18.0
 import Layout from "../../constants/Layout";
@@ -34,34 +39,33 @@ const ListContainer = styled.ScrollView`
   background-color: #f5f5f5;
 `;
 
-const ListBox = styled.View`
+const ListBox = styled.TouchableOpacity`
+  width: ${width - 20}px;
   background-color: white;
-  width: ${LIST_WIDTH}px;
-  height: ${LIST_HEIGHT}px;
-  border: 0px solid;
-  border-radius: 5px;
-  margin-bottom: 5px;
-  margin-top: 10px;
-  box-shadow: 2px 2px 2px gray;
+  height: 100px;
+  border-radius: 10px;
+  border: 1px solid #ecf0f1;
+  box-shadow: 2px 2px 2px #f1f1f1;
+  margin-bottom: 7px;
   flex-direction: row;
   align-items: center;
 `;
 
 const ImageContainer = styled.View`
   margin-left: 20px;
-  margin-right: 30px;
+  align-items: center;
+  flex: 2;
 `;
 
 const FoodInfo = styled.View`
-  flex-direction: column;
   justify-content: center;
-  margin-left: 5px;
+  padding-left: 30px;
+  flex: 6;
 `;
 
 const StarCon = styled.View`
   flex-direction: row;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  padding-top: 8px;
 `;
 
 export default class Search extends React.Component {
@@ -190,45 +194,44 @@ export default class Search extends React.Component {
 
         <ListContainer>
           <View style={{ alignItems: "center" }}>
+            <View
+              style={{
+                width: width,
+                height: 20,
+                backgroundColor: "#f5f5f5",
+              }}
+            />
             {foodList
               ? foodList.map((list, key) => {
                   return (
-                    <ListBox key={key}>
+                    <ListBox key={key} onPress={() => this.info(list.food_id)}>
                       <ImageContainer>
                         <Image
                           source={{ uri: list.photo }}
                           style={{
-                            width: 150,
-                            height: 150,
+                            width: 60,
+                            height: 60,
                           }}
                         />
                       </ImageContainer>
                       <FoodInfo>
-                        {list.name.length < 8 ? (
-                          <Text
-                            style={{
-                              fontSize: 20,
-                              fontWeight: "bold",
-                              marginTop: 5,
-                            }}
-                          >
-                            {list.name}
-                          </Text>
-                        ) : (
-                          <Text
-                            style={{
-                              fontSize: 14,
-                              fontWeight: "bold",
-                              marginTop: 5,
-                            }}
-                          >
-                            {list.name}
-                          </Text>
-                        )}
+                        <Text
+                          style={{
+                            fontSize: 15,
+                            fontWeight: "bold",
+                          }}
+                        >
+                          {list.name}
+                        </Text>
 
                         <StarCon>
                           {list.point ? (
-                            <View style={{ flexDirection: "row" }}>
+                            <View
+                              style={{
+                                flexDirection: "row",
+                                alignItems: "center",
+                              }}
+                            >
                               <FontAwesome
                                 size={16}
                                 name={"star"}
@@ -236,10 +239,15 @@ export default class Search extends React.Component {
                                 style={{ marginRight: 10 }}
                               />
                               <Text>{list.point}</Text>
-                              <Text> / 5 점</Text>
+                              <Text>점</Text>
                             </View>
                           ) : (
-                            <View style={{ flexDirection: "row" }}>
+                            <View
+                              style={{
+                                flexDirection: "row",
+                                alignItems: "center",
+                              }}
+                            >
                               <FontAwesome
                                 size={16}
                                 name={"star-o"}
@@ -247,32 +255,18 @@ export default class Search extends React.Component {
                                 style={{ marginRight: 10 }}
                               />
                               <Text>0</Text>
-                              <Text> / 5 점</Text>
+                              <Text>점</Text>
                             </View>
                           )}
                         </StarCon>
-                        <View
-                          style={{
-                            alignItems: "center",
-                            justifyContent: "center",
-                            backgroundColor: "#FF2257",
-                            width: 100,
-                            height: 30,
-                            marginTop: 15,
-                            borderRadius: 10,
-                          }}
-                        >
-                          <TouchableOpacity
-                            onPress={() => this.info(list.food_id)}
-                          >
-                            <Text
-                              style={{ color: "white", fontWeight: "bold" }}
-                            >
-                              Check this
-                            </Text>
-                          </TouchableOpacity>
-                        </View>
                       </FoodInfo>
+                      <View style={{ alignItems: "center", flex: 1 }}>
+                        <MaterialIcons
+                          name="navigate-next"
+                          size={24}
+                          color="#DFDFDF"
+                        />
+                      </View>
                     </ListBox>
                   );
                 })

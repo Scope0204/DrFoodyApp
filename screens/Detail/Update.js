@@ -136,8 +136,8 @@ export default class Update extends React.Component {
         .then((response) => {
           console.log(response);
           if (response) {
-            this.props.navigation.navigate("Detail");
-            Alert.alert("삭제되었습니다");
+            this.props.navigation.navigate("Detail", { ReviewState: 2 });
+            // Alert.alert("삭제되었습니다");
           } else {
             console.log("실패");
           }
@@ -207,8 +207,8 @@ export default class Update extends React.Component {
         .then((response) => {
           //   console.log(response);
           if (response) {
-            Alert.alert("수정되었습니다");
-            this.props.navigation.navigate("Detail");
+            // Alert.alert("수정되었습니다");
+            this.props.navigation.navigate("Detail", { ReviewState: 3 });
           } else {
             console.log("실패");
           }

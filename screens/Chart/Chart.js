@@ -128,13 +128,6 @@ export default class Chart extends React.Component {
       <View>
         <View
           style={{
-            backgroundColor: "#f5f5f5",
-            height: 5,
-            width: width,
-          }}
-        />
-        <View
-          style={{
             flexDirection: "row",
             alignItems: "center",
             paddingBottom: 10,
@@ -345,6 +338,9 @@ export default class Chart extends React.Component {
               height: 5,
               width: width,
               marginBottom: 10,
+
+              borderTopWidth: 0.5,
+              borderTopColor: "#B5B5B5",
             }}
           />
           <View>
