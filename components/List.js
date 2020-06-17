@@ -42,6 +42,7 @@ export default List = ({ list }) => {
                 flexDirection: "column",
                 flex: 0.5,
                 paddingLeft: 30,
+                marginLeft: 20,
               }}
             >
               {list.name.length < 7 ? (

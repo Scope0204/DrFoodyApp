@@ -103,7 +103,6 @@ export default class Material extends React.Component {
   render() {
     const { material, avoid, call, show } = this.state;
     const message = "데이터가 없습니다";
-    console.log(material);
     return show ? (
       <View>
         <View style={styles.textCon}>

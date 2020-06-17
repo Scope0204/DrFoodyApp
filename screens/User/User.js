@@ -1,5 +1,12 @@
 import React from "react";
-import { View, Text, Dimensions, AsyncStorage, Image } from "react-native";
+import {
+  View,
+  Text,
+  Dimensions,
+  AsyncStorage,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import styled from "styled-components";
 import axios from "axios"; // npm i axios@0.18.0
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
@@ -208,6 +215,7 @@ export default class User extends React.Component {
                           style={{
                             color: "red",
                             fontSize: 16,
+                            fontWeight: "bold",
                           }}
                         >
                           매운맛
@@ -227,6 +235,7 @@ export default class User extends React.Component {
                             marginTop: -70,
                             color: "blue",
                             fontSize: 16,
+                            fontWeight: "bold",
                           }}
                         >
                           짠맛
@@ -284,6 +293,7 @@ export default class User extends React.Component {
                             marginTop: -70,
                             color: "orange",
                             fontSize: 16,
+                            fontWeight: "bold",
                           }}
                         >
                           단맛
@@ -301,6 +311,7 @@ export default class User extends React.Component {
                             marginTop: -80,
                             color: "green",
                             fontSize: 16,
+                            fontWeight: "bold",
                           }}
                         >
                           쓴맛
@@ -310,17 +321,59 @@ export default class User extends React.Component {
                             marginTop: -80,
                             color: "#F9E415",
                             fontSize: 16,
+                            fontWeight: "bold",
                           }}
                         >
                           신맛
                         </Text>
                       </View>
                     </View>
+
+                    <View
+                      style={{
+                        backgroundColor: "#f5f5f5",
+                        height: 1.5,
+                        width: width,
+                      }}
+                    />
+
+                    <View
+                      style={{
+                        justifyContent: "center",
+                        alignItems: "center",
+                        height: 120,
+                      }}
+                    >
+                      <TouchableOpacity
+                        style={{
+                          width: width - 70,
+                          height: 50,
+                          backgroundColor: "#F6F6F6",
+                          borderWidth: 2,
+                          borderColor: "#D5D0D0",
+                          borderRadius: 10,
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                        onPress={() => this.props.navigation.navigate("Login")}
+                      >
+                        <Text
+                          style={{
+                            fontSize: 18,
+                            color: "#E43E3E",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          로그아웃
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
                   </View>
                 );
               })
             : null}
         </UserOptions>
+        <Bar />
       </Container>
     );
   }

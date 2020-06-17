@@ -11,6 +11,7 @@ import ReviewScreen from "../screens/Detail/ReviewPost";
 import UpdateScreen from "../screens/Detail/Update";
 import MapScreen from "../screens/Main/Map";
 import FailScreen from "../screens/Camera/LinkFail";
+import CheckScreen from "../screens/Camera/CheckPhoto";
 
 const MainNavigation = createStackNavigator(
   {
@@ -76,6 +77,13 @@ const MainNavigation = createStackNavigator(
     // },
     Fail: {
       screen: FailScreen,
+      navigationOptions: {
+        header: null,
+        gesturesEnabled: false,
+      },
+    },
+    Check: {
+      screen: CheckScreen,
       navigationOptions: {
         header: null,
         gesturesEnabled: false,

@@ -110,7 +110,7 @@ export default class Detail extends React.Component {
     // 음식 id
     const { navigation } = this.props;
     const food_id = navigation.getParam("Id");
-    alert(food_id);
+    // alert(food_id);
     const user_id = navigation.getParam("User");
     let reviewState = navigation.getParam("ReviewState");
     if (reviewState == 1) {
@@ -409,7 +409,7 @@ export default class Detail extends React.Component {
 
         <Page alwaysBounceHorizontal={false}>
           {one ? <Material food_id={food_id} user_id={user_id} /> : null}
-          {two ? <Taste food_id={food_id} /> : null}
+          {two ? <Taste food_id={food_id} food_name={food_name} /> : null}
           {three ? (
             <>
               <ReviewGrp food_id={food_id} point={post_point} />

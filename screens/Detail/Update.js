@@ -158,7 +158,7 @@ export default class Update extends React.Component {
       await axios({
         method: "post",
         //   url: "http://192.168.0.22:5000/predictReview",
-        url: "http://35.185.213.102:5000/predictReview",
+        url: "http://35.185.221.213:5000/predictReview",
 
         headers: {
           //응답에 대한 정보

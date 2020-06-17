@@ -19,7 +19,7 @@ const { width, height } = Dimensions.get("screen");
 
 const CardCon = styled.View`
   width: 315px;
-  height: 450px;
+  height: 475px;
   background-color: white;
   align-items: center;
   border-radius: 15px;
@@ -128,12 +128,13 @@ export default class Curation extends React.Component {
             width: 150,
             height: 150,
             borderRadius: 15,
+            marginBottom: 10,
           }}
           imageStyle={{ borderRadius: 15 }}
           resizeMode="cover"
-        ></Image>
+        />
         <View>
-          <View style={{ height: 130, backgroundColor: "white" }}>
+          <View style={{ height: 150, backgroundColor: "white" }}>
             <Text>맛 정보</Text>
           </View>
           <TouchableOpacity>
@@ -205,13 +206,13 @@ export default class Curation extends React.Component {
           style={{
             backgroundColor: "#f5f5f5",
             height: height,
-            marginTop: 40,
+            marginTop: 30,
           }}
         >
           <View style={{ alignItems: "center" }}>
             <Text
               style={{
-                fontSize: 14,
+                fontSize: 16,
                 color: "orange",
                 fontWeight: "400",
                 fontWeight: "bold",
@@ -224,7 +225,6 @@ export default class Curation extends React.Component {
           <View
             style={{
               alignItems: "center",
-              //   backgroundColor: "blue",
               marginTop: 15,
               height: 500,
             }}

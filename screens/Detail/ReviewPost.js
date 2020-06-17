@@ -143,34 +143,34 @@ export default class ReviewPost extends React.Component {
     //예 : 1
     if (id == 1) {
       // 맛정보 전달
-      //   try {
-      //     await axios({
-      //       method: "post",
-      //       //   url: "http://192.168.0.22:5000/predictReview",
-      //       url: "http://35.185.213.102:5000/predictReview",
+      try {
+        await axios({
+          method: "post",
+          //   url: "http://192.168.0.22:5000/predictReview",
+          url: "http://35.185.221.213:5000/predictReview",
 
-      //       headers: {
-      //         //응답에 대한 정보
-      //         Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
-      //         "Content-Type": "application/json",
-      //       },
-      //       data: {
-      //         review: review,
-      //       },
-      //     })
-      //       .then((response) => {
-      //         if (response.data.taste) {
-      //           this.setState({ taste: response.data.taste });
-      //           console.log("맛 등록 ", this.state.taste);
-      //         } else {
-      //           this.setState({ taste: response.data.taste });
-      //           console.log("no", this.state.taste);
-      //         }
-      //       })
-      //       .catch((error) => console.log(error));
-      //   } catch (error) {
-      //     console.log(error);
-      //   }
+          headers: {
+            //응답에 대한 정보
+            Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
+            "Content-Type": "application/json",
+          },
+          data: {
+            review: review,
+          },
+        })
+          .then((response) => {
+            if (response.data.taste) {
+              this.setState({ taste: response.data.taste });
+              console.log("맛 등록 ", this.state.taste);
+            } else {
+              this.setState({ taste: response.data.taste });
+              console.log("no", this.state.taste);
+            }
+          })
+          .catch((error) => console.log(error));
+      } catch (error) {
+        console.log(error);
+      }
       // 모달창 닫기
       this.setState({ isModalVisible: !this.state.isModalVisible });
       this.save();

@@ -31,7 +31,9 @@ export default class LinkFail extends React.Component {
     return (
       <View style={{ flex: 1 }}>
         <Header>
-          <Text style={{ fontSize: 26, fontWeight: "bold" }}>인식 실패!</Text>
+          <Text style={{ fontSize: 26, fontWeight: "bold", color: "#ff5122" }}>
+            인식 실패!
+          </Text>
         </Header>
         <Body>
           <Image

@@ -7,12 +7,11 @@ import {
   FlatList,
   TouchableHighlightBase,
 } from "react-native";
-
 import { PieChart } from "react-native-chart-kit";
-
 import { FontAwesome, AntDesign } from "@expo/vector-icons";
 import styled from "styled-components";
 import GraphSwp from "./GraphSwp";
+import axios from "axios"; // npm i axios@0.18.0
 
 const { width, height } = Dimensions.get("window");
 
@@ -53,6 +52,7 @@ export default class GraphList extends React.Component {
 
       category: this.props.category,
       type: ["조회수", "리뷰수", "별점수"],
+      keyword: [],
     };
   }
 
@@ -89,8 +89,35 @@ export default class GraphList extends React.Component {
     );
   };
 
-  check = (e) => {
-    alert(e);
+  check = async (e) => {
+    try {
+      await axios({
+        method: "post",
+        url: "http://35.185.221.213:5000/foodKeyword",
+        headers: {
+          //응답에 대한 정보
+          Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
+          "Content-Type": "application/json",
+        },
+        data: {
+          productName: "마시는 홍초",
+        },
+      })
+        .then((response) => {
+          console.log(response.data.foodKeyword);
+          for (var key in 4) {
+            this.setState({
+              keyword: this.state.keyword.concat({
+                id: key,
+                value: response.data.keyword[key],
+              }),
+            });
+          }
+        })
+        .catch((err) => console.log(err));
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   render() {

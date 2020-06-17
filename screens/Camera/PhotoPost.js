@@ -42,12 +42,11 @@ export default class Main extends React.Component {
       }).then((response) => {
         if (response.status) {
           Alert.alert("OK", "전송");
-          console.log(response.data.label);
           const food_id = response.data.label;
           if (food_id == 0) {
             this.props.navigation.navigate("Fail");
           } else {
-            this.props.navigation.navigate("Detail", {
+            this.props.navigation.navigate("Check", {
               Id: food_id,
               User: user_id,
             });
