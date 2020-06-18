@@ -6,12 +6,14 @@ import {
   Dimensions,
   FlatList,
   TouchableHighlightBase,
+  Alert,
 } from "react-native";
 import { PieChart } from "react-native-chart-kit";
 import { FontAwesome, AntDesign } from "@expo/vector-icons";
 import styled from "styled-components";
 import GraphSwp from "./GraphSwp";
 import axios from "axios"; // npm i axios@0.18.0
+import GraphTitle from "./GraphTitle";
 
 const { width, height } = Dimensions.get("window");
 
@@ -35,29 +37,79 @@ const GraphCon = styled.View`
   margin-top: 10px;
   background-color: white;
   width: ${width - 20}px;
+  height: 400px;
   margin-left: 10px;
   border-radius: 10px;
   padding-top: 10px;
-  box-shadow: 1px 1px 2px gray;
+
+  box-shadow: 2px 2px 2px #f1f1f1;
 `;
 
 export default class GraphList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      list: this.props.list,
       //   color: ["#7DB8E3", "#7DE3DC", "#7DE3B6", "#91E37D", "#C0E37D"],
       //   color: ["#E7CA71", "#9465DA", "#BA66E0", "#E77186", "#E79C71"],
       color: ["#218380", "#519D9E", "#9DC8C8", "#BAD8D8", "#D8E6E7"],
-
+      list: this.props.list,
       category: this.props.category,
       type: ["조회수", "리뷰수", "별점수"],
-      keyword: [],
+      review: [],
+      show: false,
+      food_name: false,
     };
   }
 
+  componentDidMount = () => {};
+
+  check = async (e) => {
+    const { list, color, category, keyword, show } = this.state;
+    this.setState({ show: false, food_name: e });
+
+    try {
+      await axios({
+        method: "post",
+        url: "http://35.185.221.213:5000/foodDict",
+        headers: {
+          //응답에 대한 정보
+          Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
+          "Content-Type": "application/json",
+        },
+        data: {
+          productName: e,
+        },
+      })
+        .then((response) => {
+          this.setState({ review: [] });
+          console.log(response.data);
+
+          for (var key = 0; key < 5; key++) {
+            var list = response.data.keyword_dict[key];
+            this.setState({
+              review: this.state.review.concat({
+                id: key,
+                keyword: list.keyword,
+                number: list.number,
+              }),
+            });
+          }
+          this.setState({ show: true });
+        })
+        .catch((err) => {
+          console.log(err);
+          Alert.alert(
+            "데이터셋 부족",
+            "리뷰가 적어 그래프를 나타낼 수 없습니다"
+          );
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   list = (e) => {
-    const { list, color, category } = this.state;
+    const { color, review } = this.state;
     let backgroundColor = null;
 
     if (e == 0) {
@@ -80,87 +132,16 @@ export default class GraphList extends React.Component {
         }}
       >
         <Circle style={{ backgroundColor: backgroundColor }} />
-        {category == 2 ? (
-          <ListName>{parseInt(list[e].order_point)}점</ListName>
-        ) : (
-          <ListName>{parseInt(list[e].order_point)}건</ListName>
-        )}
+
+        <ListName>{review[e].keyword}</ListName>
       </View>
     );
   };
 
-  check = async (e) => {
-    try {
-      await axios({
-        method: "post",
-        url: "http://35.185.221.213:5000/foodKeyword",
-        headers: {
-          //응답에 대한 정보
-          Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
-          "Content-Type": "application/json",
-        },
-        data: {
-          productName: "마시는 홍초",
-        },
-      })
-        .then((response) => {
-          console.log(response.data.foodKeyword);
-          for (var key in 4) {
-            this.setState({
-              keyword: this.state.keyword.concat({
-                id: key,
-                value: response.data.keyword[key],
-              }),
-            });
-          }
-        })
-        .catch((err) => console.log(err));
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   render() {
-    const { list, color, category, type } = this.state;
+    const { list, color, food_name, type, show, review } = this.state;
 
-    const data = [
-      {
-        name: "",
-        population: parseInt(list[0].order_point),
-        color: color[0],
-        legendFontColor: "#7F7F7F",
-        legendFontSize: 15,
-      },
-      {
-        name: "",
-        population: parseInt(list[1].order_point),
-        color: color[1],
-        legendFontColor: "#7F7F7F",
-        legendFontSize: 15,
-      },
-      {
-        name: "",
-        population: parseInt(list[2].order_point),
-        color: color[2],
-        legendFontColor: "#7F7F7F",
-        legendFontSize: 15,
-      },
-      {
-        name: "",
-        population: parseInt(list[3].order_point),
-        color: color[3],
-        legendFontColor: "#7F7F7F",
-        legendFontSize: 15,
-      },
-      {
-        name: "",
-        population: parseInt(list[4].order_point),
-        color: color[4],
-        legendFontColor: "#7F7F7F",
-        legendFontSize: 15,
-      },
-    ];
-
+    // console.log(review);
     return (
       <View>
         <View>
@@ -175,68 +156,139 @@ export default class GraphList extends React.Component {
         </View>
 
         <GraphCon>
-          <View
-            style={{
-              justifyContent: "center",
-              marginLeft: 20,
-              marginTop: 10,
-              marginBottom: 20,
-            }}
-          >
-            <Text
-              style={{
-                fontWeight: "bold",
-                fontSize: 22,
-              }}
-            >
-              {type[category]}
-            </Text>
-          </View>
+          {show ? (
+            <View>
+              <View
+                style={{
+                  justifyContent: "center",
+                  margin: 24,
+                }}
+              >
+                <Text
+                  style={{
+                    fontWeight: "bold",
+                    fontSize: 22,
+                  }}
+                >
+                  {food_name}
+                </Text>
+              </View>
 
-          <PieChart
-            data={data}
-            width={width}
-            height={260}
-            chartConfig={chartConfig}
-            accessor="population"
-            backgroundColor="transparent"
-            paddingLeft={95}
-            absolute={false}
-            hasLegend={false} // 옆에 나오는거
-          />
-          <View style={{ alignItems: "center" }}>
+              <PieChart
+                data={[
+                  {
+                    name: "    " + review[0].keyword,
+                    population: parseInt(review[0].number),
+                    color: color[0],
+                  },
+                  {
+                    name: "    " + review[1].keyword,
+                    population: parseInt(review[1].number),
+                    color: color[1],
+                  },
+                  {
+                    name: "    " + review[2].keyword,
+                    population: parseInt(review[2].number),
+                    color: color[2],
+                  },
+                  {
+                    name: "    " + review[3].keyword,
+                    population: parseInt(review[3].number),
+                    color: color[3],
+                  },
+                  {
+                    name: "    " + review[4].keyword,
+                    population: parseInt(review[4].number),
+                    color: color[4],
+                  },
+                ]}
+                width={width}
+                height={280}
+                chartConfig={chartConfig}
+                accessor="population"
+                backgroundColor="transparent"
+                paddingLeft={30}
+                absolute={true}
+                hasLegend={true} // 옆에 나오는거
+              />
+              <View style={{ alignItems: "center" }}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    flexWrap: "wrap",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    width: width - 50,
+                    marginTop: 10,
+                    marginBottom: 20,
+                  }}
+                ></View>
+              </View>
+              {/* <View style={{ alignItems: "center" }}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    flexWrap: "wrap",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    width: width - 50,
+                    marginTop: 10,
+                    marginBottom: 20,
+                  }}
+                >
+                  {this.list(0)}
+                  {this.list(1)}
+                  {this.list(2)}
+                  {this.list(3)}
+                  {this.list(4)}
+                </View>
+              </View> */}
+            </View>
+          ) : (
             <View
               style={{
-                flexDirection: "row",
-                flexWrap: "wrap",
                 alignItems: "center",
-                justifyContent: "space-between",
-                width: width - 50,
-                marginTop: 10,
-                marginBottom: 20,
+                justifyContent: "center",
+                height: 380,
               }}
             >
-              {this.list(0)}
-              {this.list(1)}
-              {this.list(2)}
-              {this.list(3)}
-              {this.list(4)}
+              <Text style={{ fontSize: 18, fontWeight: "700" }}>
+                그래프를 나타내려면 위의 제품을 클릭하세요
+              </Text>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  marginTop: 15,
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 14,
+                    color: "orange",
+                    fontWeight: "bold",
+                  }}
+                >
+                  sns ・ 소셜커머스
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 14,
+                    fontWeight: "300",
+                  }}
+                >
+                  에서 수집한 해당제품의 리뷰키워드를 나타냅니다
+                </Text>
+              </View>
+              <Text
+                style={{
+                  fontSize: 14,
+                  fontWeight: "300",
+                }}
+              ></Text>
             </View>
-          </View>
+          )}
         </GraphCon>
-
-        {/* <View style={{ marginTop: 10 }}>
-          <Text
-            style={{
-              fontWeight: "bold",
-              fontSize: 20,
-              marginBottom: 10,
-              marginLeft: 20,
-            }}
-          >
-            제품 정보
-          </Text>
-        </View> */}
       </View>
     );
   }

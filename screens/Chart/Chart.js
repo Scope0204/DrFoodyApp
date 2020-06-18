@@ -22,7 +22,7 @@ const { width, height } = Dimensions.get("window");
 const Container = styled.ScrollView`
   background-color: #f5f5f5;
   width: ${width}px;
-  height: 600px;
+  height: 606px;
 `;
 
 export default class Chart extends React.Component {
@@ -337,13 +337,13 @@ export default class Chart extends React.Component {
               backgroundColor: "#f5f5f5",
               height: 5,
               width: width,
-              marginBottom: 10,
+              paddingBottom: 15,
 
               borderTopWidth: 0.5,
               borderTopColor: "#B5B5B5",
             }}
           />
-          <View>
+          <View style={{ backgroundColor: "#f5f5f5" }}>
             <ListGraph click={this.click} />
           </View>
 
@@ -352,7 +352,7 @@ export default class Chart extends React.Component {
               backgroundColor: "#f5f5f5",
               height: 5,
               width: width,
-              marginTop: 10,
+              paddingTop: 15,
             }}
           ></View>
           <Container>

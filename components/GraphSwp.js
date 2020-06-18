@@ -20,6 +20,7 @@ const ChartBox = styled.View`
   height: 100px;
   border-radius: 10px;
   border: 1px solid #ecf0f1;
+
   box-shadow: 2px 2px 2px #f1f1f1;
   margin-bottom: 7px;
   flex-direction: row;
@@ -109,7 +110,7 @@ export default class GraphSWp extends Component {
       <Swiper
         style={styles.wrapper}
         autoplay={true}
-        autoplayTimeout={5}
+        autoplayTimeout={7}
         showsPagination={false}
       >
         <View>
