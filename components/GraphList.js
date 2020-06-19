@@ -13,7 +13,6 @@ import { FontAwesome, AntDesign } from "@expo/vector-icons";
 import styled from "styled-components";
 import GraphSwp from "./GraphSwp";
 import axios from "axios"; // npm i axios@0.18.0
-import GraphTitle from "./GraphTitle";
 
 const { width, height } = Dimensions.get("window");
 

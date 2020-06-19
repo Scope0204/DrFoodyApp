@@ -100,11 +100,42 @@ export default class Material extends React.Component {
     this.setState({ show: true });
   };
 
+  kakao = async () => {
+    const kakao = await fetch(
+      `https://kapi.kakao.com/v1/translation/translate?query=라면`,
+      {
+        body: `src_lang=kr&target_lang=en`,
+        headers: {
+          Authorization: "KakaoAK 0a6f68004a171f990b99c5762485143f",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        method: "POST",
+      }
+    );
+    const kakaoJson = await kakao.json();
+    console.log(kakaoJson);
+    // if (kakaoJson.msg === undefined) translated_kakao = array2str;
+
+    // const kakao = await fetch(`https://kapi.kakao.com/v1/translation/translate?query=${src}`, {
+    //     body: `src_lang=${srcLang}&target_lang=${targetLang}`,
+    //     headers: {
+    //         Authorization: "KakaoAK cc61086d34c825------------",
+    //         "Content-Type": "application/x-www-form-urlencoded"
+    //     },
+    //     method: "POST"
+    // })
+    // const kakaoJson = await kakao.json()
+    // if (kakaoJson.msg === undefined) translated_kakao = array2str
+  };
+
   render() {
     const { material, avoid, call, show } = this.state;
     const message = "데이터가 없습니다";
     return show ? (
       <View>
+        <TouchableOpacity style={{ padding: 20 }} onPress={() => this.kakao()}>
+          <Text>번역</Text>
+        </TouchableOpacity>
         <View style={styles.textCon}>
           <Text style={{ fontWeight: "bold", fontSize: 16 }}>기피 원재료</Text>
         </View>
