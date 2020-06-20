@@ -19,6 +19,7 @@ export default class Material extends React.Component {
       avoid: [],
       call: false,
       show: false,
+      transAvoid: [],
     };
   }
 
@@ -100,32 +101,54 @@ export default class Material extends React.Component {
     this.setState({ show: true });
   };
 
-  kakao = async () => {
-    const kakao = await fetch(
-      `https://kapi.kakao.com/v1/translation/translate?query=라면`,
-      {
-        body: `src_lang=kr&target_lang=en`,
-        headers: {
-          Authorization: "KakaoAK 0a6f68004a171f990b99c5762485143f",
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        method: "POST",
-      }
-    );
-    const kakaoJson = await kakao.json();
-    console.log(kakaoJson);
-    // if (kakaoJson.msg === undefined) translated_kakao = array2str;
+  translate = async () => {
+    const { avoid, material, transAvoid } = this.state;
 
-    // const kakao = await fetch(`https://kapi.kakao.com/v1/translation/translate?query=${src}`, {
-    //     body: `src_lang=${srcLang}&target_lang=${targetLang}`,
-    //     headers: {
-    //         Authorization: "KakaoAK cc61086d34c825------------",
-    //         "Content-Type": "application/x-www-form-urlencoded"
-    //     },
-    //     method: "POST"
-    // })
-    // const kakaoJson = await kakao.json()
-    // if (kakaoJson.msg === undefined) translated_kakao = array2str
+    this.setState({ avoid: [], call: false }); // 기존 기피 원재료 초기화. 기존 호출 취소
+    const srcLang = "kr";
+    const targetLang = "jp";
+
+    for (var a = 0; a < avoid.length; a++) {
+      let src = avoid[a].avoid;
+      const kakao = await fetch(
+        `https://kapi.kakao.com/v1/translation/translate?query=${src}`,
+        {
+          body: `src_lang=${srcLang}&target_lang=${targetLang}`,
+          headers: {
+            Authorization: "KakaoAK 0a6f68004a171f990b99c5762485143f",
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          method: "POST",
+        }
+      );
+      const kakaoJson = await kakao.json();
+      const JsonResult = kakaoJson.translated_text[0][0];
+      // console.log(kakaoJson);
+      //   if (kakaoJson.msg === undefined) translated_kakao = array2str;
+
+      this.setState({
+        transAvoid: this.state.transAvoid.concat({
+          id: a,
+          material: JsonResult,
+        }),
+      });
+
+      // 새롭게 avoid 리스트
+      this.setState({
+        avoid: this.state.avoid.concat({
+          id: a,
+          avoid: JsonResult,
+        }),
+        call: true,
+      });
+    }
+
+    this.showList();
+  };
+
+  showList = () => {
+    const { transAvoid } = this.state;
+    console.log(transAvoid);
   };
 
   render() {
@@ -133,7 +156,10 @@ export default class Material extends React.Component {
     const message = "데이터가 없습니다";
     return show ? (
       <View>
-        <TouchableOpacity style={{ padding: 20 }} onPress={() => this.kakao()}>
+        <TouchableOpacity
+          style={{ padding: 20 }}
+          onPress={() => this.translate()}
+        >
           <Text>번역</Text>
         </TouchableOpacity>
         <View style={styles.textCon}>
