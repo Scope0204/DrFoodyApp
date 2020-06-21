@@ -13,13 +13,12 @@ import { FontAwesome } from "@expo/vector-icons";
 
 const { width, height } = Dimensions.get("window");
 
-const Container = styled.View`
+const Container = styled.ScrollView`
   width: ${width - 20}px;
   background-color: white;
   height: 150px;
   border-radius: 10px;
   border: 1px solid #ecf0f1;
-  box-shadow: 1px 2px 2px #f1f1f1;
   margin-bottom: 20px;
 `;
 
@@ -34,6 +33,7 @@ export default class Review extends React.Component {
       food_id: this.props.food_id, // 자기 음식리뷰만 나오게하기위해 props로 받음
       taste_review: 0, // 맛 리뷰 갯수 저장
       setting: false,
+      review_length: 0,
     };
   }
 
@@ -72,26 +72,26 @@ export default class Review extends React.Component {
 
   componentDidMount = async () => {
     const food_id = this.props.food_id;
-
-    this.setState({ food_id: food_id });
-
     const post_id = await AsyncStorage.getItem("User");
-    this.setState({ user_id: post_id });
-
-    this.setState({ taste_review: 0 });
+    this.setState({ user_id: post_id, taste_review: 0, food_id: food_id });
 
     try {
       // 리뷰 리스트 출력
       await axios({
+        method: "post",
         url: "http://3.34.97.97/api/app/reviewList",
+        data: {
+          food_id: food_id,
+          page: 1,
+        },
       })
         .then((response) => {
+          //   console.log(response.data.review);
+          let count = 0;
           if (response) {
-            // console.log("aa");
-            // console.log(response.data[0].review_point);
-            let count = 0;
-            for (var key in response.data) {
-              var list = response.data[key];
+            let taste_view = 0;
+            for (var key in response.data.review) {
+              var list = response.data.review[key];
               if (food_id == list.food_id) {
                 this.setState({
                   review: this.state.review.concat({
@@ -109,13 +109,17 @@ export default class Review extends React.Component {
                     review_date: list.review_date,
                   }),
                 });
-
                 if (list.review_type == 1) {
-                  count++;
-                  this.setState({ taste_review: count });
+                  taste_view++;
+                  this.setState({ taste_review: taste_view });
                 }
               }
             }
+            for (var a = 0; a < 5; a++) {
+              // 전체리뷰갯수 조회
+              count = count + response.data.point[a];
+            }
+            this.setState({ review_length: count });
           } else {
             console.log("no");
           }
@@ -139,6 +143,7 @@ export default class Review extends React.Component {
       food_id,
       taste_review,
       setting,
+      review_length,
     } = this.state;
 
     return setting ? (
@@ -154,7 +159,7 @@ export default class Review extends React.Component {
                   color: "#F39C12",
                 }}
               >
-                {review.length + " "}
+                {review_length + " "}
               </Text>
               <Text
                 style={{ fontWeight: "bold", fontSize: 20, marginBottom: 5 }}
@@ -163,7 +168,7 @@ export default class Review extends React.Component {
               </Text>
             </View>
           ) : (
-            <View style={{ flexDirection: "row" }}>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
               <Text
                 style={{
                   fontWeight: "bold",
@@ -303,6 +308,8 @@ export default class Review extends React.Component {
                       style={{
                         paddingTop: 10,
                         paddingLeft: 20,
+                        paddingRight: 20,
+                        paddingBottom: 20,
                       }}
                     >
                       <Text
@@ -324,25 +331,12 @@ export default class Review extends React.Component {
                   {list.taste == 1 ? (
                     <Container>
                       <View style={{ flexDirection: "row", paddingLeft: 10 }}>
-                        {list.country_code == 840 ? (
-                          <Image
-                            source={require("../../images/country/america.png")}
-                            style={{ width: 60, height: 60 }}
-                          />
-                        ) : null}
-                        {list.country_code == 392 ? (
-                          <Image
-                            source={require("../../images/country/japan.png")}
-                            style={{ width: 60, height: 60 }}
-                          />
-                        ) : null}
                         {list.country_code == 410 ? (
                           <Image
                             source={require("../../images/country/korea.png")}
                             style={{ width: 60, height: 60 }}
                           />
                         ) : null}
-
                         <View
                           style={{
                             width: width / 1.35,
@@ -356,28 +350,44 @@ export default class Review extends React.Component {
                             <Text style={{ fontSize: 16, fontWeight: "bold" }}>
                               {list.nickname}
                             </Text>
+
                             {list.point ? this.star(list.point) : null}
                           </View>
 
-                          {user_id == list.user_id ? (
-                            <TouchableOpacity onPress={() => this.update(list)}>
-                              <Text
-                                style={{
-                                  fontSize: 16,
-                                  fontWeight: "bold",
-                                  color: "#F39C12",
-                                }}
+                          <View>
+                            <Text
+                              style={{
+                                marginBottom: 5,
+                                fontSize: 12,
+                                color: "gray",
+                              }}
+                            >
+                              {list.review_date}
+                            </Text>
+                            {user_id == list.user_id ? (
+                              <TouchableOpacity
+                                onPress={() => this.update(list)}
+                                style={{ alignItems: "flex-end" }}
                               >
-                                수정
-                              </Text>
-                            </TouchableOpacity>
-                          ) : null}
+                                <Text
+                                  style={{
+                                    fontSize: 14,
+                                    fontWeight: "bold",
+                                    color: "blue",
+                                  }}
+                                >
+                                  수정
+                                </Text>
+                              </TouchableOpacity>
+                            ) : null}
+                          </View>
                         </View>
                       </View>
                       <View
                         style={{
                           paddingTop: 10,
                           paddingLeft: 20,
+                          paddingRight: 20,
                         }}
                       >
                         <Text

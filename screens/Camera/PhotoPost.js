@@ -24,7 +24,7 @@ export default class Main extends React.Component {
     // 폼데이터로 전송
     const { user_id } = this.state;
     console.log(photoUri);
-    let base_url = "http://35.185.221.213:5000/predictPhoto";
+    let base_url = "http://35.230.114.182:5000/predictPhoto";
 
     let uploadData = new FormData();
     uploadData.append("image", {

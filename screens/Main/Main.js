@@ -15,6 +15,7 @@ import axios from "axios"; // npm i axios@0.18.0
 import { FontAwesome, Entypo, AntDesign } from "@expo/vector-icons";
 import Address from "../../components/Address";
 import { LinearGradient } from "expo-linear-gradient";
+import StartModal from "../../components/StartModal";
 
 const { width, height } = Dimensions.get("window");
 
@@ -90,7 +91,7 @@ export default class Main extends React.Component {
           id: User,
         },
       }).then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         if (response.data) {
           //   console.log(response.data.user_id);
           const user_photo = ""; // user_photo가 없으면 null을 반환해서 "" 으로 바꿔줌
@@ -134,7 +135,7 @@ export default class Main extends React.Component {
       })
         .then((response) => {
           if (response) {
-            // console.log(response);
+            // console.log(response.data);
             for (var key in response.data) {
               var list = response.data[key];
               this.setState({
@@ -161,6 +162,7 @@ export default class Main extends React.Component {
 
     return (
       <Container>
+        <StartModal />
         <LinearGradient
           colors={["orange", "#FA5820", "transparent"]}
           style={{
@@ -179,7 +181,6 @@ export default class Main extends React.Component {
               flexDirection: "row",
               justifyContent: "space-between",
               alignItems: "center",
-              //   backgroundColor: "red",
               marginTop: 25,
             }}
           >

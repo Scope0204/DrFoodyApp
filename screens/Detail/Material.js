@@ -6,10 +6,20 @@ import {
   Dimensions,
   StyleSheet,
   ScrollView,
+  Image,
 } from "react-native";
 import axios from "axios";
+import styled from "styled-components";
+import Modal from "react-native-modal";
+import { AntDesign } from "@expo/vector-icons";
 
 const { width, height } = Dimensions.get("window");
+
+const BackBtn = styled.TouchableOpacity`
+  position: absolute;
+  top: 45px;
+  left: 5px;
+`;
 
 export default class Material extends React.Component {
   constructor(props) {
@@ -20,8 +30,18 @@ export default class Material extends React.Component {
       call: false,
       show: false,
       transAvoid: [],
+      isModalVisible: false,
+      korea: true,
+      japan: false,
+      usa: false,
+      selectedCountry: "kr",
+      nowCountry: "kr",
     };
   }
+
+  toggleModal = (id) => {
+    this.setState({ isModalVisible: !this.state.isModalVisible });
+  };
 
   componentDidMount = async () => {
     const { food_id, user_id } = this.props;
@@ -101,46 +121,55 @@ export default class Material extends React.Component {
     this.setState({ show: true });
   };
 
-  translate = async () => {
-    const { avoid, material, transAvoid } = this.state;
+  translation = async () => {
+    const { avoid, selectedCountry, nowCountry } = this.state;
+    const srcLang = nowCountry;
+    const targetLang = selectedCountry;
 
-    this.setState({ avoid: [], call: false }); // 기존 기피 원재료 초기화. 기존 호출 취소
-    const srcLang = "kr";
-    const targetLang = "jp";
-
-    for (var a = 0; a < avoid.length; a++) {
-      let src = avoid[a].avoid;
-      const kakao = await fetch(
-        `https://kapi.kakao.com/v1/translation/translate?query=${src}`,
-        {
-          body: `src_lang=${srcLang}&target_lang=${targetLang}`,
-          headers: {
-            Authorization: "KakaoAK 0a6f68004a171f990b99c5762485143f",
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-          method: "POST",
-        }
-      );
-      const kakaoJson = await kakao.json();
-      const JsonResult = kakaoJson.translated_text[0][0];
-      // console.log(kakaoJson);
-      //   if (kakaoJson.msg === undefined) translated_kakao = array2str;
-
+    if (srcLang == targetLang) {
+      this.setState({ call: true, isModalVisible: false });
+    } else {
       this.setState({
-        transAvoid: this.state.transAvoid.concat({
-          id: a,
-          material: JsonResult,
-        }),
-      });
+        avoid: [],
+        call: false,
+        isModalVisible: false,
+      }); // 기존 기피 원재료 초기화. 기존 호출 취소
 
-      // 새롭게 avoid 리스트
-      this.setState({
-        avoid: this.state.avoid.concat({
-          id: a,
-          avoid: JsonResult,
-        }),
-        call: true,
-      });
+      for (var a = 0; a < avoid.length; a++) {
+        let src = avoid[a].avoid;
+        const kakao = await fetch(
+          `https://kapi.kakao.com/v1/translation/translate?query=${src}`,
+          {
+            body: `src_lang=${srcLang}&target_lang=${targetLang}`,
+            headers: {
+              Authorization: "KakaoAK 0a6f68004a171f990b99c5762485143f",
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            method: "POST",
+          }
+        );
+        const kakaoJson = await kakao.json();
+        const JsonResult = kakaoJson.translated_text[0][0];
+        // console.log(kakaoJson);
+        //   if (kakaoJson.msg === undefined) translated_kakao = array2str;
+
+        this.setState({
+          transAvoid: this.state.transAvoid.concat({
+            id: a,
+            material: JsonResult,
+          }),
+        });
+
+        // 새롭게 avoid 리스트
+        this.setState({
+          avoid: this.state.avoid.concat({
+            id: a,
+            avoid: JsonResult,
+          }),
+          call: true,
+          nowCountry: selectedCountry,
+        });
+      }
     }
 
     this.showList();
@@ -152,18 +181,124 @@ export default class Material extends React.Component {
   };
 
   render() {
-    const { material, avoid, call, show } = this.state;
-    const message = "데이터가 없습니다";
+    const {
+      material,
+      avoid,
+      call,
+      show,
+      korea,
+      japan,
+      usa,
+      selectedCountry,
+      nowCountry,
+    } = this.state;
+    // const message = "데이터가 없습니다";
     return show ? (
       <View>
-        <TouchableOpacity
-          style={{ padding: 20 }}
-          onPress={() => this.translate()}
+        <Modal
+          isVisible={this.state.isModalVisible}
+          children={false}
+          backdropOpacity={0.9}
         >
-          <Text>번역</Text>
-        </TouchableOpacity>
-        <View style={styles.textCon}>
-          <Text style={{ fontWeight: "bold", fontSize: 16 }}>기피 원재료</Text>
+          <BackBtn onPress={() => this.setState({ isModalVisible: false })}>
+            <AntDesign size={30} name={"close"} color={"#B1B1AF"}></AntDesign>
+          </BackBtn>
+          <View style={{ alignItems: "center", marginBottom: 40 }}>
+            <Text style={{ fontSize: 26, color: "white", fontWeight: "bold" }}>
+              국가를 선택하세요
+            </Text>
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              width: width - 50,
+              justifyContent: "space-between",
+            }}
+          >
+            <TouchableOpacity
+              onPress={() =>
+                this.setState({
+                  korea: true,
+                  japan: false,
+                  usa: false,
+                  selectedCountry: "kr",
+                })
+              }
+            >
+              <Image
+                source={require("../../images/country/korea2.png")}
+                style={korea ? styles.selectCountry : styles.noSelectCountry}
+              />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() =>
+                this.setState({
+                  korea: false,
+                  japan: true,
+                  usa: false,
+                  selectedCountry: "jp",
+                })
+              }
+            >
+              <Image
+                source={require("../../images/country/japan2.png")}
+                style={japan ? styles.selectCountry : styles.noSelectCountry}
+              />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() =>
+                this.setState({
+                  korea: false,
+                  japan: false,
+                  usa: true,
+                  selectedCountry: "en",
+                })
+              }
+            >
+              <Image
+                source={require("../../images/country/usa2.png")}
+                style={usa ? styles.selectCountry : styles.noSelectCountry}
+              />
+            </TouchableOpacity>
+          </View>
+          <View style={{ alignItems: "center", marginTop: 50 }}>
+            <TouchableOpacity style={styles.selectBtn}>
+              <Text
+                style={{ fontSize: 26, color: "white", fontWeight: "300" }}
+                onPress={() => this.translation()}
+              >
+                Translation
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </Modal>
+        <View
+          style={{
+            paddingTop: 30,
+            marginLeft: 5,
+            alignItems: "flex-start",
+            justifyContent: "space-between",
+            flexDirection: "row",
+            padding: 10,
+          }}
+        >
+          <Text
+            style={{
+              fontWeight: "bold",
+              fontSize: 16,
+            }}
+          >
+            기피 원재료
+          </Text>
+
+          <TouchableOpacity
+            style={styles.transBtn}
+            onPress={() => this.setState({ isModalVisible: true })}
+          >
+            <Text style={{ fontWeight: "bold" }}>Translation</Text>
+          </TouchableOpacity>
         </View>
         <View style={{ alignItems: "center" }}>
           {call == false ? (
@@ -254,6 +389,8 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingBottom: 10,
     alignItems: "flex-start",
+    justifyContent: "space-between",
+    flexDirection: "row",
     paddingLeft: 20,
   },
   avoidCon: {
@@ -290,5 +427,35 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     color: "blue",
     fontSize: 16,
+  },
+  transBtn: {
+    backgroundColor: "#F5F5F5",
+    borderRadius: 20,
+    borderWidth: 1,
+    padding: 2,
+    width: 100,
+    alignItems: "center",
+  },
+
+  selectCountry: {
+    borderRadius: 100,
+    borderWidth: 5,
+    borderColor: "orange",
+    width: 100,
+    height: 100,
+  },
+  noSelectCountry: {
+    width: 100,
+    height: 100,
+  },
+  selectBtn: {
+    backgroundColor: "black",
+    borderRadius: 20,
+    borderWidth: 1,
+    padding: 2,
+    width: width / 2,
+    height: 55,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

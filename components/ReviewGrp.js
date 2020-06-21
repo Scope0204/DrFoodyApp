@@ -38,36 +38,68 @@ export default class ReviewGrp extends React.Component {
       point: this.props.point,
       food_id: this.props.food_id,
       review: [],
-      one: 1,
-      two: 1,
-      three: 1,
-      four: 1,
-      five: 1,
-      allReview: 1,
+      one: 0,
+      two: 0,
+      three: 0,
+      four: 0,
+      five: 0,
+      allReview: 0,
       show: false,
     };
   }
 
   componentDidMount = async () => {
-    const { food_id } = this.state;
+    const { food_id, one, two, three, four, five, allReview } = this.state;
     try {
       // 리뷰 리스트 출력
       await axios({
+        method: "post",
         url: "http://3.34.97.97/api/app/reviewList",
+        data: {
+          food_id: food_id,
+          page: 1,
+        },
       })
         .then((response) => {
+          console.log(response.data.point);
           if (response) {
-            // console.log(response.data[0].food_id);
-            for (var key in response.data) {
-              var list = response.data[key];
-              if (food_id == list.food_id) {
-                this.setState({
-                  review: this.state.review.concat({
-                    id: key,
-                    point: list.review_point,
-                  }),
-                  show: true,
-                });
+            let count = 0;
+            for (var a = 0; a < 5; a++) {
+              // 전체리뷰갯수 조회
+              count = count + response.data.point[a];
+            }
+            this.setState({ allReview: count });
+
+            for (var a = 0; a < 5; a++) {
+              var list = response.data.point[a];
+              if (list != 0) {
+                //리뷰 평점이 0 이 아닐때 -> why? div 길이 값이 0 이면 오류반환
+                if (a == 0) {
+                  this.setState({
+                    one: list,
+                    show: true, // 0인 리뷰만 나올경우 show를 true 로 바꿀수 없다
+                  });
+                } else if (a == 1) {
+                  this.setState({
+                    two: list,
+                    show: true,
+                  });
+                } else if (a == 2) {
+                  this.setState({
+                    three: list,
+                    show: true,
+                  });
+                } else if (a == 3) {
+                  this.setState({
+                    four: list,
+                    show: true,
+                  });
+                } else if (a == 4) {
+                  this.setState({
+                    five: list,
+                    show: true,
+                  });
+                }
               }
             }
           } else {
@@ -75,44 +107,9 @@ export default class ReviewGrp extends React.Component {
           }
         })
         .catch((error) => console.log(error));
-      this.rate();
     } catch (err) {
       console.log(err);
     }
-  };
-
-  rate = () => {
-    let { review } = this.state;
-
-    let one2 = 0.1;
-    let two2 = 0.1;
-    let three2 = 0.1;
-    let four2 = 0.1;
-    let five2 = 0.1;
-    let allReview2 = 0.1;
-
-    for (let x = 0; x < review.length; x++) {
-      allReview2++;
-      if (review[x].point == "1") {
-        one2++;
-      } else if (review[x].point == "2") {
-        two2++;
-      } else if (review[x].point == "3") {
-        three2++;
-      } else if (review[x].point == "4") {
-        four2++;
-      } else if (review[x].point == "5") {
-        five2++;
-      }
-    }
-    this.setState({
-      allReview: allReview2,
-      one: one2,
-      two: two2,
-      three: three2,
-      four: four2,
-      five: five2,
-    });
   };
 
   star = (e) => {
@@ -191,16 +188,16 @@ export default class ReviewGrp extends React.Component {
               <View style={{ width: 3 }} />
               <OrangeBar
                 style={{
-                  width: (200 / parseInt(allReview)) * parseInt(five),
+                  width: (180 / allReview) * five,
                 }}
               />
               <GrayBar
                 style={{
-                  width: 200 - (200 / parseInt(allReview)) * parseInt(five),
+                  width: 180 - (180 / allReview) * five,
                 }}
               />
-              <Text style={{ color: "gray", marginLeft: 8 }}>
-                {parseInt(five) ? parseInt(five) : null}
+              <Text style={{ color: "gray", marginLeft: 10 }}>
+                {five ? five : null}
               </Text>
             </View>
             <View
@@ -218,16 +215,16 @@ export default class ReviewGrp extends React.Component {
               <View style={{ width: 3 }} />
               <OrangeBar
                 style={{
-                  width: (200 / parseInt(allReview)) * parseInt(four),
+                  width: (180 / allReview) * four,
                 }}
               />
               <GrayBar
                 style={{
-                  width: 200 - (200 / parseInt(allReview)) * parseInt(four),
+                  width: 180 - (180 / allReview) * four,
                 }}
               />
               <Text style={{ color: "gray", marginLeft: 10 }}>
-                {parseInt(four) ? parseInt(four) : null}
+                {four ? four : null}
               </Text>
             </View>
             <View
@@ -245,16 +242,16 @@ export default class ReviewGrp extends React.Component {
               <View style={{ width: 3 }} />
               <OrangeBar
                 style={{
-                  width: (200 / allReview) * parseInt(three),
+                  width: (180 / allReview) * three,
                 }}
               />
               <GrayBar
                 style={{
-                  width: 200 - (200 / parseInt(allReview)) * parseInt(three),
+                  width: 180 - (180 / allReview) * three,
                 }}
               />
               <Text style={{ color: "gray", marginLeft: 10 }}>
-                {parseInt(three) ? parseInt(three) : null}
+                {three ? three : null}
               </Text>
             </View>
             <View
@@ -272,16 +269,16 @@ export default class ReviewGrp extends React.Component {
               <View style={{ width: 3 }} />
               <OrangeBar
                 style={{
-                  width: (200 / allReview) * parseInt(two),
+                  width: (180 / allReview) * two,
                 }}
               />
               <GrayBar
                 style={{
-                  width: 200 - (200 / parseInt(allReview)) * parseInt(two),
+                  width: 180 - (180 / allReview) * two,
                 }}
               />
               <Text style={{ color: "gray", marginLeft: 10 }}>
-                {parseInt(two) ? parseInt(two) : null}
+                {two ? two : null}
               </Text>
             </View>
             <View
@@ -306,16 +303,16 @@ export default class ReviewGrp extends React.Component {
               <View style={{ width: 3 }} />
               <OrangeBar
                 style={{
-                  width: (200 / allReview) * parseInt(one),
+                  width: (180 / allReview) * one,
                 }}
               />
               <GrayBar
                 style={{
-                  width: 200 - (200 / parseInt(allReview)) * parseInt(one),
+                  width: 180 - (180 / allReview) * one,
                 }}
               />
               <Text style={{ color: "gray", marginLeft: 10 }}>
-                {parseInt(one) ? parseInt(one) : null}
+                {one ? one : null}
               </Text>
             </View>
           </View>

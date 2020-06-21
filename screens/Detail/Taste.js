@@ -6,7 +6,6 @@ import sour from "../../images/taste/lemon.png";
 import bitter from "../../images/taste/tea.png";
 import salty from "../../images/taste/salt.png";
 import styled from "styled-components";
-import axios from "axios"; // npm i axios@0.18.0
 import TasteChart from "../../components/TasteChart";
 
 const { width, height } = Dimensions.get("window");
@@ -32,14 +31,12 @@ export default class Taste extends React.Component {
     return (
       <ScrollView>
         <Container>
-          <View style={{ padding: 22 }}>
-            <Title>맛 레벨</Title>
-          </View>
+          <View style={{ padding: 22 }}>{/* <Title>맛 레벨</Title> */}</View>
           <TasteChart food_name={this.props.food_name} />
-
+          {/* 
           <View style={{ padding: 22, marginTop: 10 }}>
             <Title>키워드</Title>
-          </View>
+          </View> */}
         </Container>
       </ScrollView>
     );

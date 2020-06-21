@@ -11,6 +11,7 @@ import styled from "styled-components";
 import axios from "axios"; // npm i axios@0.18.0
 import Modal from "react-native-modal";
 import Rating from "../../components/Rating";
+import { registerRootComponent } from "expo";
 
 const { width, height } = Dimensions.get("window");
 
@@ -146,8 +147,7 @@ export default class ReviewPost extends React.Component {
       try {
         await axios({
           method: "post",
-          //   url: "http://192.168.0.22:5000/predictReview",
-          url: "http://35.185.221.213:5000/predictReview",
+          url: "http://35.230.114.182:5000/predictReview",
 
           headers: {
             //응답에 대한 정보
@@ -159,6 +159,7 @@ export default class ReviewPost extends React.Component {
           },
         })
           .then((response) => {
+            // console.log(response);
             if (response.data.taste) {
               this.setState({ taste: response.data.taste });
               console.log("맛 등록 ", this.state.taste);

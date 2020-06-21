@@ -69,7 +69,7 @@ export default class GraphList extends React.Component {
     try {
       await axios({
         method: "post",
-        url: "http://35.185.221.213:5000/foodDict",
+        url: "http://35.230.114.182:5000/foodDict",
         headers: {
           //응답에 대한 정보
           Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
