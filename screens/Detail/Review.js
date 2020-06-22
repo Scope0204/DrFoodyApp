@@ -10,6 +10,7 @@ import {
 import axios from "axios"; // npm i axios@0.18.0
 import styled from "styled-components";
 import { FontAwesome } from "@expo/vector-icons";
+import Translate from "../../components/Translate";
 
 const { width, height } = Dimensions.get("window");
 
@@ -34,8 +35,14 @@ export default class Review extends React.Component {
       taste_review: 0, // 맛 리뷰 갯수 저장
       setting: false,
       review_length: 0,
+      isModalVisible: false, // 현재 모달 상태
     };
   }
+
+  callTranslate = () => {
+    const { isModalVisible } = this.state;
+    this.setState({ isModalVisible: isModalVisible });
+  };
 
   star = (e) => {
     let stars = [];
@@ -144,6 +151,7 @@ export default class Review extends React.Component {
       taste_review,
       setting,
       review_length,
+      isModalVisible,
     } = this.state;
 
     return setting ? (
@@ -319,6 +327,12 @@ export default class Review extends React.Component {
                       >
                         {list.content}
                       </Text>
+                      <View style={{ paddingRight: 20, marginTop: 10 }}>
+                        <Translate
+                          country={list.country_code}
+                          content={list.content}
+                        />
+                      </View>
                     </View>
                   </Container>
                 </View>
