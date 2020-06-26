@@ -41,7 +41,6 @@ export default class Main extends React.Component {
         data: uploadData,
       }).then((response) => {
         if (response.status) {
-          Alert.alert("OK", "전송");
           const food_id = response.data.label;
           if (food_id == 0) {
             this.props.navigation.navigate("Fail");

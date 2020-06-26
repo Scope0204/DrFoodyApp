@@ -265,7 +265,12 @@ export default class Review extends React.Component {
                           source={require("../../images/country/korea.png")}
                           style={{ width: 60, height: 60 }}
                         />
-                      ) : null}
+                      ) : (
+                        <Image
+                          source={require("../../images/country/korea.png")}
+                          style={{ width: 60, height: 60 }}
+                        />
+                      )}
                       <View
                         style={{
                           width: width / 1.35,
@@ -350,7 +355,12 @@ export default class Review extends React.Component {
                             source={require("../../images/country/korea.png")}
                             style={{ width: 60, height: 60 }}
                           />
-                        ) : null}
+                        ) : (
+                          <Image
+                            source={require("../../images/country/korea.png")}
+                            style={{ width: 60, height: 60 }}
+                          />
+                        )}
                         <View
                           style={{
                             width: width / 1.35,
