@@ -11,13 +11,13 @@ import {
 } from "react-native";
 import { AntDesign, FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import styled from "styled-components";
-
 import Material from ".././Detail/Material";
 import Review from ".././Detail/Review";
 import Taste from ".././Detail/Taste";
 import axios from "axios"; // npm i axios@0.18.0
 import Rating from "../../components/Rating";
 import ReviewGrp from "../../components/ReviewGrp";
+import Loading from "../../components/Loading";
 
 const { width, height } = Dimensions.get("window");
 
@@ -421,7 +421,9 @@ export default class Detail extends React.Component {
           <FontAwesome size={30} name={"pencil"} color={"white"} />
         </ReviewBtn>
       </View>
-    ) : null;
+    ) : (
+      <Loading />
+    );
   }
 }
 

@@ -130,7 +130,7 @@ const SignInBtn = styled.TouchableOpacity`
   border-width: 0;
   border-radius: 10px;
   width: ${width - 50}px;
-  height: 40px;
+  height: 50px;
   background-color: #ff5122;
   justify-content: center;
 `;

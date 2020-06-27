@@ -14,6 +14,8 @@ import styled from "styled-components";
 import { FontAwesome, MaterialIcons, AntDesign } from "@expo/vector-icons";
 import Carousel from "react-native-snap-carousel";
 import { LinearGradient } from "expo-linear-gradient";
+import Loading from "../../components/Loading";
+import TasteImg from "../../components/TasteImg";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -49,7 +51,7 @@ export default class Curation extends React.Component {
 
   //일단 임시로 찜목록만 해봄
   curation_list = async () => {
-    this.setState({ carouselItems: [] });
+    this.setState({ carouselItems: [], on: false });
     const user_id = await AsyncStorage.getItem("User");
     try {
       //찜목록 가져오기
@@ -89,9 +91,10 @@ export default class Curation extends React.Component {
   };
 
   _renderItem({ item, index }) {
-    let stars = [];
+    let stars = []; // 제품 별점
+    let tasteLv = []; // 제품 맛 레벨
 
-    for (let x = 1; x <= 5; x++) {
+    for (var x = 1; x <= 5; x++) {
       if (x <= item.point) {
         stars.push(
           <View key={x}>
@@ -116,12 +119,31 @@ export default class Curation extends React.Component {
         );
       }
     }
+
+    for (var a = 0; a <= 1; a++) {
+      tasteLv.push(
+        <View key={a}>
+          <Image
+            source={require("../../images/taste/honey.png")}
+            style={{
+              width: 50,
+              height: 50,
+              borderRadius: 15,
+              marginBottom: 10,
+            }}
+          />
+        </View>
+      );
+    }
+
     return (
       <CardCon>
         <Text style={{ fontSize: 20, fontWeight: "bold", paddingTop: 20 }}>
           {item.food_name}
         </Text>
+
         <View style={{ flexDirection: "row", padding: 20 }}>{stars}</View>
+
         <Image
           source={{ uri: item.food_photo }}
           style={{
@@ -133,11 +155,31 @@ export default class Curation extends React.Component {
           imageStyle={{ borderRadius: 15 }}
           resizeMode="cover"
         />
+
         <View>
-          <View style={{ height: 150, backgroundColor: "white" }}>
-            <Text>맛 정보</Text>
+          <View style={{ height: 150, paddingTop: 10 }}>
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+                // backgroundColor: "red",
+              }}
+            >
+              <Text style={{ fontWeight: "700", fontSize: 26 }}>단맛 </Text>
+            </View>
+            <View
+              style={{
+                flex: 3,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <TasteImg level={2} />
+            </View>
           </View>
-          <TouchableOpacity>
+
+          <TouchableOpacity onPress={() => {}}>
             <LinearGradient
               colors={["#ff5122", "#F6A12F"]}
               style={{
@@ -243,7 +285,7 @@ export default class Curation extends React.Component {
         </View>
       </View>
     ) : (
-      <View></View>
+      <Loading />
     );
   }
 }

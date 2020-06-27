@@ -16,6 +16,7 @@ import DropDownPicker from "react-native-dropdown-picker";
 import axios from "axios"; // npm i axios@0.18.0
 import ChartList from "../../components/ChartList";
 import GraphList from "../../components/GraphList";
+import Loading from "../../components/Loading";
 
 const { width, height } = Dimensions.get("window");
 
@@ -368,7 +369,9 @@ export default class Chart extends React.Component {
           </Container>
         </View>
       </View>
-    ) : null;
+    ) : (
+      <Loading />
+    );
   }
 }
 

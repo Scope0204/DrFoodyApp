@@ -80,7 +80,12 @@ export default class Review extends React.Component {
   componentDidMount = async () => {
     const food_id = this.props.food_id;
     const post_id = await AsyncStorage.getItem("User");
-    this.setState({ user_id: post_id, taste_review: 0, food_id: food_id });
+    this.setState({
+      user_id: post_id,
+      taste_review: 0,
+      food_id: food_id,
+      setting: false,
+    });
 
     try {
       // 리뷰 리스트 출력

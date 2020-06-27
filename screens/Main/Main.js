@@ -7,6 +7,7 @@ import {
   Image,
   AsyncStorage,
   FlatList,
+  ActivityIndicator,
 } from "react-native";
 import styled from "styled-components";
 import List from "../../components/List";
@@ -16,6 +17,7 @@ import { FontAwesome, Entypo, AntDesign } from "@expo/vector-icons";
 import Address from "../../components/Address";
 import { LinearGradient } from "expo-linear-gradient";
 import StartModal from "../../components/StartModal";
+import Loading from "../../components/Loading";
 
 const { width, height } = Dimensions.get("window");
 
@@ -69,6 +71,7 @@ export default class Main extends React.Component {
       //위도 , 경도
       latitude: null,
       longitude: null,
+      show: false,
     };
   }
 
@@ -155,12 +158,13 @@ export default class Main extends React.Component {
     } catch (err) {
       console.log(err);
     }
+    this.setState({ show: true });
   };
 
   render() {
-    const { user_name, user_photo, food_list } = this.state;
+    const { user_name, user_photo, food_list, show } = this.state;
 
-    return (
+    return show ? (
       <Container>
         <StartModal />
         <LinearGradient
@@ -351,6 +355,8 @@ export default class Main extends React.Component {
           </View>
         </ContainerTwo>
       </Container>
+    ) : (
+      <Loading />
     );
   }
 }

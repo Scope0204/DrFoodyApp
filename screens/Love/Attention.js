@@ -11,6 +11,7 @@ import {
 import axios from "axios"; // npm i axios@0.18.0
 import styled from "styled-components";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
+import Loading from "../../components/Loading";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -45,6 +46,7 @@ export default class Attention extends React.Component {
       list: null,
       call: null,
       dibs_list: [],
+      show: false,
     };
   }
 
@@ -61,7 +63,7 @@ export default class Attention extends React.Component {
   }
 
   dibs_list = async () => {
-    await this.setState({ dibs_list: [] });
+    await this.setState({ dibs_list: [], show: false });
 
     const user_id = await AsyncStorage.getItem("User");
     try {
@@ -99,6 +101,7 @@ export default class Attention extends React.Component {
     } catch (err) {
       console.log(err);
     }
+    this.setState({ show: true });
   };
 
   // 음식 클릭시
@@ -134,8 +137,8 @@ export default class Attention extends React.Component {
   };
 
   render() {
-    const { dibs_list } = this.state;
-    return (
+    const { dibs_list, show } = this.state;
+    return show ? (
       <ScrollView style={{ backgroundColor: "#f5f5f5" }}>
         <View style={{ alignItems: "center" }}>
           <Text></Text>
@@ -212,6 +215,8 @@ export default class Attention extends React.Component {
             : null}
         </View>
       </ScrollView>
+    ) : (
+      <Loading />
     );
   }
 }

@@ -7,6 +7,7 @@ import {
   StyleSheet,
   ScrollView,
   Image,
+  ActivityIndicator,
 } from "react-native";
 import axios from "axios";
 import styled from "styled-components";
@@ -196,9 +197,7 @@ export default class Material extends React.Component {
           </View>
         )}
       </View>
-    ) : (
-      <View></View>
-    );
+    ) : null;
   }
 }
 
