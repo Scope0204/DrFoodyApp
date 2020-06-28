@@ -21,7 +21,7 @@ const { width, height } = Dimensions.get("screen");
 
 const CardCon = styled.View`
   width: 315px;
-  height: 475px;
+  height: 465px;
   background-color: white;
   align-items: center;
   border-radius: 15px;
@@ -34,11 +34,14 @@ export default class Curation extends React.Component {
       on: false,
       activeIndex: 0,
       carouselItems: [],
+      user_id: null,
     };
   }
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
     const { navigation } = this.props;
+    const user_id = await AsyncStorage.getItem("User");
+    this.setState({ user_id: user_id });
     this.focusListener = navigation.addListener("didFocus", () => {
       this.curation_list();
     });
@@ -49,25 +52,17 @@ export default class Curation extends React.Component {
     this.focusListener.remove();
   }
 
-  //일단 임시로 찜목록만 해봄
   curation_list = async () => {
     this.setState({ carouselItems: [], on: false });
-    const user_id = await AsyncStorage.getItem("User");
+    const { user_id } = this.state;
+
     try {
-      //찜목록 가져오기
       await axios({
-        method: "post",
-        url: "http://3.34.97.97/api/app/dibsList",
-        headers: {
-          //응답에 대한 정보
-          Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
-          "Content-Type": "application/json; charset=utf-8",
-        },
-        data: {
-          user_id: user_id,
-        },
+        // method: "post",
+        url: "http://3.34.97.97/api/app/qration/" + user_id,
       })
         .then((response) => {
+          console.log(response.data);
           for (var key in response.data) {
             var List = response.data[key];
             this.setState({
@@ -75,8 +70,10 @@ export default class Curation extends React.Component {
                 id: key,
                 food_id: List.food_id,
                 point: List.point, // 리뷰 소숫점 값 처리안되잇음
-                food_name: List.food.food_name,
-                food_photo: List.food.food_photo,
+                food_name: List.food_name,
+                food_photo: List.food_photo,
+                taste_lv: List.taste_lv,
+                taste_name: List.taste_name,
               }),
             });
           }
@@ -90,7 +87,8 @@ export default class Curation extends React.Component {
     }
   };
 
-  _renderItem({ item, index }) {
+  _renderItem = ({ item, index }) => {
+    const { user_id } = this.state;
     let stars = []; // 제품 별점
     let tasteLv = []; // 제품 맛 레벨
 
@@ -119,23 +117,6 @@ export default class Curation extends React.Component {
         );
       }
     }
-
-    for (var a = 0; a <= 1; a++) {
-      tasteLv.push(
-        <View key={a}>
-          <Image
-            source={require("../../images/taste/honey.png")}
-            style={{
-              width: 50,
-              height: 50,
-              borderRadius: 15,
-              marginBottom: 10,
-            }}
-          />
-        </View>
-      );
-    }
-
     return (
       <CardCon>
         <Text style={{ fontSize: 20, fontWeight: "bold", paddingTop: 20 }}>
@@ -147,8 +128,8 @@ export default class Curation extends React.Component {
         <Image
           source={{ uri: item.food_photo }}
           style={{
-            width: 150,
-            height: 150,
+            width: 180,
+            height: 180,
             borderRadius: 15,
             marginBottom: 10,
           }}
@@ -157,50 +138,46 @@ export default class Curation extends React.Component {
         />
 
         <View>
-          <View style={{ height: 150, paddingTop: 10 }}>
-            <View
-              style={{
-                flex: 1,
-                alignItems: "center",
-                justifyContent: "center",
-                // backgroundColor: "red",
-              }}
-            >
-              <Text style={{ fontWeight: "700", fontSize: 26 }}>단맛 </Text>
-            </View>
-            <View
-              style={{
-                flex: 3,
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <TasteImg level={2} />
-            </View>
+          <View
+            style={{
+              height: 90,
+              alignItems: "center",
+              justifyContent: "center",
+              //   backgroundColor: "red",
+            }}
+          >
+            <TasteImg
+              level={Math.round(item.taste_lv)}
+              taste_name={item.taste_name}
+            />
           </View>
-
-          <TouchableOpacity onPress={() => {}}>
-            <LinearGradient
-              colors={["#ff5122", "#F6A12F"]}
-              style={{
-                alignItems: "center",
-                justifyContent: "center",
-                width: 250,
-                height: 50,
-                borderRadius: 10,
-              }}
-            >
-              <Text
-                style={{ fontSize: 16, color: "white", fontWeight: "bold" }}
-              >
-                Check This
-              </Text>
-            </LinearGradient>
-          </TouchableOpacity>
         </View>
+
+        <TouchableOpacity
+          onPress={() => {
+            // this.goDetail(item.food_id,user_id);
+
+            this.props.navigation.navigate("Detail", {
+              Id: item.food_id,
+              User: user_id,
+            });
+          }}
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+            width: 250,
+            height: 50,
+            borderRadius: 10,
+            backgroundColor: "black",
+          }}
+        >
+          <Text style={{ fontSize: 16, color: "white", fontWeight: "bold" }}>
+            Check This
+          </Text>
+        </TouchableOpacity>
       </CardCon>
     );
-  }
+  };
 
   render() {
     const state = this.state;

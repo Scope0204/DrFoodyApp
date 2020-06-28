@@ -192,9 +192,9 @@ export default class PageThree extends React.Component {
           </ListContainer>
           <ChipsContainer contentContainerStyle={styles.contentContainer}>
             {material
-              ? material.map((material) => {
+              ? material.map((material, key) => {
                   return (
-                    <View style={{ marginLeft: 5, marginTop: 5 }}>
+                    <View style={{ marginLeft: 5, marginTop: 5 }} key={key}>
                       <RNChipView
                         title={material}
                         avatar={false}

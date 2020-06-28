@@ -3,56 +3,52 @@
 // import sour from "../../images/taste/lemon.png";
 // import bitter from "../../images/taste/tea.png";
 import React from "react";
-import {
-  Text,
-  View,
-  AsyncStorage,
-  Image,
-  Dimensions,
-  TouchableOpacity,
-  ScrollView,
-  ImageBackground,
-} from "react-native";
+import { Text, View, Image } from "react-native";
 import styled from "styled-components";
-const { width, height } = Dimensions.get("screen");
 
 const Bar = styled.View`
-  width: 193px;
-  height: 50px;
-  border-radius: 10px;
-  border: 5px solid #4f4e4e;
-  align-items: center;
-  justify-content: center;
+  width: 36px;
+  height: 40px;
+  border-radius: 3px;
+  margin-left: 1px;
+  border: 1px solid #ecf0f1;
+  box-shadow: 2px 2px 2px #f1f1f1;
+`;
+
+const TasteTxt = styled.Text`
+  font-weight: 700;
+  font-size: 26px;
+  padding-left: 10px;
+  padding-bottom: 2px;
 `;
 export default class TasteImg extends React.Component {
   render() {
     let tasteLv = []; // 제품 맛 레벨
     for (var a = 0; a < 5; a++) {
       tasteLv.push(
+        //게이지 바 . 레벨 반올림해서 나타냄
         <View
           key={a}
           style={{ alignItems: "center", justifyContent: "center" }}
         >
           {a < this.props.level ? (
-            <View
-              style={{
-                width: 36,
-                height: 40,
-                backgroundColor: "orange",
-                borderRadius: 3,
-                marginLeft: 1,
-              }}
+            <Bar
+              style={
+                this.props.taste_name == "매운맛"
+                  ? { backgroundColor: "red" }
+                  : this.props.taste_name == "단맛"
+                  ? { backgroundColor: "orange" }
+                  : this.props.taste_name == "신맛"
+                  ? { backgroundColor: "yellow" }
+                  : this.props.taste_name == "쓴맛"
+                  ? { backgroundColor: "green" }
+                  : this.props.taste_name == "짠맛"
+                  ? { backgroundColor: "blue" }
+                  : null
+              }
             />
           ) : (
-            <View
-              style={{
-                width: 36,
-                height: 40,
-                backgroundColor: "#C6C6C6",
-                borderRadius: 3,
-                marginLeft: 1,
-              }}
-            />
+            <Bar style={{ backgroundColor: "#C6C6C6" }} />
           )}
         </View>
       );
@@ -60,41 +56,90 @@ export default class TasteImg extends React.Component {
 
     let topTaste = [];
     topTaste.push(
-      <View>
-        <Image
-          source={require("../images/taste/honey.png")}
-          style={{
-            width: 40,
-            height: 40,
-          }}
-        />
+      //제품 맛에 따라 이미지 변화줌
+      <View style={{ flexDirection: "row" }}>
+        {this.props.taste_name == "매운맛" ? (
+          <Image
+            source={require("../images/taste/chili.png")}
+            style={{
+              width: 40,
+              height: 40,
+              marginRight: 20,
+            }}
+          />
+        ) : null}
+        {this.props.taste_name == "단맛" ? (
+          <Image
+            source={require("../images/taste/honey.png")}
+            style={{
+              width: 40,
+              height: 40,
+              marginRight: 20,
+            }}
+          />
+        ) : null}
+        {this.props.taste_name == "신맛" ? (
+          <Image
+            source={require("../images/taste/lemon.png")}
+            style={{
+              width: 40,
+              height: 40,
+              marginRight: 20,
+            }}
+          />
+        ) : null}
+        {this.props.taste_name == "쓴맛" ? (
+          <Image
+            source={require("../images/taste/tea.png")}
+            style={{
+              width: 40,
+              height: 40,
+              marginRight: 20,
+            }}
+          />
+        ) : null}
+        {this.props.taste_name == "짠맛" ? (
+          <Image
+            source={require("../images/taste/salt.png")}
+            style={{
+              width: 40,
+              height: 40,
+              marginRight: 20,
+            }}
+          />
+        ) : null}
       </View>
     );
 
     return (
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
+      <View style={{ paddingBottom: 30 }}>
         <View
           style={{
-            alignItems: "center",
-            justifyContent: "center",
-            marginRight: 10,
+            paddingBottom: 5,
           }}
         >
-          {topTaste}
+          {/* <TasteTxt
+            style={
+              this.props.taste_name == "매운맛"
+                ? { color: "red" }
+                : this.props.taste_name == "단맛"
+                ? { color: "orange" }
+                : this.props.taste_name == "신맛"
+                ? { color: "yellow" }
+                : this.props.taste_name == "쓴맛"
+                ? { color: "green" }
+                : this.props.taste_name == "짠맛"
+                ? { color: "blue" }
+                : null
+            }
+          >
+            {this.props.taste_name}
+          </TasteTxt> */}
         </View>
-
-        <Bar>
-          <View style={{ flexDirection: "row" }}>{tasteLv}</View>
-        </Bar>
-        <View
-          style={{
-            backgroundColor: "#4F4E4E",
-            width: 5,
-            height: 30,
-            borderTopRightRadius: 20,
-            borderBottomRightRadius: 20,
-          }}
-        />
+        <View style={{ flexDirection: "row" }}>
+          {topTaste}
+          {tasteLv}
+        </View>
       </View>
     );
   }

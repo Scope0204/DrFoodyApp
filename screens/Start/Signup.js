@@ -14,10 +14,10 @@ const { width, height } = Dimensions.get("window");
 
 const TITLE_HEIGHT = Layout.height * 0.15;
 const Container = styled.View`
-  height: ${height};
+  height: ${height}px;
 `;
 const Header = styled.View`
-  height: ${TITLE_HEIGHT};
+  height: ${TITLE_HEIGHT}px;
   align-items: center;
   justify-content: center;
 `;

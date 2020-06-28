@@ -223,25 +223,6 @@ export default class GraphList extends React.Component {
                   }}
                 ></View>
               </View>
-              {/* <View style={{ alignItems: "center" }}>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    flexWrap: "wrap",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    width: width - 50,
-                    marginTop: 10,
-                    marginBottom: 20,
-                  }}
-                >
-                  {this.list(0)}
-                  {this.list(1)}
-                  {this.list(2)}
-                  {this.list(3)}
-                  {this.list(4)}
-                </View>
-              </View> */}
             </View>
           ) : (
             <View

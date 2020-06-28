@@ -137,6 +137,7 @@ export default class List extends React.Component {
                         style={
                           selected.indexOf(key) == -1 ? null : styles.selected
                         }
+                        key={key}
                       >
                         <Text style={{ fontSize: 16 }}>{kind}</Text>
                       </ModalListView>
