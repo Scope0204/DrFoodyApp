@@ -1,7 +1,3 @@
-// import hot from "../../images/taste/chili.png";
-// import sweet from "../../images/taste/honey.png";
-// import sour from "../../images/taste/lemon.png";
-// import bitter from "../../images/taste/tea.png";
 import React from "react";
 import { Text, View, Image } from "react-native";
 import styled from "styled-components";
@@ -57,7 +53,7 @@ export default class TasteImg extends React.Component {
     let topTaste = [];
     topTaste.push(
       //제품 맛에 따라 이미지 변화줌
-      <View style={{ flexDirection: "row" }}>
+      <View style={{ flexDirection: "row" }} key={0}>
         {this.props.taste_name == "매운맛" ? (
           <Image
             source={require("../images/taste/chili.png")}
