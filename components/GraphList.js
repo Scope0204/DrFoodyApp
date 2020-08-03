@@ -97,10 +97,7 @@ export default class GraphList extends React.Component {
         })
         .catch((err) => {
           console.log(err);
-          Alert.alert(
-            "데이터셋 부족",
-            "리뷰가 적어 그래프를 나타낼 수 없습니다"
-          );
+          Alert.alert("データセット不足", "グラフを表すことができません。");
         });
     } catch (err) {
       console.log(err);
@@ -144,9 +141,9 @@ export default class GraphList extends React.Component {
     return (
       <View>
         <View>
-          <Text style={{ fontWeight: "bold", marginLeft: 15 }}>그래프</Text>
+          <Text style={{ fontWeight: "bold", marginLeft: 15 }}>グラフ</Text>
           <Text style={{ fontSize: 12, marginLeft: 15 }}>
-            카테고리에 따른 상위 5개의 제품들을 나타냅니다
+            カテゴリーによって上位5つの製品を示します
           </Text>
         </View>
 
@@ -232,8 +229,8 @@ export default class GraphList extends React.Component {
                 height: 380,
               }}
             >
-              <Text style={{ fontSize: 18, fontWeight: "700" }}>
-                그래프를 나타내려면 위의 제품을 클릭하세요
+              <Text style={{ fontSize: 15, fontWeight: "700" }}>
+                グラフを表示するには上の製品をクリックしてください
               </Text>
               <View
                 style={{
@@ -244,20 +241,20 @@ export default class GraphList extends React.Component {
               >
                 <Text
                   style={{
-                    fontSize: 14,
+                    fontSize: 13,
                     color: "orange",
                     fontWeight: "bold",
                   }}
                 >
-                  sns ・ 소셜커머스
+                  sns ・ ソーシャルコマース
                 </Text>
                 <Text
                   style={{
-                    fontSize: 14,
+                    fontSize: 13,
                     fontWeight: "300",
                   }}
                 >
-                  에서 수집한 해당제품의 리뷰키워드를 나타냅니다
+                  で收集した製品の口コミ分析サービスです
                 </Text>
               </View>
               <Text

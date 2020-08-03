@@ -116,13 +116,13 @@ export default class Material extends React.Component {
               fontSize: 16,
             }}
           >
-            기피 원재료
+            注意すべき原材料
           </Text>
         </View>
         <View style={{ alignItems: "center" }}>
           {call == false ? (
             <ScrollView style={styles.avoidNoCon}>
-              <Text style={styles.avoidNo}>해당되는 원재료가 없습니다</Text>
+              <Text style={styles.avoidNo}>該当する原材料がありません</Text>
             </ScrollView>
           ) : (
             <View style={styles.avoidCon}>
@@ -139,7 +139,7 @@ export default class Material extends React.Component {
           )}
         </View>
         <View style={styles.textCon}>
-          <Text style={{ fontWeight: "bold", fontSize: 16 }}>원재료</Text>
+          <Text style={{ fontWeight: "bold", fontSize: 16 }}>原材料</Text>
         </View>
 
         {material == "" ? (

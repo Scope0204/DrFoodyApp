@@ -183,7 +183,7 @@ export default class PageTwo extends React.Component {
 
     const years = [];
     for (let a = 1950; a <= 2020; a++) {
-      years.push({ value: a, label: a + "년" });
+      years.push({ value: a, label: a + "年" });
       //   years.push({ value: a, label: a + "년" + "(" + (2020 - a) + "세)" });
     }
 
@@ -253,7 +253,7 @@ export default class PageTwo extends React.Component {
             <Title>E-MAIL</Title>
             <TextInput
               style={styles.inputBox}
-              placeholder="e-mail을 입력하세요"
+              placeholder="e-mailを入力してください"
               secureTextEntry={false}
               onChangeText={(email) => this.setState({ email })}
               value={email}

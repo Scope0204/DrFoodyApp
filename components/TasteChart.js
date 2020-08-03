@@ -108,7 +108,7 @@ export default class TasteChart extends React.Component {
                 fontWeight: "bold",
               }}
             >
-              매운맛
+              辛口
             </Text>
           </View>
           <View
@@ -128,7 +128,7 @@ export default class TasteChart extends React.Component {
                 fontWeight: "bold",
               }}
             >
-              짠맛
+              塩味
             </Text>
             <View style={{ marginLeft: 20 }}>
               <Svg height="400" width="400">
@@ -185,7 +185,7 @@ export default class TasteChart extends React.Component {
                 fontWeight: "bold",
               }}
             >
-              단맛
+              甘口
             </Text>
           </View>
           <View
@@ -203,7 +203,7 @@ export default class TasteChart extends React.Component {
                 fontWeight: "bold",
               }}
             >
-              쓴맛
+              苦味
             </Text>
             <Text
               style={{
@@ -213,14 +213,14 @@ export default class TasteChart extends React.Component {
                 fontWeight: "bold",
               }}
             >
-              신맛
+              酸味
             </Text>
           </View>
         </View>
       </View>
     ) : (
       <View style={{ marginLeft: 30 }}>
-        <Text>맛 리뷰가 부족합니다 </Text>
+        <Text>レビューが足りません。</Text>
       </View>
     );
   }

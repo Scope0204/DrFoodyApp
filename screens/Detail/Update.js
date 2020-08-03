@@ -151,7 +151,7 @@ export default class Update extends React.Component {
   update = async () => {
     const { content } = this.state;
     if (content == "") {
-      return Alert.alert("리뷰 내용이 없습니다");
+      return Alert.alert("レビューの内容がありません");
     }
     // 맛리뷰인지 아닌지 지정
     try {
@@ -225,7 +225,7 @@ export default class Update extends React.Component {
     const { review, mode } = this.state;
 
     if (review == "") {
-      return Alert.alert("리뷰 내용이 없습니다");
+      return Alert.alert("レビューの内容がありません");
     }
     //예 : 1
     if (id == 1) {
@@ -280,20 +280,20 @@ export default class Update extends React.Component {
         >
           <ModalContainer>
             <ModalTxtCon>
-              <Text>이대로 적용시키겠습니까?</Text>
+              <Text>このまま適用させますか?</Text>
             </ModalTxtCon>
             <ModalBtnCon>
               <ModalBtn
                 onPress={() => this.toggleModal(2)}
                 style={{ backgroundColor: "#EAECEE" }}
               >
-                <Text>아니오</Text>
+                <Text>いいえ</Text>
               </ModalBtn>
               <ModalBtn
                 onPress={() => this.toggleModal(1)}
                 style={{ backgroundColor: "#fdcc1f" }}
               >
-                <Text>예</Text>
+                <Text>はい</Text>
               </ModalBtn>
             </ModalBtnCon>
           </ModalContainer>
@@ -325,7 +325,7 @@ export default class Update extends React.Component {
         </StarCon>
         <ReviewCon>
           <ReviewInput
-            placeholder="리뷰는 솔직하게 적어주세요."
+            placeholder="レビューは正直に書いてください。"
             multiline={true}
             blurOnSubmit={true}
             onChangeText={(content) => this.setState({ content })}
@@ -337,13 +337,13 @@ export default class Update extends React.Component {
             style={{ marginRight: 20 }}
             onPress={() => this.props.navigation.navigate("Detail")}
           >
-            <Text>취소</Text>
+            <Text>キャンセル</Text>
           </Btn>
           <Btn style={{ marginRight: 10 }} onPress={() => this.toggleModal(3)}>
-            <Text style={{ fontWeight: "bold", color: "red" }}>삭제하기</Text>
+            <Text style={{ fontWeight: "bold", color: "red" }}>削除</Text>
           </Btn>
           <Btn style={{ marginRight: 10 }} onPress={() => this.toggleModal(4)}>
-            <Text style={{ fontWeight: "bold", color: "blue" }}>수정하기</Text>
+            <Text style={{ fontWeight: "bold", color: "blue" }}>修正</Text>
           </Btn>
         </BtnCon>
       </Container>

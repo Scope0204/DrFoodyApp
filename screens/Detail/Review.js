@@ -177,7 +177,7 @@ export default class Review extends React.Component {
               <Text
                 style={{ fontWeight: "bold", fontSize: 20, marginBottom: 5 }}
               >
-                개의
+                の
               </Text>
             </View>
           ) : (
@@ -195,7 +195,7 @@ export default class Review extends React.Component {
               <Text
                 style={{ fontWeight: "bold", fontSize: 20, marginBottom: 5 }}
               >
-                개의
+                の
               </Text>
             </View>
           )}
@@ -206,7 +206,7 @@ export default class Review extends React.Component {
             }}
           >
             <View style={{ justifyContent: "center" }}>
-              <Text style={{ fontSize: 20 }}>리뷰가 있어요</Text>
+              <Text style={{ fontSize: 20 }}>レビューがあります</Text>
             </View>
 
             {mode == 0 ? ( //전체
@@ -223,7 +223,7 @@ export default class Review extends React.Component {
                 }}
               >
                 <TouchableOpacity onPress={() => this.setState({ mode: 1 })}>
-                  <Text style={{ fontWeight: "bold" }}>전체 리뷰</Text>
+                  <Text style={{ fontWeight: "bold" }}>全体</Text>
                 </TouchableOpacity>
               </View>
             ) : (
@@ -241,9 +241,7 @@ export default class Review extends React.Component {
                 }}
               >
                 <TouchableOpacity onPress={() => this.setState({ mode: 0 })}>
-                  <Text style={{ color: "white", fontWeight: "bold" }}>
-                    맛 리뷰
-                  </Text>
+                  <Text style={{ color: "white", fontWeight: "bold" }}>味</Text>
                 </TouchableOpacity>
               </View>
             )}
@@ -315,7 +313,7 @@ export default class Review extends React.Component {
                                   color: "blue",
                                 }}
                               >
-                                수정
+                                修整
                               </Text>
                             </TouchableOpacity>
                           ) : null}
@@ -405,7 +403,7 @@ export default class Review extends React.Component {
                                     color: "blue",
                                   }}
                                 >
-                                  수정
+                                  修整
                                 </Text>
                               </TouchableOpacity>
                             ) : null}

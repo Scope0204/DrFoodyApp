@@ -11,17 +11,17 @@ const MaterialTop = createMaterialTopTabNavigator(
     Atention: {
       screen: AttentionScreen,
       navigationOptions: {
-        title: "찜한제품",
+        title: "お気に入り商品",
       },
     },
     SearchList: {
       screen: SearchListScreen,
-      navigationOptions: { title: "조회목록" },
+      navigationOptions: { title: "照会リスト" },
     },
 
     CurationScreen: {
       screen: CurationScreen,
-      navigationOptions: { title: "큐레이션" },
+      navigationOptions: { title: "キュレーション" },
     },
   },
   {
@@ -29,7 +29,7 @@ const MaterialTop = createMaterialTopTabNavigator(
       activeTintColor: "black",
       inactiveTintColor: "#6E6E6E",
       labelStyle: {
-        fontSize: 17,
+        fontSize: 16,
         fontWeight: "bold",
       },
       //탭 하단 선

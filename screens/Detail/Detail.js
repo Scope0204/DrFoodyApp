@@ -385,7 +385,7 @@ export default class Detail extends React.Component {
             activeOpacity={1}
             style={[one ? styles.border : null]}
           >
-            <Text style={[one ? styles.click : styles.noClick]}>원재료</Text>
+            <Text style={[one ? styles.click : styles.noClick]}>原材料</Text>
           </Button1>
           <Button2
             onPress={() =>
@@ -394,7 +394,7 @@ export default class Detail extends React.Component {
             activeOpacity={1}
             style={[two ? styles.border : null]}
           >
-            <Text style={[two ? styles.click : styles.noClick]}>맛</Text>
+            <Text style={[two ? styles.click : styles.noClick]}>味</Text>
           </Button2>
           <Button3
             onPress={() =>
@@ -403,7 +403,9 @@ export default class Detail extends React.Component {
             activeOpacity={1}
             style={[three ? styles.border : null]}
           >
-            <Text style={[three ? styles.click : styles.noClick]}>리뷰</Text>
+            <Text style={[three ? styles.click : styles.noClick]}>
+              レビュー
+            </Text>
           </Button3>
         </ButtonView>
 

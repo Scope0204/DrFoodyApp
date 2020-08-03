@@ -144,7 +144,7 @@ export default class PageOne extends React.Component {
           <Text style={styles.TextStyle}>ID </Text>
           <TextInput
             style={styles.inputBox}
-            placeholder={"사용하실 ID를 입력하세요"}
+            placeholder={"使用するIDを入力してください"}
             onChangeText={(user_id) => this.setState({ user_id })}
             value={user_id}
           />
@@ -152,7 +152,7 @@ export default class PageOne extends React.Component {
           <Text style={styles.TextStyle}>PW</Text>
           <TextInput
             style={styles.inputBox}
-            placeholder="사용하실 PW를 입력하세요"
+            placeholder="使用するPWを入力してください"
             secureTextEntry={true}
             onChangeText={(password) => this.setState({ password })}
             value={password}
@@ -161,7 +161,7 @@ export default class PageOne extends React.Component {
           <Text style={styles.TextStyle}>PW(CHECK)</Text>
           <TextInput
             style={styles.inputBox}
-            placeholder="PW를 재입력하세요"
+            placeholder="PWを再入力してください"
             secureTextEntry={true}
             onChangeText={(pwcheck) => this.setState({ pwcheck })}
             value={pwcheck}
@@ -170,7 +170,7 @@ export default class PageOne extends React.Component {
           <Text style={styles.TextStyle}>NICKNAME</Text>
           <TextInput
             style={styles.inputBox}
-            placeholder="사용하실 이름을 입력하세요"
+            placeholder="使用する名前を入力してください"
             onChangeText={(nickname) => this.setState({ nickname })}
             value={nickname}
           />

@@ -139,7 +139,7 @@ export default class ReviewPost extends React.Component {
     const { review } = this.state;
 
     if (review == "") {
-      return Alert.alert("리뷰 내용이 없습니다");
+      return Alert.alert("レビューの内容がありません");
     }
     //예 : 1
     if (id == 1) {
@@ -251,20 +251,20 @@ export default class ReviewPost extends React.Component {
         >
           <ModalContainer>
             <ModalTxtCon>
-              <Text>이대로 작성하시겠습니까?</Text>
+              <Text>このまま作成しますか？</Text>
             </ModalTxtCon>
             <ModalBtnCon>
               <ModalBtn
                 onPress={() => this.toggleModal(2)}
                 style={{ backgroundColor: "#EAECEE" }}
               >
-                <Text>아니오</Text>
+                <Text>いいえ</Text>
               </ModalBtn>
               <ModalBtn
                 onPress={() => this.toggleModal(1)}
                 style={{ backgroundColor: "#fdcc1f" }}
               >
-                <Text>예</Text>
+                <Text>はい</Text>
               </ModalBtn>
             </ModalBtnCon>
           </ModalContainer>
@@ -296,7 +296,7 @@ export default class ReviewPost extends React.Component {
         </StarCon>
         <ReviewCon>
           <ReviewInput
-            placeholder="리뷰는 솔직하게 적어주세요."
+            placeholder="レビューは正直に書いてください。"
             multiline={true}
             blurOnSubmit={true}
             onChangeText={(review) => this.setState({ review })}
@@ -309,10 +309,10 @@ export default class ReviewPost extends React.Component {
               this.props.navigation.navigate("Detail", { ReviewState: 0 })
             }
           >
-            <Text>취소</Text>
+            <Text>キャンセル</Text>
           </Btn>
           <Btn style={{ marginRight: 10 }} onPress={() => this.toggleModal(2)}>
-            <Text style={{ fontWeight: "bold" }}>작성하기</Text>
+            <Text style={{ fontWeight: "bold" }}>作成</Text>
           </Btn>
         </BtnCon>
       </Container>

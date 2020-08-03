@@ -42,14 +42,14 @@ export default class ListGraph extends React.Component {
         <TouchableOpacity onPress={() => this.click(1)}>
           <View style={click == 1 ? styles.select : styles.noSelect}>
             <Text style={click == 1 ? styles.selectTxt : styles.noSelectTxt}>
-              리스트
+              リスト
             </Text>
           </View>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => this.click(2)}>
           <View style={click == 2 ? styles.select : styles.noSelect}>
             <Text style={click == 2 ? styles.selectTxt : styles.noSelectTxt}>
-              그래프
+              グラフ
             </Text>
           </View>
         </TouchableOpacity>

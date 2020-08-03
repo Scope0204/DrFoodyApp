@@ -67,7 +67,7 @@ const TabNavigation = createBottomTabNavigator(
         Love: {
           screen: MaterialTop,
           navigationOptions: {
-            title: "관심제품",
+            title: "My page",
             ...LoveStyle,
           },
         },
@@ -92,7 +92,7 @@ const TabNavigation = createBottomTabNavigator(
         Chart: {
           screen: ChartScreen,
           navigationOptions: {
-            title: "랭킹",
+            title: "Ranking",
             ...headerStyles,
           },
         },

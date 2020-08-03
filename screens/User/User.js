@@ -189,7 +189,7 @@ export default class User extends React.Component {
                     />
 
                     <AvoidCon>
-                      <Title>기피 원재료</Title>
+                      <Title>注意すべき原材料</Title>
                       <View style={{ alignItems: "center" }}>
                         <DivBox>
                           <Text style={{ fontSize: 16 }}>{avoid}</Text>
@@ -206,7 +206,7 @@ export default class User extends React.Component {
                     />
 
                     <TasteTitle>
-                      <Title>맛 선호도</Title>
+                      <Title>味選好度</Title>
                     </TasteTitle>
 
                     <View style={{ alignItems: "center" }}>
@@ -218,7 +218,7 @@ export default class User extends React.Component {
                             fontWeight: "bold",
                           }}
                         >
-                          매운맛
+                          辛口
                         </Text>
                       </View>
                       <View
@@ -238,7 +238,7 @@ export default class User extends React.Component {
                             fontWeight: "bold",
                           }}
                         >
-                          짠맛
+                          塩味
                         </Text>
                         <View style={{ marginLeft: 20 }}>
                           <Svg height="400" width="400">
@@ -296,7 +296,7 @@ export default class User extends React.Component {
                             fontWeight: "bold",
                           }}
                         >
-                          단맛
+                          甘口
                         </Text>
                       </View>
                       <View
@@ -314,7 +314,7 @@ export default class User extends React.Component {
                             fontWeight: "bold",
                           }}
                         >
-                          쓴맛
+                          苦味
                         </Text>
                         <Text
                           style={{
@@ -324,7 +324,7 @@ export default class User extends React.Component {
                             fontWeight: "bold",
                           }}
                         >
-                          신맛
+                          酸味
                         </Text>
                       </View>
                     </View>

@@ -142,7 +142,7 @@ export default class Chart extends React.Component {
               fontSize: 16,
             }}
           >
-            카테고리 지정
+            カテゴリー指定
           </Text>
           <TouchableOpacity
             onPress={() => {
@@ -168,7 +168,7 @@ export default class Chart extends React.Component {
               onPress={() => this.setState({ category: 0 })}
             >
               <Text style={category == 0 ? styles.selectTxt : null}>
-                조회수
+                照会数
               </Text>
             </TouchableOpacity>
 
@@ -177,7 +177,7 @@ export default class Chart extends React.Component {
               onPress={() => this.setState({ category: 1 })}
             >
               <Text style={category == 1 ? styles.selectTxt : null}>
-                리뷰수
+                レビュー数
               </Text>
             </TouchableOpacity>
 
@@ -186,24 +186,31 @@ export default class Chart extends React.Component {
               onPress={() => this.setState({ category: 2 })}
             >
               <Text style={category == 2 ? styles.selectTxt : null}>
-                별점수
+                評点数
               </Text>
             </TouchableOpacity>
           </View>
         ) : null}
 
         {setting ? (
-          <Text style={{ marginLeft: 15, marginBottom: 7, fontSize: 14 }}>
-            기간
+          <Text
+            style={{
+              marginLeft: 15,
+              marginBottom: 7,
+              fontSize: 14,
+              fontWeight: "bold",
+            }}
+          >
+            期間
           </Text>
         ) : null}
         {setting ? (
           <DropDownPicker
             items={[
-              { label: "오늘", value: 1 },
-              { label: "일주일", value: 2 },
-              { label: "1달", value: 3 },
-              { label: "1년", value: 4 },
+              { label: "今日", value: 1 },
+              { label: "一週間", value: 2 },
+              { label: "1月", value: 3 },
+              { label: "1年", value: 4 },
             ]}
             defaultValue={state.date}
             containerStyle={{
@@ -228,9 +235,10 @@ export default class Chart extends React.Component {
               marginLeft: 15,
               marginBottom: 7,
               fontSize: 14,
+              fontWeight: "bold",
             }}
           >
-            나이대 / 국가 / 성별
+            年齢 ・ 国 ・ 性別
           </Text>
         ) : null}
         <View>
@@ -246,12 +254,12 @@ export default class Chart extends React.Component {
             >
               <DropDownPicker
                 items={[
-                  { label: "모든 나이", value: 0 },
-                  { label: "10대", value: 1 },
-                  { label: "20대", value: 2 },
-                  { label: "30대", value: 3 },
-                  { label: "40대", value: 4 },
-                  { label: "50대이상", value: 5 },
+                  { label: "全て", value: 0 },
+                  { label: "10代", value: 1 },
+                  { label: "20代", value: 2 },
+                  { label: "30代", value: 3 },
+                  { label: "40代", value: 4 },
+                  { label: "50代以上", value: 5 },
                 ]}
                 defaultValue={state.age}
                 containerStyle={{
@@ -270,7 +278,7 @@ export default class Chart extends React.Component {
 
               <DropDownPicker
                 items={[
-                  { label: "모든 국가", value: 0 },
+                  { label: "全て", value: 0 },
                   { label: "KOREA", value: 1 },
                   { label: "USA", value: 2 },
                   { label: "JAPAN", value: 3 },
@@ -288,9 +296,9 @@ export default class Chart extends React.Component {
 
               <DropDownPicker
                 items={[
-                  { label: "여", value: 0 },
-                  { label: "남", value: 1 },
-                  { label: "전체", value: 2 },
+                  { label: "女", value: 0 },
+                  { label: "男", value: 1 },
+                  { label: "全て", value: 2 },
                 ]}
                 defaultValue={state.sex}
                 containerStyle={{ width: 120, height: 40, marginRight: 10 }}
@@ -327,7 +335,11 @@ export default class Chart extends React.Component {
                 }}
                 onPress={() => this.reset()}
               >
-                <Text style={{ color: "white", fontSize: 18 }}>조회하기</Text>
+                <Text
+                  style={{ color: "white", fontSize: 18, fontWeight: "bold" }}
+                >
+                  照会
+                </Text>
               </TouchableOpacity>
             </View>
           ) : null}

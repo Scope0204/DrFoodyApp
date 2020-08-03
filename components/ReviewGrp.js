@@ -183,7 +183,7 @@ export default class ReviewGrp extends React.Component {
               }}
             >
               <Text style={{ fontWeight: "bold", width: 30, fontSize: 12 }}>
-                5점
+                5点
               </Text>
               <View style={{ width: 3 }} />
               <OrangeBar
@@ -210,7 +210,7 @@ export default class ReviewGrp extends React.Component {
               }}
             >
               <Text style={{ fontWeight: "bold", width: 30, fontSize: 12 }}>
-                4점
+                4点
               </Text>
               <View style={{ width: 3 }} />
               <OrangeBar
@@ -237,7 +237,7 @@ export default class ReviewGrp extends React.Component {
               }}
             >
               <Text style={{ fontWeight: "bold", width: 30, fontSize: 12 }}>
-                3점
+                3点
               </Text>
               <View style={{ width: 3 }} />
               <OrangeBar
@@ -264,7 +264,7 @@ export default class ReviewGrp extends React.Component {
               }}
             >
               <Text style={{ fontWeight: "bold", width: 30, fontSize: 12 }}>
-                2점
+                2点
               </Text>
               <View style={{ width: 3 }} />
               <OrangeBar
@@ -298,7 +298,7 @@ export default class ReviewGrp extends React.Component {
                   paddingLeft: 1.5,
                 }}
               >
-                1점
+                1点
               </Text>
               <View style={{ width: 3 }} />
               <OrangeBar

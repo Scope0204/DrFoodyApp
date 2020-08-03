@@ -240,20 +240,20 @@ export default class PageFour extends React.Component {
         >
           <ModalContainer>
             <ModalTxtCon>
-              <Text>회원가입을 진행하시겠습니까?</Text>
+              <Text>会員登録を実行しますか？</Text>
             </ModalTxtCon>
             <ModalBtnCon>
               <ModalBtn
                 onPress={() => this.toggleModal(2)}
                 style={{ backgroundColor: "#EAECEE" }}
               >
-                <Text>아니오</Text>
+                <Text>いいえ</Text>
               </ModalBtn>
               <ModalBtn
                 onPress={() => this.toggleModal(1)}
                 style={{ backgroundColor: "#ff5122" }}
               >
-                <Text style={{ color: "white", fontWeight: "bold" }}>예</Text>
+                <Text style={{ color: "white", fontWeight: "bold" }}>はい</Text>
               </ModalBtn>
             </ModalBtnCon>
           </ModalContainer>
@@ -269,10 +269,10 @@ export default class PageFour extends React.Component {
             borderRadius: 20,
           }}
         >
-          <Title>맛 선호도</Title>
-          <SmallTitle>해당 수치에 따른 맛 제품들을 추천해드립니다</SmallTitle>
+          <Title>味選好度</Title>
+          <SmallTitle>数値によって製品をお勧めします。</SmallTitle>
           <SmallTitle style={{ paddingBottom: 20 }}>
-            수치가 클수록 선호도가 올라갑니다
+            数値が大きいほど選好度が上がります。
           </SmallTitle>
         </View>
 
@@ -280,7 +280,7 @@ export default class PageFour extends React.Component {
           <TasteContainer>
             <TasteCtn style={{ marginTop: 20 }}>
               <TasteTitleCon>
-                <TasteTitle>매운맛</TasteTitle>
+                <TasteTitle>辛口</TasteTitle>
                 <Text style={{ fontWeight: "bold" }}></Text>
               </TasteTitleCon>
               <GaegeCon>
@@ -317,7 +317,7 @@ export default class PageFour extends React.Component {
 
             <TasteCtn>
               <TasteTitleCon>
-                <TasteTitle>단맛</TasteTitle>
+                <TasteTitle>甘口</TasteTitle>
               </TasteTitleCon>
               <GaegeCon>
                 <ShowGaege>
@@ -352,7 +352,7 @@ export default class PageFour extends React.Component {
 
             <TasteCtn>
               <TasteTitleCon>
-                <TasteTitle>신맛</TasteTitle>
+                <TasteTitle>酸味</TasteTitle>
               </TasteTitleCon>
               <GaegeCon>
                 <ShowGaege>
@@ -387,7 +387,7 @@ export default class PageFour extends React.Component {
 
             <TasteCtn>
               <TasteTitleCon>
-                <TasteTitle>쓴맛</TasteTitle>
+                <TasteTitle>苦味</TasteTitle>
               </TasteTitleCon>
               <GaegeCon>
                 <ShowGaege>
@@ -422,7 +422,7 @@ export default class PageFour extends React.Component {
 
             <TasteCtn>
               <TasteTitleCon>
-                <TasteTitle>짠맛</TasteTitle>
+                <TasteTitle>塩味</TasteTitle>
               </TasteTitleCon>
               <GaegeCon>
                 <ShowGaege>
