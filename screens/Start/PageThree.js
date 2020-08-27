@@ -163,15 +163,17 @@ export default class PageThree extends React.Component {
     return (
       <Container>
         <MainContianer>
-          <Title>기피 원재료</Title>
-          <SmallTitle>제품 검색 시 기피 원재료를 체크해드립니다</SmallTitle>
+          <Title>注意すべき原材料</Title>
+          <SmallTitle>
+            商品検索する時、注意すべき原材料をチェックします。
+          </SmallTitle>
           <SelectContainer>
             <TouchableOpacity
               onPress={() => this.setState({ select: 1 })}
               style={select == 1 ? styles.select : styles.noSelect}
             >
               <Text style={select == 1 ? styles.selectTitle : styles.title}>
-                빠른 선택
+                キーワード選択
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -179,7 +181,7 @@ export default class PageThree extends React.Component {
               style={select == 2 ? styles.select : styles.noSelect}
             >
               <Text style={select == 2 ? styles.selectTitle : styles.title}>
-                리스트
+                食材料リスト
               </Text>
             </TouchableOpacity>
           </SelectContainer>

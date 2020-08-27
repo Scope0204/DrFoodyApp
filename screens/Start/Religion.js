@@ -34,11 +34,11 @@ export default class Religion extends React.Component {
       //보낼때 배열에 담아서 보내야 함
       let list = [];
       if (id == 1) {
-        list = ["가재", "게", "새우", "조개", "돼지고기"];
+        list = ["ザリガニ", "カニ", "エビ", "貝", "豚肉"];
       } else if (id == 2) {
-        list = ["소", "개", "계란"];
+        list = ["牛", "犬", "卵"];
       } else if (id == 3) {
-        list = ["소", "계란"];
+        list = ["牛", "卵"];
       }
       this.props.material(list);
     } else {
@@ -55,37 +55,37 @@ export default class Religion extends React.Component {
           onPress={() => this.selected(1)}
           style={selected.indexOf(1) == -1 ? null : styles.selected}
         >
-          <TextList>이슬람교</TextList>
+          <TextList>イスラム教</TextList>
         </SelectView>
         <SelectView
           onPress={() => this.selected(2)}
           style={selected.indexOf(2) == -1 ? null : styles.selected}
         >
-          <TextList>힌두교</TextList>
+          <TextList>ヒンドゥー教</TextList>
         </SelectView>
         <SelectView
           onPress={() => this.selected(3)}
           style={selected.indexOf(3) == -1 ? null : styles.selected}
         >
-          <TextList>시크교</TextList>
+          <TextList>シク教</TextList>
         </SelectView>
         <SelectView onPress={() => this.selected(4)}>
-          <TextList>불교</TextList>
+          <TextList>仏教</TextList>
         </SelectView>
         <SelectView>
-          <TextList>유대교</TextList>
+          <TextList>ユダヤ教</TextList>
         </SelectView>
         <SelectView>
-          <TextList>기독교</TextList>
+          <TextList>キリスト教</TextList>
         </SelectView>
         <SelectView>
-          <TextList>베지테리언</TextList>
+          <TextList>ベジタリアン</TextList>
         </SelectView>
         <SelectView>
-          <TextList>세미베지테리언</TextList>
+          <TextList>セミベジタリアン</TextList>
         </SelectView>
         <SelectView>
-          <TextList>프루테리언</TextList>
+          <TextList>プルテリアン</TextList>
         </SelectView>
       </View>
     );

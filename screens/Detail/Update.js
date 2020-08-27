@@ -154,34 +154,34 @@ export default class Update extends React.Component {
       return Alert.alert("レビューの内容がありません");
     }
     // 맛리뷰인지 아닌지 지정
-    try {
-      await axios({
-        method: "post",
-        //   url: "http://192.168.0.22:5000/predictReview",
-        // url: "http://35.185.221.213:5000/predictReview",
-        url: "http://35.230.114.182:5000/predictReview",
+    // try {
+    //   await axios({
+    //     method: "post",
+    //     //   url: "http://192.168.0.22:5000/predictReview",
+    //     // url: "http://35.185.221.213:5000/predictReview",
+    //     url: "http://35.230.114.182:5000/predictReview",
 
-        headers: {
-          //응답에 대한 정보
-          Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
-          "Content-Type": "application/json",
-        },
-        data: {
-          review: content,
-        },
-      })
-        .then((response) => {
-          if (response.data.taste) {
-            this.setState({ taste: response.data.taste });
-            console.log("맛 등록 ", this.state.taste);
-          } else {
-            console.log("no");
-          }
-        })
-        .catch((error) => console.log(error));
-    } catch (error) {
-      console.log(error);
-    }
+    //     headers: {
+    //       //응답에 대한 정보
+    //       Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
+    //       "Content-Type": "application/json",
+    //     },
+    //     data: {
+    //       review: content,
+    //     },
+    //   })
+    //     .then((response) => {
+    //       if (response.data.taste) {
+    //         this.setState({ taste: response.data.taste });
+    //         console.log("맛 등록 ", this.state.taste);
+    //       } else {
+    //         console.log("no");
+    //       }
+    //     })
+    //     .catch((error) => console.log(error));
+    // } catch (error) {
+    //   console.log(error);
+    // }
     this.update2();
   };
 

@@ -21,7 +21,7 @@ const MaterialTop = createMaterialTopTabNavigator(
 
     CurationScreen: {
       screen: CurationScreen,
-      navigationOptions: { title: "キュレーション" },
+      navigationOptions: { title: "商品レコメンド" },
     },
   },
   {

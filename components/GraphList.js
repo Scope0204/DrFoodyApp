@@ -69,7 +69,9 @@ export default class GraphList extends React.Component {
     try {
       await axios({
         method: "post",
-        url: "http://35.230.114.182:5000/foodDict",
+        // url: "http://35.230.114.182:5000/foodDict",
+        url: "http://34.82.46.49:5000/foodDict",
+
         headers: {
           //응답에 대한 정보
           Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
@@ -81,7 +83,8 @@ export default class GraphList extends React.Component {
       })
         .then((response) => {
           this.setState({ review: [] });
-          console.log(response.data);
+          console.log(response.data.keyword_dict[0].keyword);
+          console.log(e);
 
           for (var key = 0; key < 5; key++) {
             var list = response.data.keyword_dict[key];
@@ -100,6 +103,8 @@ export default class GraphList extends React.Component {
           Alert.alert("データセット不足", "グラフを表すことができません。");
         });
     } catch (err) {
+      alert("bb");
+
       console.log(err);
     }
   };
@@ -143,7 +148,7 @@ export default class GraphList extends React.Component {
         <View>
           <Text style={{ fontWeight: "bold", marginLeft: 15 }}>グラフ</Text>
           <Text style={{ fontSize: 12, marginLeft: 15 }}>
-            カテゴリーによって上位5つの製品を示します
+            カテゴリーによって上位5つの商品を示します
           </Text>
         </View>
 
@@ -230,7 +235,7 @@ export default class GraphList extends React.Component {
               }}
             >
               <Text style={{ fontSize: 15, fontWeight: "700" }}>
-                グラフを表示するには上の製品をクリックしてください
+                グラフを表示するには上の商品をクリックしてください
               </Text>
               <View
                 style={{

@@ -29,11 +29,11 @@ export default class StartModal extends React.Component {
             bottom: 130,
             left: 10,
             color: "white",
-            fontSize: 20,
-            fontWeight: "200",
+            fontSize: 18,
+            fontWeight: "600",
           }}
         >
-          카메라 버튼을 클릭하여 제품을 조회해 보세요!
+          ボタンをクリックして製品を照会してください！
         </Text>
 
         <View
@@ -67,9 +67,6 @@ export default class StartModal extends React.Component {
             size={55}
             color="white"
           />
-          <Text style={{ color: "white", marginTop: 10 }}>
-            클릭 시 메인으로 이동합니다
-          </Text>
         </View>
       </Modal>
     );

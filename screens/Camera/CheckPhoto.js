@@ -82,7 +82,7 @@ export default class LinkFail extends React.Component {
       <View style={{ flex: 1 }}>
         <Header>
           <Text style={{ fontSize: 26, fontWeight: "bold", color: "#5DADE2" }}>
-            인식 성공!
+            認識されました!
           </Text>
         </Header>
         <Body>
@@ -92,7 +92,7 @@ export default class LinkFail extends React.Component {
             style={{ width: 200, height: 200, marginBottom: 80 }}
           />
           <Text style={{ fontSize: 18, marginBottom: 5 }}>
-            해당 제품이 맞습니까?
+            お探しの商品ですか?
           </Text>
         </Body>
         <BtnCon>
@@ -113,7 +113,7 @@ export default class LinkFail extends React.Component {
               })
             }
           >
-            <Text style={{ fontSize: 20, color: "white" }}>네, 맞습니다!</Text>
+            <Text style={{ fontSize: 20, color: "white" }}>はい</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={{
@@ -128,9 +128,7 @@ export default class LinkFail extends React.Component {
             //   onPress={() => this.postPhoto(photoUri)}
             onPress={() => this.props.navigation.navigate("Camera")}
           >
-            <Text style={{ fontSize: 20, color: "white" }}>
-              아니오, 잘못된것같습니다
-            </Text>
+            <Text style={{ fontSize: 20, color: "white" }}>いいえ</Text>
           </TouchableOpacity>
         </BtnCon>
       </View>

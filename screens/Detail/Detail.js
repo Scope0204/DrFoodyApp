@@ -116,13 +116,13 @@ export default class Detail extends React.Component {
     if (reviewState == 1) {
       //0 취소 1 작성 2 삭제 3 수정
       reviewState == 0;
-      Alert.alert("작성되었습니다");
+      Alert.alert("作成されました");
     } else if (reviewState == 2) {
       reviewState == 0;
-      Alert.alert("삭제되었습니다");
+      Alert.alert("削除されました");
     } else if (reviewState == 3) {
       reviewState == 0;
-      Alert.alert("수정되었습니다");
+      Alert.alert("修正されました");
     }
     //음식정보 가져오기
     try {

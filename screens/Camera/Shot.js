@@ -62,7 +62,7 @@ export default class Shot extends React.Component {
   }
 
   componentDidMount = async () => {
-    Alert.alert("", "해당영역에 맞게 촬영해 주세요");
+    Alert.alert("", "領域に合わせて撮影してください。");
 
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     console.log(status);
@@ -73,7 +73,7 @@ export default class Shot extends React.Component {
     }
     const { navigation } = this.props;
     this.focusListener = navigation.addListener("didFocus", () => {
-      Alert.alert("", "해당영역에 맞게 촬영해 주세요");
+      Alert.alert("", "領域に合わせて撮影してください。");
     });
   };
 

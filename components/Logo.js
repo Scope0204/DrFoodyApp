@@ -6,8 +6,13 @@ export default class Logo extends React.Component {
     return (
       <View style={styles.container}>
         <Image
-          style={{ width: 180, height: 180, resizeMode: "contain" }}
-          source={require("../images/Logo.png")}
+          style={{
+            width: 180,
+            height: 180,
+            resizeMode: "contain",
+            marginLeft: 20,
+          }}
+          source={require("../images/Logo3.png")}
           //   source={require("../images/logo.png")}
         />
       </View>

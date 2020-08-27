@@ -51,7 +51,7 @@ const MainNavigation = createStackNavigator(
     PhotoPost: {
       screen: PostScreen,
       navigationOptions: {
-        title: "전송할 사진",
+        title: "転送する写真",
       },
     },
     Review: {

@@ -28,7 +28,7 @@ export default class SearchBar extends React.Component {
             color: "#3A3A3A",
           }}
         >
-          제품 이름으로 검색
+          製品名で検索
         </Text>
       </View>
     );
@@ -39,11 +39,11 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
     width: width - 40,
-    height: 45,
+    height: 40,
     borderStyle: "solid",
-    borderRadius: 20,
-    borderWidth: 1.5,
-    borderColor: "#BDBDBD",
+    borderRadius: 5,
+    borderWidth: 2,
+    borderColor: "orange",
     flexDirection: "row",
     alignItems: "center",
   },

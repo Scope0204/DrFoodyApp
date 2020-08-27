@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import axios from "axios";
 import styled from "styled-components";
+import Loading from ".././../components/Loading";
 
 const { width, height } = Dimensions.get("window");
 
@@ -69,7 +70,7 @@ export default class Material extends React.Component {
         },
       })
         .then((response) => {
-          console.log(response.data);
+          //   console.log(response.data.material_name);
           if (response) {
             for (var key in response.data) {
               var List = response.data[key];
@@ -80,6 +81,8 @@ export default class Material extends React.Component {
                   type: List.type,
                 }),
               });
+
+              console.log(List.material_name);
             }
           } else {
             console.log("no");
@@ -154,7 +157,7 @@ export default class Material extends React.Component {
                 borderRadius: 10,
               }}
             >
-              <Text style={{ fontSize: 16 }}>데이터가 없습니다</Text>
+              <Text style={{ fontSize: 16 }}>データがありません</Text>
             </View>
           </View>
         ) : (
@@ -197,7 +200,11 @@ export default class Material extends React.Component {
           </View>
         )}
       </View>
-    ) : null;
+    ) : (
+      <View style={{ height: 390 }}>
+        <Loading />
+      </View>
+    );
   }
 }
 

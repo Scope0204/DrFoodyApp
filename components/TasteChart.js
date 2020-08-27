@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, Image, ScrollView, Dimensions } from "react-native";
 import axios from "axios"; // npm i axios@0.18.0
+import Loading from "./Loading";
 
 const { width, height } = Dimensions.get("window");
 import Svg, { Polygon } from "react-native-svg";
@@ -15,10 +16,12 @@ export default class TasteChart extends React.Component {
     //
     this.setState({ taste: [] });
     const food_name = this.props.food_name;
+    // const food_name = "불닭볶음면";
+
     try {
       await axios({
         method: "post",
-        url: "http://35.230.114.182:5000/tasteNumber",
+        url: "http://34.82.46.49:5000/tasteNumber",
         headers: {
           Accept: "application/json", // 서버가 json 타입으로 변환해서 사용
           "Content-Type": "application/json",
@@ -86,7 +89,7 @@ export default class TasteChart extends React.Component {
         })
         .catch((err) => console.log(err));
     } catch (err) {
-      console.log(err);
+      console.log("안되노");
     }
   };
 
@@ -219,8 +222,8 @@ export default class TasteChart extends React.Component {
         </View>
       </View>
     ) : (
-      <View style={{ marginLeft: 30 }}>
-        <Text>レビューが足りません。</Text>
+      <View style={{ height: 300 }}>
+        <Loading />
       </View>
     );
   }

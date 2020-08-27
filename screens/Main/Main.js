@@ -24,6 +24,7 @@ const { width, height } = Dimensions.get("window");
 const Bar = styled.View`
   background-color: #f5f5f5;
   height: 1px;
+
   width: ${width - 30}px;
 `;
 
@@ -37,7 +38,7 @@ const ContainerOne = styled.View`
 `;
 
 const ContainerTwo = styled.View`
-  flex: 3;
+  flex: 2.7;
   background-color: #fff;
   border-top-right-radius: 30px;
   border-top-left-radius: 30px;
@@ -48,8 +49,7 @@ const LoveCon = styled.TouchableOpacity`
   background-color: white;
   margin: 8px;
   border-radius: 10px;
-  border: #ecf0f1;
-  box-shadow: 1px 2px 1px #b4b4b4;
+  border: #ecf0f1 2px;
   justify-content: center;
   align-items: center;
 `;
@@ -138,12 +138,13 @@ export default class Main extends React.Component {
       })
         .then((response) => {
           if (response) {
-            // console.log(response.data);
-            for (var key in response.data) {
+            console.log(response.data);
+            for (var key = 0; key < 10; key++) {
               var list = response.data[key];
               this.setState({
                 food_list: this.state.food_list.concat({
                   id: key,
+                  ranking: parseInt(key) + 1,
                   name: list.food_name,
                   photo: list.food_photo,
                   point: list.rPoint, // 좋아요
@@ -167,8 +168,18 @@ export default class Main extends React.Component {
     return show ? (
       <Container>
         <StartModal />
+        <View style={{ position: "absolute", zIndex: 1, top: -40 }}>
+          <Image
+            style={{
+              width: 500,
+              height: 300,
+              resizeMode: "contain",
+            }}
+            source={require("../../images/dot.png")}
+          />
+        </View>
         <LinearGradient
-          colors={["orange", "#FA5820", "transparent"]}
+          colors={["#FDBC7B", "#FD9E3F"]}
           style={{
             position: "absolute",
             left: 0,
@@ -177,99 +188,92 @@ export default class Main extends React.Component {
             height: 400,
           }}
         />
+
         <ContainerOne>
-          <View style={{ flex: 1 }}></View>
+          <View
+            style={{
+              flex: 1,
+            }}
+          ></View>
+
           <View
             style={{
               flex: 1.5,
               flexDirection: "row",
               justifyContent: "space-between",
               alignItems: "center",
-              marginTop: 25,
+              marginLeft: 5,
+              marginBottom: 10,
             }}
           >
-            <View>
+            <View style={{ flex: 1 }}>
+              <Image
+                style={{
+                  width: 70,
+                  height: 70,
+                  resizeMode: "contain",
+                  marginLeft: 10,
+                }}
+                source={require("../../images/user.png")}
+              />
               <Text
                 style={{
-                  fontSize: 26,
+                  fontSize: 24,
                   fontWeight: "bold",
                   color: "white",
-                  paddingLeft: 25,
+                  paddingLeft: 20,
                 }}
               >
                 Hi,{" " + user_name}
               </Text>
               <Text
                 style={{
-                  fontSize: 15,
+                  fontSize: 13,
+                  fontWeight: "500",
                   color: "white",
-                  paddingLeft: 25,
+                  paddingLeft: 20,
                   paddingTop: 5,
                 }}
               >
-                자신에게 맞는 제품을 검색해보세요
+                製品を検索してみてください
               </Text>
             </View>
-
-            {user_photo == "" ? (
-              <FontAwesome
-                name="user-circle"
-                size={65}
-                color="white"
-                style={{ marginRight: 20 }}
-              />
-            ) : (
-              <View
-                style={{
-                  borderWidth: 5,
-                  borderRadius: 200,
-                  width: 50,
-                  height: 50,
-                  marginRight: 20,
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                {/* <Image
-                  source={{
-                    uri: user_photo,
-                  }}
-                  style={{
-                    width: 40,
-                    height: 40,
-                    borderRadius: 100,
-                    position: "absolute",
-                    zIndex: 1,
-                  }}
-                /> */}
-              </View>
-            )}
           </View>
         </ContainerOne>
+        <View style={{ position: "absolute", top: 48, right: 0, zIndex: 1 }}>
+          <Image
+            style={{
+              width: 200,
+              height: 200,
+              resizeMode: "contain",
+            }}
+            source={require("../../images/iller.png")}
+          />
+        </View>
 
         <ContainerTwo>
           <TouchableOpacity
             onPress={() => this.props.navigation.navigate("Search")}
-            style={{ alignItems: "center", marginTop: 20, marginBottom: 30 }}
+            style={{ alignItems: "center", marginTop: 40, marginBottom: 20 }}
             activeOpacity={0.6}
           >
             <SearchBar />
           </TouchableOpacity>
 
-          <View style={{ flex: 1, marginBottom: 10 }}>
+          <View style={{ flex: 0.8, marginBottom: 10 }}>
             <View
               style={{
                 justifyContent: "center",
+                alignItems: "center",
               }}
             >
               <Text
                 style={{
                   fontWeight: "bold",
-                  fontSize: 20,
-                  marginLeft: 20,
+                  fontSize: 18,
                 }}
               >
-                관심제품
+                My page
               </Text>
             </View>
             <View
@@ -277,7 +281,7 @@ export default class Main extends React.Component {
                 flexDirection: "row",
                 justifyContent: "space-between",
                 flex: 1,
-                marginTop: 10,
+                marginTop: 0,
                 marginBottom: 10,
               }}
             >
@@ -286,14 +290,14 @@ export default class Main extends React.Component {
                 onPress={() => this.props.navigation.navigate("Atention")}
               >
                 <Entypo name="heart-outlined" size={46} color="#E43E3E" />
-                <LoveTxt>찜한제품</LoveTxt>
+                <LoveTxt>お気に入り商品</LoveTxt>
               </LoveCon>
               <LoveCon
                 onPress={() => this.props.navigation.navigate("SearchList")}
               >
                 <AntDesign name="search1" size={46} color="gray" />
 
-                <LoveTxt>조회목록</LoveTxt>
+                <LoveTxt>照会リスト</LoveTxt>
               </LoveCon>
               <LoveCon
                 style={{ marginRight: 20 }}
@@ -301,21 +305,19 @@ export default class Main extends React.Component {
               >
                 <AntDesign name="like2" size={46} color="#1E6EF1" />
 
-                <LoveTxt>큐레이션</LoveTxt>
+                <LoveTxt>キュレーション</LoveTxt>
               </LoveCon>
             </View>
           </View>
 
           <View style={{ flex: 1.5 }}>
-            <View style={{ alignItems: "center" }}>
-              <Bar />
-            </View>
+            <View style={{ alignItems: "center" }}></View>
             <View
               style={{
                 flexDirection: "row",
-                justifyContent: "space-between",
-                paddingBottom: 25,
-                paddingTop: 20,
+                justifyContent: "center",
+                paddingBottom: 10,
+                paddingTop: 10,
                 // backgroundColor: "red",
                 alignItems: "center",
               }}
@@ -323,25 +325,11 @@ export default class Main extends React.Component {
               <Text
                 style={{
                   fontWeight: "bold",
-                  fontSize: 20,
-                  marginLeft: 20,
+                  fontSize: 18,
                 }}
               >
-                랭킹 리스트
+                Ranking List
               </Text>
-              <TouchableOpacity
-                onPress={() => this.props.navigation.navigate("Chart")}
-              >
-                <Text
-                  style={{
-                    fontSize: 16,
-                    marginRight: 20,
-                    color: "#808B96",
-                  }}
-                >
-                  더보기
-                </Text>
-              </TouchableOpacity>
             </View>
             <FlatList
               data={food_list}
@@ -350,7 +338,6 @@ export default class Main extends React.Component {
               showsHorizontalScrollIndicator={false}
               renderItem={({ item }) => <List list={item} />}
               info={this.info}
-              style={{ paddingLeft: 0 }}
             />
           </View>
         </ContainerTwo>

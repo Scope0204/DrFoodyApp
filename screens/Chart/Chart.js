@@ -186,7 +186,7 @@ export default class Chart extends React.Component {
               onPress={() => this.setState({ category: 2 })}
             >
               <Text style={category == 2 ? styles.selectTxt : null}>
-                評点数
+                評価点数
               </Text>
             </TouchableOpacity>
           </View>

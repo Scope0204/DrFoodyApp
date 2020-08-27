@@ -21,10 +21,11 @@ const { width, height } = Dimensions.get("screen");
 
 const CardCon = styled.View`
   width: 315px;
-  height: 465px;
+  height: 495px;
   background-color: white;
   align-items: center;
   border-radius: 15px;
+  border: 1px #f5f5f5;
   box-shadow: 2px 2px 2px gray;
 `;
 export default class Curation extends React.Component {
@@ -99,8 +100,8 @@ export default class Curation extends React.Component {
             <FontAwesome
               name={"star"}
               color={"orange"}
-              size={16}
-              style={{ marginHorizontal: 6 }}
+              size={22}
+              style={{ marginHorizontal: 2 }}
             />
           </View>
         );
@@ -110,8 +111,8 @@ export default class Curation extends React.Component {
             <FontAwesome
               name={"star"}
               color={"#b2b2b2"}
-              size={16}
-              style={{ marginHorizontal: 6 }}
+              size={22}
+              style={{ marginHorizontal: 2 }}
             />
           </View>
         );
@@ -119,31 +120,40 @@ export default class Curation extends React.Component {
     }
     return (
       <CardCon>
-        <Text style={{ fontSize: 20, fontWeight: "bold", paddingTop: 20 }}>
-          {item.food_name}
+        <Text
+          style={{
+            fontSize: 20,
+            fontWeight: "bold",
+            paddingTop: 30,
+          }}
+        >
+          {item.food_name.length > 10
+            ? item.food_name.substring(0, 10) + "...."
+            : item.food_name}
         </Text>
 
-        <View style={{ flexDirection: "row", padding: 20 }}>{stars}</View>
+        <View style={{ flexDirection: "row", paddingTop: 10, marginBottom: 0 }}>
+          {stars}
+        </View>
 
         <Image
           source={{ uri: item.food_photo }}
           style={{
             width: 180,
             height: 180,
-            borderRadius: 15,
-            marginBottom: 10,
+            marginBottom: -10,
           }}
-          imageStyle={{ borderRadius: 15 }}
+          //   imageStyle={{ borderRadius: 15 }}
           resizeMode="cover"
         />
 
-        <View>
+        <View style={{ flex: 1 }}>
           <View
             style={{
-              height: 90,
+              flex: 4,
+              height: 80,
               alignItems: "center",
               justifyContent: "center",
-              //   backgroundColor: "red",
             }}
           >
             <TasteImg
@@ -151,30 +161,39 @@ export default class Curation extends React.Component {
               taste_name={item.taste_name}
             />
           </View>
+
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "flex-start",
+              alignItems: "center",
+              marginBottom: 20,
+            }}
+          >
+            <TouchableOpacity
+              onPress={() => {
+                this.props.navigation.navigate("Detail", {
+                  Id: item.food_id,
+                  User: user_id,
+                });
+              }}
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+                width: 150,
+                height: 40,
+                borderRadius: 10,
+                backgroundColor: "#ff5122",
+              }}
+            >
+              <Text
+                style={{ fontSize: 16, color: "white", fontWeight: "bold" }}
+              >
+                Check This
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
-
-        <TouchableOpacity
-          onPress={() => {
-            // this.goDetail(item.food_id,user_id);
-
-            this.props.navigation.navigate("Detail", {
-              Id: item.food_id,
-              User: user_id,
-            });
-          }}
-          style={{
-            alignItems: "center",
-            justifyContent: "center",
-            width: 250,
-            height: 50,
-            borderRadius: 10,
-            backgroundColor: "black",
-          }}
-        >
-          <Text style={{ fontSize: 16, color: "white", fontWeight: "bold" }}>
-            Check This
-          </Text>
-        </TouchableOpacity>
       </CardCon>
     );
   };
@@ -184,17 +203,25 @@ export default class Curation extends React.Component {
     // console.log(state.carouselItems);
 
     return state.on ? (
-      <View style={{ backgroundColor: "#f5f5f5" }}>
+      <View style={{ backgroundColor: "f5f5f5" }}>
         <View
           style={{
             backgroundColor: "white",
             padding: 10,
             marginTop: 10,
-            height: 55,
+            height: 60,
             paddingLeft: 20,
+            borderColor: "#f5f5f5",
+            justifyContent: "flex-start",
+            borderBottomWidth: 5,
           }}
         >
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
             <Text
               style={{
                 fontWeight: "bold",
@@ -202,7 +229,7 @@ export default class Curation extends React.Component {
                 paddingBottom: 5,
               }}
             >
-              큐레이션
+              商品レコメンド
             </Text>
             <AntDesign
               name="questioncircle"
@@ -217,30 +244,17 @@ export default class Curation extends React.Component {
               fontSize: 12,
             }}
           >
-            User분의 맛기호도에 따른 음식을 추천해드리는 서비스 입니다.
+            ユーザーの好みに合う商品をおすすめするサービスです。
           </Text>
         </View>
 
         <View
           style={{
-            backgroundColor: "#f5f5f5",
+            backgroundColor: "white",
             height: height,
             marginTop: 30,
           }}
         >
-          <View style={{ alignItems: "center" }}>
-            <Text
-              style={{
-                fontSize: 16,
-                color: "orange",
-                fontWeight: "400",
-                fontWeight: "bold",
-              }}
-            >
-              Drag and drop to view the list
-            </Text>
-          </View>
-
           <View
             style={{
               alignItems: "center",

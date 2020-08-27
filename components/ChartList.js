@@ -42,7 +42,7 @@ export default class ChartList extends React.Component {
         <View style={{ marginBottom: 10, marginLeft: 5 }}>
           <Text style={{ fontWeight: "bold" }}>リスト</Text>
           <Text style={{ fontSize: 12 }}>
-            カテゴリーによって上位１０の製品を示します。
+            カテゴリーによって上位１０の商品を示します。
           </Text>
         </View>
 

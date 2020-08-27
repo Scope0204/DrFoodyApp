@@ -181,7 +181,7 @@ export default class Attention extends React.Component {
                               style={{ marginRight: 10 }}
                             />
                             <Text>{list.point}</Text>
-                            <Text>점</Text>
+                            <Text>点</Text>
                           </View>
                         ) : (
                           <View
@@ -197,7 +197,7 @@ export default class Attention extends React.Component {
                               style={{ marginRight: 10 }}
                             />
                             <Text>0</Text>
-                            <Text>점</Text>
+                            <Text>点</Text>
                           </View>
                         )}
                       </View>

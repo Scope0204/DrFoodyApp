@@ -94,11 +94,18 @@ export default class List extends React.Component {
     // 모달에 따라 리스트 변화
     if (id == 1) {
       this.setState({
-        kinds: ["할라피뇨", "토마토", "오이", "콜라비", "양상추", "브로콜리"],
+        kinds: [
+          "ハラペーニョ",
+          "トマト",
+          "キュウリ",
+          "コールラビ",
+          "レタス",
+          "ブロッコリー",
+        ],
       });
     } else if (id == 2) {
       this.setState({
-        kinds: ["돼지고기", "소고기", "양고기", "닭고기", "오리고기"],
+        kinds: ["豚肉", "牛肉", "羊肉", "鶏肉", "鴨肉"],
       });
     }
   };
@@ -146,24 +153,27 @@ export default class List extends React.Component {
                 : null}
             </ModalList>
             <ModalBtnCon onPress={this.toggleModal}>
-              <ModalBtn>추가</ModalBtn>
+              <ModalBtn>選択</ModalBtn>
             </ModalBtnCon>
           </ModalContainer>
         </Modal>
         <SelectView onPress={() => this.toggleModal(1)}>
-          <TextList>야채</TextList>
+          <TextList>野菜</TextList>
         </SelectView>
         <SelectView onPress={() => this.toggleModal(2)}>
-          <TextList>고기</TextList>
+          <TextList>肉</TextList>
         </SelectView>
         <SelectView>
-          <TextList>생선</TextList>
+          <TextList>魚</TextList>
         </SelectView>
         <SelectView>
-          <TextList>견과류</TextList>
+          <TextList>種実類</TextList>
         </SelectView>
         <SelectView>
-          <TextList>과일</TextList>
+          <TextList>果物</TextList>
+        </SelectView>
+        <SelectView>
+          <TextList>貝類</TextList>
         </SelectView>
       </View>
     );

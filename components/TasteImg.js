@@ -7,22 +7,28 @@ import { Text, View, Image } from "react-native";
 import styled from "styled-components";
 
 const Bar = styled.View`
-  width: 36px;
-  height: 40px;
+  width: 25px;
+  height: 25px;
   border-radius: 3px;
-  margin-left: 1px;
   border: 1px solid #ecf0f1;
   box-shadow: 2px 2px 2px #f1f1f1;
 `;
 
-const TasteTxt = styled.Text`
-  font-weight: 700;
-  font-size: 26px;
-  padding-left: 10px;
-  padding-bottom: 2px;
-`;
 export default class TasteImg extends React.Component {
   render() {
+    let noSelect = []; // 제품 맛 레벨
+    for (var b = 0; b < 5; b++) {
+      noSelect.push(
+        //게이지 바 . 레벨 반올림해서 나타냄
+        <View
+          key={b}
+          style={{ alignItems: "center", justifyContent: "center" }}
+        >
+          <Bar style={{ backgroundColor: "#C6C6C6" }} />
+        </View>
+      );
+    }
+
     let tasteLv = []; // 제품 맛 레벨
     for (var a = 0; a < 5; a++) {
       tasteLv.push(
@@ -57,7 +63,7 @@ export default class TasteImg extends React.Component {
     let topTaste = [];
     topTaste.push(
       //제품 맛에 따라 이미지 변화줌
-      <View style={{ flexDirection: "row" }}>
+      <View style={{ flexDirection: "column" }}>
         {this.props.taste_name == "매운맛" ? (
           <Image
             source={require("../images/taste/chili.png")}
@@ -112,33 +118,72 @@ export default class TasteImg extends React.Component {
     );
 
     return (
-      <View style={{ paddingBottom: 30 }}>
-        <View
-          style={{
-            paddingBottom: 5,
-          }}
-        >
-          {/* <TasteTxt
-            style={
-              this.props.taste_name == "매운맛"
-                ? { color: "red" }
-                : this.props.taste_name == "단맛"
-                ? { color: "orange" }
-                : this.props.taste_name == "신맛"
-                ? { color: "yellow" }
-                : this.props.taste_name == "쓴맛"
-                ? { color: "green" }
-                : this.props.taste_name == "짠맛"
-                ? { color: "blue" }
-                : null
-            }
-          >
-            {this.props.taste_name}
-          </TasteTxt> */}
+      <View
+        style={{
+          paddingBottom: 10,
+          flexDirection: "row",
+          justifyContent: "space-between",
+          width: 200,
+        }}
+      >
+        <View style={{ flexDirection: "column-reverse" }}>
+          <Image
+            source={require("../images/taste/chili.png")}
+            style={{
+              width: 35,
+              height: 35,
+              marginTop: 5,
+            }}
+          />
+          {this.props.taste_name == "매운맛" ? tasteLv : noSelect}
         </View>
-        <View style={{ flexDirection: "row" }}>
-          {topTaste}
-          {tasteLv}
+
+        <View style={{ flexDirection: "column-reverse" }}>
+          <Image
+            source={require("../images/taste/honey.png")}
+            style={{
+              width: 35,
+              height: 35,
+              marginTop: 5,
+            }}
+          />
+          {this.props.taste_name == "단맛" ? tasteLv : noSelect}
+        </View>
+
+        <View style={{ flexDirection: "column-reverse" }}>
+          <Image
+            source={require("../images/taste/lemon.png")}
+            style={{
+              width: 35,
+              height: 35,
+              marginTop: 5,
+            }}
+          />
+          {this.props.taste_name == "신맛" ? tasteLv : noSelect}
+        </View>
+
+        <View style={{ flexDirection: "column-reverse" }}>
+          <Image
+            source={require("../images/taste/tea.png")}
+            style={{
+              width: 35,
+              height: 35,
+              marginTop: 5,
+            }}
+          />
+          {this.props.taste_name == "쓴맛" ? tasteLv : noSelect}
+        </View>
+
+        <View style={{ flexDirection: "column-reverse" }}>
+          <Image
+            source={require("../images/taste/salt.png")}
+            style={{
+              width: 35,
+              height: 35,
+              marginTop: 5,
+            }}
+          />
+          {this.props.taste_name == "짠맛" ? tasteLv : noSelect}
         </View>
       </View>
     );

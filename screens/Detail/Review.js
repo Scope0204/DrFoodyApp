@@ -11,6 +11,7 @@ import axios from "axios"; // npm i axios@0.18.0
 import styled from "styled-components";
 import { FontAwesome } from "@expo/vector-icons";
 import Translate from "../../components/Translate";
+import Loading from "../../components/Loading";
 
 const { width, height } = Dimensions.get("window");
 
@@ -208,7 +209,7 @@ export default class Review extends React.Component {
             <View style={{ justifyContent: "center" }}>
               <Text style={{ fontSize: 20 }}>レビューがあります</Text>
             </View>
-
+            {/* // 맛페이지인지 아닌지
             {mode == 0 ? ( //전체
               <View
                 style={{
@@ -244,7 +245,7 @@ export default class Review extends React.Component {
                   <Text style={{ color: "white", fontWeight: "bold" }}>味</Text>
                 </TouchableOpacity>
               </View>
-            )}
+            )} */}
           </View>
         </View>
 
@@ -268,12 +269,18 @@ export default class Review extends React.Component {
                           source={require("../../images/country/korea.png")}
                           style={{ width: 60, height: 60 }}
                         />
-                      ) : (
+                      ) : list.country_code == 392 ? (
                         <Image
-                          source={require("../../images/country/korea.png")}
+                          source={require("../../images/country/japan.png")}
                           style={{ width: 60, height: 60 }}
                         />
-                      )}
+                      ) : list.country_code == 840 ? (
+                        <Image
+                          source={require("../../images/country/america.png")}
+                          style={{ width: 60, height: 60 }}
+                        />
+                      ) : null}
+
                       <View
                         style={{
                           width: width / 1.35,
@@ -431,6 +438,10 @@ export default class Review extends React.Component {
               );
             })}
       </View>
-    ) : null;
+    ) : (
+      <View style={{ height: 390 }}>
+        <Loading />
+      </View>
+    );
   }
 }

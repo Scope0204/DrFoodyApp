@@ -35,6 +35,10 @@ export default class Translate extends React.Component {
   componentDidMount = () => {
     if (this.props.country == 410) {
       this.setState({ nowCountry: "kr" });
+    } else if (this.props.country == 392) {
+      this.setState({ nowCountry: "jp" });
+    } else if (this.props.country == 840) {
+      this.setState({ nowCountry: "en" });
     }
   };
 
@@ -46,7 +50,9 @@ export default class Translate extends React.Component {
 
     if (srcLang == targetLang) {
       // 현재 언어 == 바꿀언어가 같은경우
-      this.setState({ isModalVisible: false });
+      console.log("언어같음");
+      alert("選択した言語とレビューの言語が同じです。");
+      //   this.setState({ isModalVisible: false });
     } else if (srcLang != targetLang) {
       // 현재언어 != 바꿀언어
 
@@ -78,13 +84,22 @@ export default class Translate extends React.Component {
       <View>
         {newContent ? (
           <Text
-            style={{ color: "#5DADE2", fontWeight: "bold", marginBottom: 2 }}
+            style={{
+              color: "#5DADE2",
+              fontWeight: "bold",
+              marginBottom: 2,
+            }}
           >
             {newContent}
           </Text>
         ) : null}
+
         <TouchableOpacity
-          onPress={() => this.setState({ isModalVisible: true })}
+          onPress={() =>
+            this.setState({
+              isModalVisible: true,
+            })
+          }
         >
           {newContent == null ? (
             <Text
@@ -93,11 +108,11 @@ export default class Translate extends React.Component {
                 color: "orange",
               }}
             >
-              번역
+              Translate
             </Text>
           ) : (
             <Text style={{ fontWeight: "bold", color: "orange" }}>
-              다른 언어로 번역
+              Translate
             </Text>
           )}
         </TouchableOpacity>
@@ -112,7 +127,7 @@ export default class Translate extends React.Component {
           </BackBtn>
           <View style={{ alignItems: "center", marginBottom: 40 }}>
             <Text style={{ fontSize: 26, color: "white", fontWeight: "bold" }}>
-              국가를 선택하세요
+              国を選択してください
             </Text>
           </View>
           <View
@@ -176,7 +191,7 @@ export default class Translate extends React.Component {
                 style={{ fontSize: 26, color: "white", fontWeight: "300" }}
                 onPress={() => this.translation()}
               >
-                Translation
+                Translate
               </Text>
             </TouchableOpacity>
           </View>

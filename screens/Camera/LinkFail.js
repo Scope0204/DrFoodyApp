@@ -32,7 +32,7 @@ export default class LinkFail extends React.Component {
       <View style={{ flex: 1 }}>
         <Header>
           <Text style={{ fontSize: 26, fontWeight: "bold", color: "#ff5122" }}>
-            인식 실패!
+            認識失敗！
           </Text>
         </Header>
         <Body>
@@ -41,10 +41,10 @@ export default class LinkFail extends React.Component {
             style={{ width: 200, height: 200, marginBottom: 80 }}
           />
           <Text style={{ fontSize: 18, marginBottom: 5 }}>
-            일치하는 제품이 없습니다
+            現在、一致する商品はありません。
           </Text>
           <Text style={{ fontSize: 18 }}>
-            가이드라인에 맞게 다시한번 제품을 촬영해 주세요
+            もう一度商、商品を撮影してください。
           </Text>
         </Body>
         <BtnCon>
@@ -61,7 +61,9 @@ export default class LinkFail extends React.Component {
             //   onPress={() => this.postPhoto(photoUri)}
             onPress={() => this.props.navigation.navigate("Camera")}
           >
-            <Text style={{ fontSize: 20, color: "white" }}>되돌아가기</Text>
+            <Text style={{ fontSize: 20, color: "white", fontWeight: "bold" }}>
+              商品照会
+            </Text>
           </TouchableOpacity>
         </BtnCon>
       </View>

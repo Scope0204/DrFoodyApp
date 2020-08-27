@@ -33,10 +33,6 @@ export default class Taste extends React.Component {
         <Container>
           <View style={{ padding: 22 }}>{/* <Title>맛 레벨</Title> */}</View>
           <TasteChart food_name={this.props.food_name} />
-          {/* 
-          <View style={{ padding: 22, marginTop: 10 }}>
-            <Title>키워드</Title>
-          </View> */}
         </Container>
       </ScrollView>
     );

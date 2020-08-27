@@ -138,15 +138,15 @@ export default class User extends React.Component {
                         this.props.navigation.navigate("UserDetail")
                       }
                     >
-                      {/* <Image
-                        source={{ uri: list.user_photo }}
-                        style={{ width: 120, height: 120 }}
-                      /> */}
-                      <FontAwesome
-                        name="user-circle-o"
-                        size={80}
-                        color="black"
+                      <Image
+                        style={{
+                          width: 80,
+                          height: 80,
+                          resizeMode: "contain",
+                        }}
+                        source={require("../../images/user.png")}
                       />
+
                       {list.country_code == 410 ? (
                         <Image
                           source={require("../../images/country/korea.png")}
@@ -157,8 +157,29 @@ export default class User extends React.Component {
                             marginRight: 10,
                           }}
                         />
+                      ) : list.country_code == 392 ? (
+                        <Image
+                          source={require("../../images/country/japan.png")}
+                          style={{
+                            width: 40,
+                            height: 40,
+                            marginLeft: 20,
+                            marginRight: 10,
+                          }}
+                        />
+                      ) : list.country_code == 840 ? (
+                        <Image
+                          source={require("../../images/country/america.png")}
+                          style={{
+                            width: 40,
+                            height: 40,
+                            marginLeft: 20,
+                            marginRight: 10,
+                          }}
+                        />
                       ) : null}
-                      <Text style={{ fontSize: 20 }}>
+
+                      <Text style={{ fontSize: 20, fontWeight: "bold" }}>
                         {list.user_nickname}
                         {" ("}
                         {2020 - parseInt(list.user_birth.substring(0, 4))}
